@@ -1,0 +1,255 @@
+%#!platex ron.tex
+\chapter{原稿の出力形式}
+\begin{abstract}
+\zindind{原稿}{の出力形式}%
+{\LaTeX}の原稿の執筆が終わったらそれを組版\pp{タイプセット}
+しなければならないのは自明のことですが，どのような
+ファイル形式にするかは用途により分かれるところです．
+この章ではどのようなファイル形式があるのか，どうやって
+変換するのかを説明します．
+%フィルム直接出力とか，マニアックな話題もあります．
+\end{abstract}
+
+\section{出力形式の種類}
+
+{\LaTeX}の原稿の執筆が終わったらそれを組版\pp{タイプセット}
+しなければならないのは自明のことですが，どのような
+ファイル形式にするかは用途により分かれるところです．
+目的と気分によってその形式を変えます．
+それぞれの形式がどのような特徴を持っているのかを
+知っておかなければ，どの形式に変換すれば良いのか
+が分かりません．ですからまずはどのような形式が存在し，
+どのような特徴があるのかを紹介します．
+\begin{description}
+\item[DVI]
+  DVIは\emph{Device Independent}の略で装置に依存しない
+  汎用のページ記述言語です．画像を含んだり特殊な
+  描画を行っていない原稿の場合はこのDVIファイルから
+  印刷を行うことができます．装置に依存する命令も
+  このDVIファイルの中に記述されており，それを適切に
+  解釈してくれるデバイスドライバがあります．通常は
+  プレビュー作業用に使われています．DVIファイルは
+  \Va{file}{dvi}のように拡張子が\exten{dvi}となります．
+\item[{\PS}]
+  Adobe社が昔に開発したページ記述言語です．
+  現在のバージョンは1.3で\unixos ではこの{\PS}形式の
+  ファイルがプレビュー及び印刷に広く使われています．良く
+  {\PS}を省略してPSと書くことがありますし，拡張子は
+  \exten{ps}になっています．標準では  ファイルが圧縮され
+  ないので\Va{file}{ps.gz}の形で配布されているかもしれま
+  せん．印刷業界でもこの{\PS}  形式が良く使われてい
+  ます．{\PS}の仲間にEPS\pp{Encapsulated {\PS}}
+  というファイル形式もあります．こちらは単一ページ画像な
+  どに良く使われています．\indindz{画像}{単一ページの}
+\item[PDF]
+\zindind{PDF}{のバージョン}%
+  PDFはPortable Document Formatの略でAdobe社の開発している
+  {\PS}の後継のページ記述言語です．\zindind{ページ}{記述言語}
+  \genzai の最新バージョンは1.6で，
+  プレビューと印刷結果が同程度の品質を得ることができる形式です．互換性を
+  考慮すればバージョンは 1.3 で統一するのが無難だと思われます．PDF は世
+  界中で広く使われています．\genzai で日本語化はされていませんが，
+  {\LaTeX}形式の原稿を直接 PDFに変換する \Prog[pdfLaTeX]{\pdfLaTeX}とい
+  うプログラムも存在します．\zindind{原稿}{からPDFの作成}%
+\item[HTML]
+  \Z{HTML} HyperText Markup Languageの略でウェブ上で
+  情報を公開するための\Z{ハイパーリンク} 
+  \pp{\Z{Hyper Link}}という機能を備えたページ記述言語です．
+  普段\Z{ウェブブラウザ}から見ているページもHTMLで記述されて
+  います．現在はHTMLの後継のXHTMLが主流になろうとしています．
+  {\LaTeX}と同じように\Z{マークアップ}言語です．
+\end{description}
+以上の形式のほかにもあるのですが，有名な形式はこの
+四つです．この章ではどのように{\LaTeX}の原稿を各形式に
+変換するかを解説します．
+
+\subsection{DVI}
+\Z{DVI}とは\emph{DeVice Independent}の略でデバイスに依存しないファイル形
+式です．通常{\LaTeX}が成形後の結果をまとめるのもこのDVI形式です．
+DVIファイルにはグラフや画像などの図は挿入されていませんが，それらの情報
+はDVIファイルに記載されています．図などの特別な情報を解釈できるかはその
+\K{プレビューアやデバイスドライバに依存しています}．DVIファイルはプレ
+ビューなどで一時的に組版後の結果を確認するのに便利です．Windowsでは
+\zindind{Windows}{でのプレビュー}%
+\zindind{Unix系OS}{でのプレビュー}%
+\zindind{Mac OS X}{でのプレビュー}%
+\Hito{大島利雄}らが開発している\prog{\dviout}，\Z{Unix系OS}ならば
+\prog{xdvi}，Red Hat や Fedora Core では \prog{pxdvi}が使えます．
+Mac~OS~Xでは\Hito{内山孝憲}による\Prog{Mxdvi}でプレビューできます．
+
+\subsection{\PS}
+\Z{Adobe}社の\Prog[PostScript]{\PS}というのが出版業界におけるページ記述
+言語の標準です．プログラミング言語としての完成度も高く非常に洗練されたペー
+ジ記述言語です．今でも多くの\Z{出版社}，\Z{印刷所}がこの{{\PS}}を採用し
+ています．{{\PS}}は印刷を目的としたファイル形式なのできちんと手順を踏め
+ば高品質な印刷結果を得ることができます．{\LaTeX}もこの{\PS}形式への出力
+が可能となっています．この{\PS}形式のファイルは多くの環境において
+\Prog[Ghostscript]{\GS}と呼ばれるプログラムを使うことにより，コンピュー
+タ上で閲覧したり，プリンターで印刷することができます．
+
+\subsection{PDF}
+Adobe社が開発した\Z{電子文書形式}で\Z{PDF}という形式があります．PDFは
+\emph{Portable Document Format}の略で，パソコンの画面からでも印刷したの
+と寸分違わぬ表示を得ることができます．\zindind{マニュアル}{配布}{マニュ
+アルの配布}や\Z{資料の配布}ではこのPDF形式が広く用いられています．PDF
+ファイルを閲覧するには多くの環境において\Prog{Adobe Reader}が使用できま
+す．他にもWindowsでは \Z{Foxit Software Company}による
+\Prog{Foxit Reader}，Mac OS X ならば標準付属のプレビュー（切り抜きなどの
+簡単な編集も可能），\unixos であれば\Prog{Xpdf}などがあります．
+\zindind{PDF}{のプレビュー}%
+
+\ifusehyperref
+\section{DVIをPDFに\texorpdfstring{\zdash\dvipdfmx}{---Dvipdfmx}}
+\else\section{DVIをPDFに\zdash \dvipdfmx}\fi
+
+\Hito{Mark Wicks}が作成した\Prog{Dvipdfm}~\cite{omdvipdfm}を
+使うとDVIファイルからPDFを作成できます．現在\prog{Dvipdfm}は
+\hito{平田俊作}と\Hito{Cho Jin-Hwan}が中心となって活動してい
+る{\dvipdfmx\ project team}によってさらに改良が加えられ
+\Prog[dvipdfmx]{\dvipdfmx}へと改良されています．\prog{Dvipdfm}は
+少々古くなっていますので後継の\prog{\dvipdfmx}を使うことを
+強く推奨します．
+
+%\index{PDF!ブックマーク@\zdash ブックマーク}
+\zindind{PDF}{ブックマーク}%
+\prog{\dvipdfmx}の主な機能は{PDFブックマーク}，
+\Prog[HyperTeX]{Hyper\TeX}，{\Tpic}スペシャルなどをサポート
+しています．画像ファイルはJPEG，PNG，EPS，EPDF, BMP (BMP は 2005年8月に
+対応) ファイルの\KY{バウンディングボックス}という，画像のサイズ情報され
+あればそのままPDFに取り込むことができるようになります．
+\zindind{画像}{のサイズ情報}%
+
+\prog{\dvipdfmx}にはコマンドラインオプションによってある程度の
+出力結果の設定を行います．主要なオプションは以下の通りです．
+\begin{description}
+\item[\copt{-o} \va{ファイル}]
+ 出力するファイル名を指定します．
+ 標準では\Va{file}{dvi}を指定すれば
+ \Va{file}{pdf}が作成されます．
+\item[\copt{-p} \Va{サイズ}]
+ 出力する用紙のサイズを指定します．\index{用紙!\zdash の大きさの指定}
+ 標準では\option{a4}．指定できるサイズは
+ \optionlist{letter,a6,a5,a4,a3,b5,b5,b4,b3,b5var}などです．
+\item[\copt{-s} \va{範囲}]
+出力するページの範囲を指定します．ハイフンを使うと
+範囲を指定，コンマを使うと複数の範囲を指定できます．
+例えば\qu{\copt{-s 3-5,10-20}}とすると3--5ページと10--20
+が一つのPDFに出力されます．ハイフンの片方に何もないとそ
+れ以前か，それ以降のページを全て含みます．\qu{\copt{-s 15-}}
+とすると15ページ以降全てを出力します．他にもページを逆
+順にすることもできます．
+\item[\copt{-r} \va{解像度}]
+PDFファイルの解像度を指定します．標準は600dpiになっています．
+\item[\copt{-V} \va{バージョン}]
+\zindind{PDF}{のバージョン}%
+PDFのバージョンを指定できます．2から6までの
+バージョンを指定できますが，古いバージョンを指定すると
+意図しない結果になることがあります．互換性を
+優先しなければならないときなどに使います．
+\item[\copt{-z} \va{数字}]
+圧縮率を指定します．圧縮率は0--9まで指定でき9が最高です．
+標準は\option{9}ですのでビットマップ画像などの画質を
+落としたくない場合は0などにすると良いでしょう．
+\zindind{画像}{の品質}%
+\item[\copt{-v}]
+処理内容を標準出力に詳しく表示します．
+\end{description}
+例えばDVIファイルの15ページから20ページをPDFに変換したいときは
+\begin{TYPE}
+\type{dvipdfmx -s 15-20 -o output.pdf input.dvi}
+\end{TYPE}
+のようにします．入力ファイルの拡張子\exten{dvi}は
+省略しても構いません．
+
+PDFファイルを\Prog{Adobe Reader}や\Prog{Acrobat Reader}など
+で閲覧しているときに\prog{dvipdfm}によるDVIファイルの変換を行うと%
+\index{エラー!Unable to open file.pdf@\texttt{Unable to open} \Va{file}{pdf}}%
+\index{Unable to open file.pdf@\texttt{Unable to open} \Va{file}{pdf}}%
+\dos{** ERROR ** Unable to open output.pdf}
+というメッセージを表示してエラーになります．
+\K{1度開いているPDFファイルを閉じてから}，
+再度変換するようにします．
+
+
+\ifusehyperref
+\section{DVIをPSに\texorpdfstring{\zdash}{---}dvipsk}
+\else\section{DVIをPSに\zdash dvipsk}\fi
+
+\zindind{Windows}{のdvips}%
+\Hito{Tomas Rokicki}が作成し，\Hito{Karl Berry}が\Z{Kpathsearch}に
+対応させた\Prog{dvipsk}を使うとDVIファイルをPSファイルに
+変換できます．\Prog{dvipsk}というプログラムはWindowsの方は
+\prog{dvipsk}，\unixos の方は\prog{dvips}という名前が付い
+ていると思います．\Z{Red Hat}又は\Z{Fedora Core}の場合は\Prog{pdvips}とい
+う名前になっています．使い方は端末などから
+\begin{TYPE}
+\type{dvips} \va{オプション} \va{引数} \str{filename.dvi}
+\end{TYPE}
+とするだけです．拡張子\exten{dvi}は省略しても
+構いません．この\prog{dvipsk}を実行するときの%
+\zindind{コマンド}{ラインオプション}%
+{コマンドラインオプション}が多数あります．
+主なオプションを載せておきます．
+%
+\begin{description}
+\item[\copt{-D} \va{解像度}] 
+   出力する解像度をdpi単位で指定します．
+
+\item[\copt{-o} \va{ファイル名}]  
+   出力するファイル名を指定します．
+
+\item[\copt{-t} \va{サイズ}] 
+\option{a0}から\option{a8}，\option{b0}から\option{b8}の
+範囲で用紙の大きさを指定します．\index{用紙!\zdash の大きさの指定}
+\indindz{用紙}{欧文標準の}%
+\indindz{用紙}{B列の}%
+標準では用紙が欧文標準の\Z{letterサイズ}になっている場合もあります．
+
+\item[\copt{-T} \va{横幅},\va{高さ}] 
+   用紙の大きさを単位付き直接指定します．
+   \qu{\copt{21cm,27cm}}のように使います．
+   このようにしなくとも原稿のプリアンブルで
+   \begin{quote}
+    \Cmd{AtBeginDvi}\verb|{\special{papersize=210mm,270mm}}|
+   \end{quote}
+   としても同じことになります．
+
+\item[\copt{-p} \va{ページ番号}]
+   出力する最初のページを指定します．
+   ただし{\LaTeX}の原稿中のページ番号を参照します．
+   \zindind{原稿}{中のページ番号}%
+
+\item[\copt{-l} \va{ページ番号}] 
+   出力する最終のページを指定します．
+   ただし{\LaTeX}の原稿中のページ番号を参照します．
+
+\item[\copt{-pp} \va{ページリスト}]
+   出力するページ範囲を指定します．これも{\LaTeX}の
+   ページ番号に依存します．\copt{11,21-35}のように
+   コンマで複数ページ指定することもできます．
+
+\item[\copt{-P} \va{設定}] 
+設定ファイルを読み込みます．標準では\Fl{config.ps}
+というファイルを読み込みます．
+
+標準ではビットマップフォントが埋め込まれるようになっていますので，
+\Fl{config.pdf}を読み込むために%
+\begin{TYPE}
+\type{dvipsk -Ppdf filename}
+\end{TYPE}
+\indindz{フォント}{Type1形式の}%
+としてください．このようにするとType1形式のアウトラインフォントが
+埋め込まれるようになります．
+
+\end{description}
+
+複数ページからなるDVIファイルから
+特定のページだけをEPS形式にしたいというならば
+\begin{TYPE}
+\type{dvipsk -E -Pdl -pp14 -o outp14.eps input}
+\end{TYPE}
+とします．このようにして抽出したEPS形式のファイル\fl{outp14.eps}
+はEPS画像として再利用できます．
+
+\endinput
+

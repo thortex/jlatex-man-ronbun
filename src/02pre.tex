@@ -1,0 +1,1190 @@
+%#!platex ron.tex
+\ifusehyperref
+\chapter{\texorpdfstring{\LaTeX}{LaTeX}の基本}
+\else
+\chapter{{\LaTeX}の基本}
+\fi
+\begin{abstract}
+まずは操作方法などの{\LaTeX}の基本を説明します．
+コンピュータの基本操作に関する部分は大雑把にしか
+解説していませんので，適宜参考書を参照してください．
+\end{abstract}
+
+\section{基本の基本}
+\latexno{の基本}
+
+\subsection{処理の流れ}
+\latexno{の動かし方}
+\Z{コマンド}を覚える前にまずは{\LaTeX}での処理の流れをご覧下さい．
+\Z{テキストファイル}に文章そのものと\KY{コマンド}というものを
+書き，それを{\LaTeX}処理し，成形結果を確認するといったことを
+何度か繰り返して最終的な\Z{版}を仕上げます\pp{\figref{fig:latexflow}}．
+\begin{figure}[htbp]
+ \begin{center}
+  \input{flow}
+  \usebox\graph
+  \caption{処理の流れ}\label{fig:latexflow}
+ \end{center}
+\end{figure}
+ここで\KY{成形}とありますが，{\LaTeX}では元のソースファイルその
+ものに変更を加えて\KY{整形}するのではなく，そこから新規に
+\Z{DVI}ファイルというものを成形するのです\footnote{%
+最近は{\LaTeX}ファイルから直接PDFを作るプログラム{\pdfLaTeX}など
+も存在しますが，日本語化されていません．}．
+%
+\begin{enumerate}
+\index{原稿}%
+\zindind{原稿}{の編集}%
+\zindind{ソースファイル}{の編集}%
+\index{編集}%
+\indindz{編集}{原稿の}%
+\indindz{編集}{ソースファイルの}%
+\item 原稿\pp{ソースファイル}の編集\indindz{ファイル}{ソース}\\
+{\LaTeX}を使うためには文章だけではなく，文章の構造や書式を決定する%
+{\Z{コマンド}}と呼ばれるものを記述します． この\Z{原稿}を
+\KY{ソースファイル}と呼ぶこともあります．
+原稿は\Z{メモ帳}や\Z{Emacs}などの\Z{テキストエディッタ}で編集します．
+\Z{Unix系OS}では
+\begin{TYPE}
+\type{emacs file.tex &}
+\end{TYPE}
+とするとEmacsが立ち上がると思います．\Z{XEmacs}でも何でも可能です．
+これが\figref{fig:latexflow}の\MARU{1}の矢印に対応します．
+
+\item \Z{タイプセット} \pp{\Z{組版}}\\
+\latexno{の実行}%
+ソースファイルができたらそれを\KY{成形}します．
+そのときに使うプログラムは欧文のみの場合は\prog{latex}，
+\Z{日本語}を扱うときは\Prog{latex}を\Z{日本語化}した\Prog{platex}です．
+\Z{シェル}や\Z{コマンドプロンプト}などの\Z{ターミナル}から，
+\begin{TYPE}
+\type{platex file.tex}
+\end{TYPE}
+とすれば文書が成形されます．この作業のことを
+\K{{タイプセットする}}とか\K{{コンパイルする}}と
+言います．これが\figref{fig:latexflow}の\MARU{2}の矢印に
+対応します．
+
+\item \Z{プレビュー}\pp{\Z{確認作業}}\\
+今度はコンピュータの画面上で成形された結果を見ます．
+このとき\Va{file}{tex}そのものが整形されるわけではなく
+新たに\Va{file}{dvi}というファイルが%
+\indindz{文書}{組版後の}%
+作られます．これが{\LaTeX}による組版後の文書になります．この
+組版後の結果をコンピュータ上で確認する作業のことを
+\K{\Z{プレビュー}する}と言います．\unixos ならば
+\begin{TYPE}
+\type{xdvi file.dvi &}
+\end{TYPE}
+などとすると良いでしょう．最後のアンド\qu{\texttt{\&}}があると
+プログラムが\Z{バックグラウンド}で起動しますので，便利です．
+\prog{\dviout}をインストールした\Z{Windows}ならば\Z{ダブルクリック}
+するだけで見られるでしょう．これが\figref{fig:latexflow}の
+\MARU{3}の矢印に対応します．
+\end{enumerate}
+このような流れがあることを確認して実際に動くかどうかを試して
+みましょう．
+
+\subsection{動かしてみる}
+インストールが済んでいれば{\LaTeX}が動きます．インストールまで
+進んでいないという方は近くの詳しい方に聞いてみてください．
+%\yo{{\LaTeX}をやりたいんですが．}と言い出せば大抵の
+%{\LaTeX}ユーザは親切に対応してくれると思います．
+%\pp{\yo{ほげほげぇ}という部分が大切なキーワードとなります}
+
+\index{テキストエディッタ!メモ帳}%
+\index{テキストエディッタ!Emacs}%
+とりあえず自分のいつも使っている\Z{テキストエディッタ}\pp{\Z{メモ帳}%
+や\Z{Emacs}など}で以下のようなファイル\fl{first.tex}
+\begin{InText}
+\documentclass{jarticle}
+\begin{document}
+こんにちは\LaTeX !!
+\end{document}
+\end{InText}
+を作成してください．\unixos ならば\prog{Emacs}で良いでしょう．日本語を
+打ち込むためには\prog{Emacs}の場合はまず\prog{Emacs}のウィンドウ下部に
+注目してください．ウィンドウの下部の表示は
+\begin{quote}
+\colorbox{black}%
+ {\color{white}\str{[--]J.:------Emacs: first.tex (LaTeX)--[L1--All--------|}}
+\end{quote}
+となっていると思います．%
+\index{入力}%
+\indindz{入力}{半角}%
+\indindz{入力}{英数}%
+\indindz{入力}{全角}%
+\indindz{入力}{日本語}%
+一番右側の\colorbox{black}{\color{white}{\str{[--]}}}%
+という部分が\Z{半角入力}\pp{\Z{英数入力}}か\Z{全角入力}\zindind{日本語}{入力}%
+\pp{{日本語入力}}かの違いを表します．
+うえの状態は英数文字の入力ができます．ここで半角・全角の
+入力を切り替えるため%
+には\keytop{CTRL}を押しながら\keytop{\yen}を押します．すると
+\colorbox{black}{\color{white}{\str{[--]}}}という表示から
+\colorbox{black}{\color{white}{\str{[あ]}}}という表示になると思います．
+表示は使っている\KY{かな漢字変換プログラム}によって若干違うかもしれませ
+ん\footnote{\key{Shift,Space}で切り替える場合もあります．}．
+\colorbox{black}{\color{white}{\str{[あ]}}}の表示ですと日本語が入力
+できる状態です．最近のパソコンと呼ばれるコンピュータには%
+\zindind{Windows}{での日本語入力}%
+\keytop{半角/全角}というキーがあり，{Windows}の場合はそれで
+半角と全角の切り替えを行いますが，\unixos は違いますので注意してくださ
+い．詳しくはご自分のテキストエディッタのマニュアルを見るなどの対
+応をしてください．
+
+\zindind{Windows}{でのタイプセット}%
+次はタイプセット作業\pp{{\LaTeX}処理，または\Z{コンパイル}}をします．
+{Windows}ならば\win{スタート}メニューから\win{ファイル名を指定して実行}
+というメニューがあるので，そこに\type{command}と入力して
+\qu{OK}ボタンを押せばコマンドプロンプトが起動するはずです．
+そしてシェル上やコマンドプロンプトでファイルが存在する
+ディレクトリ\pp{{Windows}の方はフォルダ}に移動して
+\begin{TYPE}
+\type{platex file.tex}
+\end{TYPE}
+として{タイプセット}してください．すると端末\pp{\Z{ターミナル}}に
+\begin{OutTerm}
+ This is pTeX，Version 3.14159-p3.0.4 (sjis) (Web2C 7.3.9)
+ pLaTeX2e (based on LaTeX2e <2001/06/01> patch level 0)
+ (1) (./file.aux) )
+ Output written on file.dvi (1 page，236 bytes).
+ Transcript written on file.log.
+\end{OutTerm}
+のように表示されると思います．始めに\Z{バージョン情報}を表示して%
+\indindz{ファイル}{組版後の}%
+終わりには\Va{file}{dvi}に組版後のファイルを出力し，
+処理状況を\Va{file}{log}に書き出したことになっています．
+\Va{file}{tex}をタイプセットして出力された\Va{file}{log}には
+\Z{エラーメッセージ}などの重要な情報が書かれているときがあるので
+何か問題が発生したときは眺めてみると良いでしょう．
+
+\zindind{タイプセット}{後の生成ファイル}
+タイプセット後にはいくつかのファイルが生成されています．
+\prog{ls}\pp{{Windows}の方は\prog{dir}}コマンドで
+\begin{TYPE}
+ \type{ls file.*}
+\end{TYPE}
+とすると
+\begin{OutTerm}
+file.aux file.dvi file.log file.tex
+\end{OutTerm}
+の四つのファイルが存在することを確認してください．{\LaTeX}の
+原稿であるソースファイル\Va{file}{tex}をタイプセットしただけで三つも
+ファイルが生成されましたので，%これは只事ではありません．
+これらのファイルが何であるかを簡単に説明します．
+\zindind{原稿}{から生成されるファイルの種類}%
+\begin{description}
+ \item[\normalfont\Va{file}{aux}] 
+  \latexno{の中途ファイル}%
+  \zindind{相互参照}{に必要なファイル}%
+  次回のタイプセットに必要になる\KY{中途ファイル}．
+  目次の作成や相互参照をするために必要なファイル．
+
+ \item[\normalfont\Va{file}{dvi}] 
+  \zindind{印刷}{できるファイル}%
+  \indindz{ファイル}{印刷できる}%
+  \indindz{ファイル}{DVI}%
+  \Va{file}{tex}をタイプセットして出来上がった\zindind{成形}{ファイル}%
+  印刷できる\K{成形ファイル}．\Z{DVI}ファイルと呼ばれる．%
+
+ \item[\normalfont\Va{file}{log}] 
+  \latexno{のログファイル}%
+  \indindz{ファイル}{ログ}%
+  \latexno{処理状況}%
+  \Va{file}{tex}をタイプセットしたときの処理状況や
+  どのような流れで処理をしたのかが書いてある\KY{ログファイル}．%
+
+ \item[\normalfont\Va{file}{tex}] 
+  \latexno{原稿}%
+  先程作成した{\LaTeX}の原稿である\KY{ソースファイル}． 
+\end{description}
+
+%\image[width=\linewidth]{latexwork}{\LaTeX での執筆風景}{latexwork}
+
+%\begin{figure}[htbp]
+% \begin{center}
+%%  \includegraphics[]{}
+%  \caption{\LaTeX の処理の流れ\figlab{latexprocess}}
+% \end{center}
+%\end{figure}
+
+\subsection{原稿作成時の注意点}\label{sec:chui}
+\zindind{原稿}{作成時の注意}%
+これまでの作業ができていれば数式や図表を含まない簡単な文書を
+作成できることでしょう．そして実際に長い文章を打ち込んでみて
+ください．ただし10個の\Z{半角記号}%
+\indindz{記号}{特別な}%
+\index{"#@\verb+#+}\glossary{"#@\verb+#+}
+\index{"$@\verb+$+}\glossary{"$@\verb+$+}
+\index{"&@\verb+&+}\glossary{"&@\verb+&+}
+\index{"\@\verb+\+}\glossary{"\@\verb+\+}
+\index{"^@\verb+^+}\glossary{"^@\verb+^+}
+\index{"_@\verb+_+}\glossary{"_@\verb+_+}
+\index{"{1"}@\protect\bgroup\verb+"{+"}}
+\glossary{"{1"}@\protect\bgroup\verb+"{+"}}
+\index{"{2"}@"{\verb+"}+\protect\egroup}
+\glossary{"{2"}@"{\verb+"}+\protect\egroup}
+\index{"~@\verb+~+}
+\glossary{"~@\verb+~+}
+\index{%@\verb+%+}%"
+\glossary{%@\verb+%+}%"
+\begin{quote}
+\verb|# $ % & _ { } ~ ^ \ |
+\end{quote}
+は特殊文字として{\LaTeX}に別の仕事をさせるために使いますので，
+そのまま使うことができません．さらに3個の記号は出力が違う文字
+記号になります．%"
+\index{"|@\texttt{\symbol{'174}}}%"
+\index{"<@\verb+<+}%"
+\index{">@\verb+>+}%"
+\begin{quote}
+\str| \str< \str> はそれぞれ --- !` ?`
+\end{quote}
+となることでしょう．
+以上の13個の記号を文章中で出力するために面倒ですが，
+バックスラッシュ\pp{円}記号を補ったり長い命令を打ち込みます．%''"
+%\begin{center}
+\glossary{"#@\hspace*{-1.2ex}\verb+"\#+}%"
+\glossary{"_@\hspace*{-1.2ex}\verb+"\_+}%"
+\glossary{"$@\hspace*{-1.2ex}\verb+"\$+}%"
+\glossary{"%@\hspace*{-1.2ex}\verb+"\%+}%"
+\glossary{"{1"}@\hspace*{-1.2ex}\protect\bgroup\verb+"\"{+"}}
+\glossary{"{2"}@\hspace*{-1.2ex}"{\verb+"\"}+\protect\egroup}
+\glossary{"&@"\hspace*{-1.2ex}"\verb+"\"&+}
+%"
+\index{ナンバー}%
+\index{ドル}%
+\index{パーセント}%
+\index{アンド}%
+\index{波括弧}%
+\begin{InOut}
+\#　\$　\%　\&　\_　\{　\}
+\end{InOut}
+% \begin{tabular}{llcllcllcllcllcllcll}
+%  \# & \verb|\#| &  &
+%  \$ & \verb|\$| &  &
+%  \% & \verb|\%| &  &
+%  \& & \verb|\&| &  &
+%  \_ & \verb|\_| &  &
+%  \{ & \verb|\{| &  &
+%  \} & \verb|\}| \\
+% \end{tabular}
+%\end{center}
+%%\begin{center}
+% \begin{tabular}{llcllcllc}
+% \T{textasciitilde} & \T{textasciicircum} & \T{textbackslash}\\
+% \T{textbar}        & \T{textless}        & \T{textgreater}\\
+% \end{tabular}
+\C*{textasciitilde}\index{チルダ}%
+\C*{textasciicircum}\index{ハット}%
+\C*{textbackslash}\index{バックスラッシュ}%
+\C*{textbar}\index{縦棒}%
+\C*{textless}\index{小なり}%
+\C*{textgreater}\index{大なり}%
+\begin{InOut}
+\textasciitilde 　\textasciicircum 　
+\textbackslash  　\textbar 　
+\textless       　\textgreater
+\end{InOut}
+%%\end{center}
+
+%\begin{Prob} 半角文字と全角文字を混在させて長い文章の
+%入力をしてください．特殊記号も含めるようにすると良いでしょう．
+%\end{Prob}
+
+
+\subsection{フォルダ・ファイルの基本的な操作}
+\zindind{ディレクトリ}{の作り方}%
+\zindind{フォルダ}{の作り方}%
+\Z{ターミナル}上での\Z{ディレクトリ}の移動方法を知らない，
+\Z{フォルダ}の作り方を知らないという方のために，
+\Z{コマンドプロンプト}や\Z{シェル}での主要な\Z{コマンド}を紹介します．
+\zindind{Windows}{でのファイル操作}%
+まず{Windows}では\tabref{tab:Windowscommands}などの基本的なコマンドが
+提供されています．
+\begin{table}[htbp]
+ \begin{minipage}[t]{.49\linewidth}
+\zindind{フォルダ}{の新規作成}%
+\zindind{フォルダ}{の移動}%
+\zindind{ファイル}{の情報表示}%
+\zindind{ファイル}{の名前の変更}%
+\zindind{コマンド}{のヘルプの表示}%
+  \begin{center}
+   \caption{Windows OSの基本コマンド}\label{tab:Windowscommands}
+   \begin{tabular}{lll}
+    \TR
+    \<コマンド名>  & \<意味>              \\ 
+    \MR
+    \Prog{mkdir} & 新規にフォルダ作成     \\ 
+    \Prog{cd}    & フォルダの移動     \\
+    \Prog{dir}   & ファイルの情報を表示   \\
+    \Prog{move}  & ファイル名を変更・移動 \\
+    \Prog{copy}  & ファイルをコピー       \\
+    \Prog{del}   & ファイルを削除         \\
+    \Prog{help}  & コマンドのヘルプ表示   \\
+    \BR
+   \end{tabular}
+  \end{center}
+ \end{minipage}
+ \begin{minipage}[t]{.49\linewidth}
+\zindind{ディレクトリ}{の新規作成}%
+\zindind{ディレクトリ}{の移動}%
+\zindind{コマンド}{の情報表示}%
+\indindz{コマンド}{内部}%
+  \begin{center}
+   \caption{Unix系OSの基本コマンド}\label{tab:shcommands}
+   \begin{tabular}{lll}  
+    \TR
+    \<コマンド名> & \<意味>                \\ 
+    \MR
+    \Prog{mkdir} & ディレクトリの作成    \\
+    \Prog{cd}    & ディレクトリ移動      \\
+    \Prog{ls}    & ファイルの情報表示    \\
+    \Prog{mv}    & ファイル名の変更・移動\\
+    \Prog{cp}    & ファイルをコピー      \\
+    \Prog{rm}    & ファイルを削除        \\
+    \Prog{help}  & 内部コマンドのヘルプ表示\\
+    \Prog{man}   & コマンドのヘルプ表示  \\ 
+    \BR
+   \end{tabular}
+  \end{center}
+ \end{minipage}
+\end{table}
+
+それぞれのコマンドの使い方\pp{ヘルプ}は\type{command /?}
+とすることで表示できます．または\win{スタート}メニューの
+\win{ヘルプ}からコマンドプロンプトについて調べてみても同様の
+ことができます．どちらかというと\zindind{Windows}{ヘルプ}%
+Windowsヘルプを利用したほうが良いでしょう．
+\latexno{の入力支援}%
+\zindind{原稿}{の入力支援}%
+コマンドプロンプトなどの操作に慣れていないという方は
+\secref{lakulaku}を参照して{\LaTeX}の\Z{入力支援}環境を
+使うのも良い方法です．
+
+\unixos の方はコマンドを覚えなければ%仕事にならないでしょう．
+操作に不便を感じると思われますので，日ごろから使うように習慣付けを
+すると良いでしょう．
+シェルと言っても何種類かありますし，シェルに関しては1冊の本になる
+くらい奥の深いものなので詳細はそれらに譲ります．ここでは基本的な
+ファイル操作のコマンドだけを\tabref{tab:shcommands}に紹介します．
+\indindz{ヘルプ}{簡易の}%
+それぞれのコマンドの簡単なヘルプが見たいときは
+\type{command --help | less}
+のようにすると\Prog{less}がページを整形します．
+\indindz{ヘルプ}{詳細な}%
+もう少し詳しいヘルプが見たいときは
+\type{man command}
+とします．もっと詳しいヘルプが見たいときは
+\type{info command}
+のようにすると\Prog{info}がページを整形します．
+\prog{less}や\prog{info}の操作方法は若干癖がありますので慣れるまで
+時間がかかるかもしれません．%Unix系OSの基本的な操作方法，正規表現，
+%プロセス，ファイル・ディレクトリの概念などについては付録~\ref{chap:info}
+%の参考資料を参照してください．
+\unixos ならば
+\begin{TYPE}
+\type{emacs file.tex &}
+\type{platex file.tex}
+\type{xdvi file.dvi &}
+\end{TYPE}
+\zindind{Unix系OS}{の基本ツール}%
+の三つの操作ができればなんとかなります．この冊子では\unixos の
+基本ツールなどまで詳しく解説しないのでご自分で調べてみてください．
+
+\zindind{コマンド}{ラインオプション}%
+コマンドに対してシェル上で一緒に渡す文字列のことを\KY{引数}
+と呼びます．そして多くのコマンドは\K{コマンドラインオプション}
+といってハイフン\qu{\str{-}}かハイフンが二つ\qu{\str-\str-}で始まる
+引数を特別なスイッチとして扱います．このスイッチによってそのコマン
+ドは挙動を変えます．それぞれのコマンドでどのようなコマンドラインオ
+プションが使えるのかは各プログラムのヘルプを調べます．
+\indindz{引数}{ハイフンで始まる}%
+
+\begin{Prob} 以下の作業をターミナル上から行ってください．
+Windowsの方は\prog{mv}を\prog{move}に，\prog{ls}を\prog{dir}
+に，スラッシュ\qu{\str/}を円\qu{\texttt{\yen}}と置き換えてください．
+\begin{TYPE}
+\type{echo message1 >> file.txt}
+\type{echo message2 >> file.txt}
+\type{mkdir anydir}
+\type{cd anydir}
+\type{mv ../file.txt ./}
+\type{ls}
+\type{more file.txt}
+\type{ls ../}
+\end{TYPE} 
+上記の操作はどのような結果をもたらしたと考えられるでしょうか．
+
+新規にディレクトリ\fl{anydir}を作成し，現在のディレクトリ%
+\indindz{ディレクトリ}{カレント}%
+（\Z{カレントディレクトリ}）に存在していたファイル
+\fl{file.txt}を\fl{anydir}ディレクトリに移動したと
+考えられるでしょう．最後の操作でうえの階層のディレクトリ%
+\indindz{ディレクトリ}{親}%
+（\Z{親ディレクトリ}）に\fl{file.txt}がないことでそれを確認できます．
+\end{Prob}
+
+\subsection{エラーに遭遇する}
+\latexno{のエラー}%
+{\LaTeX}処理をしているとエラーに悩まされるかもしれません．{\LaTeX}
+は文章中にコマンドなどに関するエラーを発見するとそこで処理を中断
+します．処理を中断するとユーザにどうすれば良いかを促します．
+このときターミナルには疑問符\qu{\str?}が表示されます．
+
+%そうして，エラーに対してどの処理をすれば良いのかをユーザー
+%に促すします．エラーを出さないコツは，一気に文
+%書を書き上げるのではなく，こまめに{\LaTeX}処理を途中で実行すること
+%です．こうすると，修正が容易になります．
+
+%\qu{?}と表示されることが良くあります．これは文法上の誤りで，タイプミス
+%などが考えられます．処理を強制終了するために，\keytop{X}を押してく
+%ださい．それでもだめなときは\keytop{CTRL}を押しながら\keytop{C}か
+%\keytop{D}を押してください．これで終了できます．間違いのある行番号
+%を表示しますので，そのあたりで怪しそうな箇所を探します．たいていは
+%括弧の数が足りないとか，スペルが間違っているなどの単純なものです．
+
+\begin{Exe} まずは以下のファイル\fl{error.tex}を作成し
+てください．
+\begin{InText}
+\documentclass{jarticle}
+\begin{document}
+Hello & Goodbye! Give me $100! Give me 100%!
+Under_bar is stranger. Is sharp sing #?
+No its' \#. Hello \& Goodbye!! 
+\end{document} 
+\end{InText}
+次に\fl{error.tex}を\type{platex error}でタイプセットしてください．
+するとターミナルには
+\index{Misplaced alignment tab character@\texttt{Misplaced alignment tab character \&}}%
+\index{エラー!Misplaced alignment tab character@\texttt{Misplaced alignment tab character \&}}%
+\begin{OutTerm}
+! Misplaced alignment tab character  &.
+1.3 Hello & 
+            Goodbye! Give me $100! Give me 100%|
+?
+\end{OutTerm}
+と表示されるでしょう．最後の行に疑問符\qu{\str?}が
+表示されています．この状態はユーザに何らかの操作を
+促している状態です．どうやら3行目でアンド\qu{\texttt\&}
+を不正に使っていると言われています．ここで
+\keytop{Enter}キーを押すとさらに
+\index{You can't use `macro parameter character'@\texttt{You can't use
+ `macro parameter character \#'}}%
+\index{エラー!You can't use `macro parameter character@\texttt{You can't use
+ `macro parameter character \#'}}%
+%
+\begin{OutTerm}
+! You can't use `macro parameter character #' in math mode.
+l.4 Under_bar is stranger. Is sharp sing #
+? 
+\end{OutTerm}
+と表示されます．シャープ\qu{\texttt\#}も
+間違った使い方をしていると指摘されました．
+さらにもう1度\keytop{Enter}キーを押すと%
+\index{"$@\verb+$+}\glossary{"$@\verb+$+}%"
+\index{Missing $ inserted@\texttt{Missing \$ inserted}}%
+\index{エラー!Missing $ inserted@\texttt{Missing \$ inserted}}%
+\begin{OutTerm}
+! Missing $ inserted.
+<inserted text>
+                $
+l.6 \end{document}
+? 
+\end{OutTerm}
+という表示になります．今度はドル\qu{\texttt\$}を%$
+不正に使ったと言われました．以上のことから3行目から
+6行目にかけて半角記号の使い方が間違っていることが分
+かりました．ソースファイルをもう1度確認し，どこが
+どう違うのかを判別し修正してください．
+
+修正後のファイルは以下のようになるでしょう．
+\begin{InText}
+Hello \& Goodbye! Give me \$100! Give me 100%!
+Under_bar is stranger. Is sharp sing \#?
+No its' \#. Hello \& Goodbye!!  
+\end{InText}
+3行目の\Z{アンド}\qu{\texttt\&}と\Z{ドル}\qu{\texttt\$}と
+4行目の\Z{ナンバー}\qu{\texttt\#}に\Z{バックスラッシュ}\qu{\texttt{\bs}}を
+付けます．これを再びタイプセットしてみてください．
+今度は
+\begin{OutTerm}
+! Missing $ inserted.
+<inserted text>  $
+l.4 Under_
+          bar is stranger. Is sharp sing \#?
+? 
+\end{OutTerm}
+\zindind{改行}{された表示}%
+ドル\qu{\texttt\$}の書き忘れがあると言われています．%"
+4行目のエラーメッセージで丁度アンダーバー\qu{\texttt\_}
+の部分で表示が改行されていますから，この部分に
+間違いがあることが分かります．どうやらアンダーバーは
+ドル\qu{\texttt\$}などと同じようにバックスラッシュが必要なようです．
+ここでとりあえず\keytop{Enter}キーを押してタイプセットを
+終了してください．一つ目のエラーとして
+\begin{OutTerm}
+! Missing $ inserted.
+<inserted text>  $
+l.6 \end{document}
+?
+\end{OutTerm}
+が表示されます．%$
+タイプセットは中断しませんが
+\begin{OutTerm}
+Overfull \hbox (152.35132pt too wide) in paragraph at lines 3--6
+[]\OT1/cmr/m/n/10 Hello & Good-bye! Give me $100! Give me 
+100Under$[]\OML/cmm/m/it/10 arisstranger:Issharpsing
+\OT1/cmr/m/n/10 #?\OML/cmm/m/it/10 Noits[]\OT1/cmr/m/n/10 #
+\OML/cmm/m/it/10 :Hello\OT1/cmr/m/n/10 &\OML/cmm/m/it/10 
+Goodbye\OT1/cmr/m/n/10 !!$ 
+\end{OutTerm}
+\index{Overfull@\texttt{Overfull}}%"
+\index{警告!Overfull@\texttt{Overfull}}%$
+という煩雑な表示が出現します．これは \dos{Overfull \bs hbox}
+という\KY{警告}であることが分かります．次に成形後のDVIファイル
+\fl{error.dvi}をプレビューしてください．すると行がページ
+をはみ出しています．先程のアンダーバーに関するエラーにおいて
+\begin{OutTerm}
+<inserted text>  $
+\end{OutTerm}
+という表示がありました．どうやら{\LaTeX}は自動的に%$
+ドル\qu{\texttt\$}を挿入したようです．\qu{b}という文字が\qu{r}の
+下付きの添え字になっています．さらに\qu{Give me 100Under$_b$}
+となっており入力されたパーセント\qu{\texttt\%}と
+感嘆符\qu{\texttt!}が出力されておらず，次の行の
+\qu{Under}とくっついています．
+\indindz{警告}{煩雑な}%
+どうやら先程の煩雑な警告はこの行がページをはみ出して
+いることを意味しているようです．
+ですからファイル\fl{error.tex}はさらに次のよう
+に修正することになります．
+\begin{InText}
+Hello \& Goodbye! Give me \$100! Give me 100\%!
+Under\_bar is stranger. Is sharp sing \#?
+No its' \#. Hello \& Goodbye!!   
+\end{InText}
+これで望み通りうまく行きそうです．実際に上記のファイルを
+タイプセットし，その結果を吟味してください．
+\end{Exe}
+
+\zindind{処理}{の中断}%
+{\LaTeX}の原稿をタイプセットしたときに端末に\Z{疑問符}\qu{\str?}
+が表示されて処理が中断しますが，この段階でこちらも疑問符\qu{\str?}
+で返事を返すと
+\begin{OutTerm}
+Type <return> to proceed, S to scroll future error messages,
+R to run without stopping, Q to run quietly,
+I to insert something, E to edit your file,
+1 or ... or 9 to ignore the next 1 to 9 tokens of input,
+H for help, X to quit.
+? 
+\end{OutTerm}
+と表示されます．疑問符\qu{\str?}が表示されている段階で
+上記に挙げるようなキーの入力をすると何らかの対処ができ
+ることになっています．
+\begin{description}
+%"#$&
+ \item[\keytop{Enter}] 
+\zindind{タイプセット}{の続行}
+   エラーに対して{\LaTeX}が適当な対処をした後にタイプ
+   セットを続行します．
+
+ \item[\keytop{S}] 
+\keytop{Enter}キーを押し続けたことと同じ動作をします．
+
+ \item[\keytop{R}] 
+\indindz{タイプセット}{ノンストップの}
+ エラーが検出されても停止せずに\Z{ノンストップ}でタイプセットします． 
+
+ \item[\keytop{Q}] 
+\keytop{Q}を押した場合は\KY{バッチモード}に入り処理が続きます．
+
+ \item[\keytop{I} \va{文字列}]  
+文字列を挿入してタイプセットを続けます．元の原稿に修正は加えられません．
+
+ \item[\keytop{H}] 
+\zindind{エラー}{に対するヘルプ}%
+\indindz{ヘルプ}{エラーに対する}%
+そのエラーに対する英語のヘルプをターミナルに表示します．
+
+ \item[\keytop{X}] 
+\zindind{タイプセット}{の終了}%
+タイプセットを終了します． 
+\end{description}
+%
+\zindind{括弧}{の足りない状態}%
+\keytop{X}キーは余り押してはいけません．括弧が足りない
+というエラーの場合はとりあえず\keytop{Enter}キーを
+押せばそのまま処理を続行できます．
+
+タイプセットをしてアスタリスク\qu{\str{*}}が表示されて
+処理が中断するときがあります．\keytop{Enter}キーを
+押しても同じメッセージが表示されてどうにも
+ならなくなります．\index{*@\verb+*+}%"
+\begin{OutTerm}
+*
+(Please type a command or say `\end')
+\end{OutTerm}
+この場合コンソール上から
+\begin{TYPE}
+\type{} \texttt{{\bs}end\char'173verbatim*\char'175}
+\end{TYPE}
+と入力して処理が終了しなかった場合は強制的に
+プログラムを終了してください．ソース中で何か
+ミスをしていると思われます．
+
+\subsection{プレビューアの操作}
+\zindind{Windows}{のプレビューア}%
+プレビューを行うプログラムのことを\KY{プレビューア}と言います．
+OSによって使用可能なプレビューアが異なります．
+\indindz{プレビュー}{Windowsでの}%
+Windowsならば\hito{大島利雄}の\Prog[dviout]{\dviout}，
+\indindz{プレビュー}{Unix系OSでの}%
+\unixos ならば\Prog{xdvi}，
+\indindz{プレビュー}{Red Hatでの}%
+\Z{Red Hat}又は\Z{Fedora Core}ならば\Prog{pxdvi}などを使い
+\Va{file}{dvi}を各アプリケーションで開きます．
+Windowsの場合は\prog{\dviout}に関する豊富なヘルプやマニュアルが
+用意されているのでそちらを読んでみてください．
+ここでは\unixos で広く使われている\prog{xdvi}を例に操作方法を
+説明します．まずシェル上で\fl{file.dvi}の存在するディレクトリに
+移動し，\prog{xdvi}に対してファイル名を指定し，
+\begin{TYPE}
+\type{xdvi file.dvi &}
+\end{TYPE}
+のようにします．\unixos ならばアンド\qu{\texttt\&}をつけて
+\Z{バックグラウンド}で起動します\pp{\figref{fig:xdvisample}}．
+\zindind{DVI}{の再表示}%
+こうするとタイプセットを再度したときに自動的にDVIファイルを
+再表示します．\dviout でも同様の\Z{再表示機能}があります．
+\begin{figure}[hbtp]
+ \begin{center}
+  \includegraphics{images/xdvi}
+  \caption{{xdvi}の起動例}\label{fig:xdvisample}
+ \end{center}
+\end{figure}
+
+\prog{xdvi}の基本的な操作方法を説明します．右側に枠で囲まれた
+文字がボタンになっています．ボタンのように見えませんが一応押せます．
+さらにボタンの右側にはページ番号があり，ページ番号をクリックすると
+該当するページを表示します．
+
+\prog{xdvi}でのマウスのクリックは拡大の機能を持っています．それぞれ
+\begin{namelist}{中央クリック}
+ \item[左クリック]   少し拡大．
+ \item[中央クリック] 普通に拡大．
+ \item[右クリック]   かなり拡大．
+\end{namelist}
+となっています．また，右側にある\qu{\str{Quit}}とか\qu{\str{Abort}}などは
+ボタンで，主なボタンの機能は以下のとおりです．
+\begin{namelist}{View PS}
+\item[\str{Quit}]
+	    xdviを終了する．
+\item[\str{Reread}]
+	    一度読み込んだファイル\Va{file}{dvi}を再描画する．
+\item[\str{First}]
+	    先頭ページに移動する．
+\item[\str{Prev}]
+	    前ページに移動する．
+\item[\str{Next}]
+	    次ページに移動する．
+\item[\str{Last}]
+	    最終ページに移動する． 
+\item[\str{View PS}]
+	    {\PS}ファイルを見る．
+\item[\str{File}]
+	    DVIファイルを別に開く．
+\end{namelist}
+終了するには\qu{\str{Quit}}ボタンを押します． 
+
+\subsection{コマンド}
+ 
+\zindind{原稿}{の構成}%
+\zindind{原稿}{の先頭部分}%
+{\LaTeX}では原稿を三つのパートに分割することができます．
+それに伴い，いくつかのコマンドは，特定のパートでしか使用
+できません．
+\begin{Syntax}
+\verb|原稿先頭部分 (イニシャルコマンド)|\\
+\cmd{documentclass}\opa{オプション,$\ldots$}%
+	\pa{クラス}\opa{リリース}\\
+\verb|前書き部分 (プリアンブルコマンド)|\\
+\verb|\begin{document}|\\
+\verb|本文 (ボディ)|\\
+\verb|\end{document}|
+\end{Syntax}
+この中で \C{documentclass} 命令と\Env{document}環境は必須であり，
+絶対に必要な記述です．
+
+\indindz{コマンド}{イニシャル}\indindz{コマンド}{プリアンブル}%
+\zindind{プリアンブル}{コマンド}%
+原稿先頭\pp{イニシャル}部分には\KY{イニシャルコマンド}と
+呼ばれるコマンドを記述することができ，
+同じように前書き\pp{プリアンブル}部分には%
+\K{プリアンブルコマンド}や定義などを
+記述することができます．そして，\env{document}環境
+によって挟まれた本文部分にはコマンドの定義や組版用のコマンドを
+記述します．それぞれのコマンドは定められた場所で使うように
+決められています．ユーザがプリアンブルコマンドを本文で使うことが
+できないように{\LaTeX}の内部で細工が施されています．
+
+ここで言葉の定義をしておきます．コマンド，命令，環境，引数，
+オプションなどの言葉を混同しないように，\K{この冊子では}
+以下のように取り決めます．
+\begin{description}%{コマンド}
+\item[\Z{コマンド}] 
+  \indindz{記号}{円}%
+   \Z{バックスラッシュ}%
+   \pp{Windowsの方は\Z{円記号}}と共に用いられる文字列．
+   \begin{description}%{命令}
+    \item[\Z{命令}]
+       単独で使用するコマンド．
+       引数を取ることができる．
+    \begin{quote}例：\verb|\alpha|，\verb|\maketitle|
+          \end{quote}
+    \item[\Z{環境}] 
+       \qu{\C{begin}\pa{何々}}と
+       \qu{\C{end}\pa{何々}}で囲まれている
+     領域，またはそれを囲むためのコマンド．
+       引数を取ることができる．
+          \begin{quote}例：\verb|\begin{center}文字列\end{center}|
+    \end{quote}
+   \end{description}
+ \item[\Z{引数}] 
+\zindind{コマンド}{の引数}%
+\indindz{引数}{コマンドの}%
+   コマンドに受け渡す文字列．
+   \begin{description}%{必須引数}
+    \item[\Z{必須引数}] 
+\indindz{引数}{波括弧で挟まれた}%
+\indindz{引数}{必須の}%
+\zindind{波括弧}{で囲まれた引数}%
+\zindind{波括弧}{の役割}%
+       {波括弧}\qu{\texttt{\char'173~\char'175}}で囲まれた要素．
+       コマンドが必須引数を取るときは必ず受け渡す．
+           \begin{quote}例：\verb|\section{引数}|\end{quote}
+   \item[\Z{任意引数}] 
+\indindz{引数}{角括弧で挟まれた}%
+\indindz{引数}{任意の}%
+\zindind{角括弧}{で囲まれた引数}%
+       オプションとも言う．\Z{角括弧}\qu{\texttt{[~]}}で囲まれた要素．
+       コマンドが任意引数を取るときは任意に受け渡す．
+          \begin{quote}例：\verb|\documentclass[任意引数]{jbook}|
+    \end{quote}
+   \end{description}
+\end{description}
+
+\subsection{括弧について}
+
+さて，{\LaTeX}の基本を知ったところで\KY{括弧}に
+ついての取決めをしたいと思います．括弧については色々な呼
+び方があるようですが，誤解を避けるために\K{この冊子では}
+以下のように定義します．
+\begin{description}
+ \item[\Z{かぎ括弧}---「~」] 
+	    \Z{引用}や\Z{会話文}などに使う．
+ \item[\Z{二重かぎ括弧}---『~』] 
+	    \Z{書名}，引用の中の引用などに使う．
+ \item[\Z{引用符}---‘~’] シングルクオートとも言う．左側に
+	    あるほうを左シングルクオート，右側にあるほうを
+	    右シングルクオートと言う．引用に使う．
+ \item[\Z{二重引用符}---“~”] 
+	    ダブルクオートとも言う．左側にあるほうを左ダブルクオート，
+	    右側にあるほうを右ダブルクオートという．
+	    長い引用に使う．
+ \item[\Z{丸括弧}---（~）] \Z{小括弧}，\Z{パーレン}とも言う．
+	    語句の\Z{補足説明}に使う．
+ \item[\Z{波括弧}---｛~｝] \Z{中括弧}とも言う．
+	    コマンドに対して必須引数を渡すのに
+	    使われたり，要素を一つのグループにまとめるために
+	    使う．
+ \item[\Z{角括弧}---［~］] \Z{大括弧}とも言う．
+	    コマンドに対して任意引数を渡すときに使う．
+ \item[\Z{山括弧}---＜~＞] 
+	    この括弧に囲まれた文字列は何か別の文字列に
+	    書き換えられる．例えば，\va{ファイル名}などがあれば，
+	    これは任意の文字列\fl{file.tex}，
+	    \fl{input.foo}，\fl{output.bar}などに置き換えられる．
+\end{description}
+\indindz{引用符}{欧文の}%
+\indindz{引用符}{和文の}%
+\zindind{欧文}{の引用符}%
+\zindind{和文}{の引用符}%
+ここで\Z{引用符}と言うのが登場しましたが，欧文の引用符は
+シングルクオート\pp{`'}であり，和文の引用符はかぎ括弧\pp{「」}と
+なります．二つを区別するために欧文用のものを
+\KY{シングルクオート}，和文のものを\KY{かぎ括弧}と言う
+ことにします．文中に出てくる引用符という言葉は
+そのどちらも示すことになります．
+
+\section{{\protect\LaTeX}に関わるファイル形式}
+\latexno{に関わるファイル}%
+タイプセット時に作成される中途ファイル以外にも{\LaTeX}では多く
+のファイル形式が存在することを経験するでしょう．一般にファイ
+ル形式は\Z{拡張子}によって種類を識別します．
+\begin{Syntax}
+\Va{ファイル名}{拡張子}
+\end{Syntax}
+のようにピリオドの後の文字で区別されます．
+
+パッケージをインストールするときに見かけるものは以下の通りです．
+\begin{namelist}{xxxx}
+\indindz{マクロ}{パッケージ化された}%
+\item[\Exten{dtx}] パッケージ化されたマクロ．複数のクラス
+\Va{クラス1}{cls}，\Va{クラス2}{cls},\ldots\, \Va{クラスn}{cls}が
+\Va{クラス}{dtx}中にまとまっていることも多い．または
+\Va{マクロ}{sty}が複数まとまっているときもある．
+\item[\Exten{ins}] パッケージ化されたマクロを
+    取り出すためのファイル．\Va{classes}{dtx}と
+    ともに配布されている．
+\item[\Exten{sty}] 便利な機能をうまくまとめたもの．
+    \KY{マクロ}，\KY{マクロパッケージ}，\KY{パッケージ}，
+    \KY{スタイルファイル}とも言う．
+\item[\Exten{cls}] 
+\indindz{書式}{原稿の}%
+\zindind{原稿}{の書式}%
+\zindind{クラス}{ファイル}%
+\indindz{ファイル}{文書クラス}%
+\indindz{ファイル}{ドキュメントクラス}%
+  原稿の\Z{書式}を決定するファイル．
+  \KY{クラス}，\K{クラスファイル}，\K{文書クラスファイル}，%
+  \zindind{ドキュメントクラス}{オプション}%
+  \K{ドキュメントクラスファイル}とも言う．
+\item[\Exten{clo}] 
+  クラスのオプションに応じた設定を記述したファイル．
+\item[\Exten{fd}]  
+  \zindind{書体}{の属性}%
+  書体の属性を定義したファイル．ユーザが意識して使うことはない．
+\end{namelist}
+
+原稿を作成するときに見かけるものは以下の通りです．
+\begin{namelist}{xxxx}
+\item[\Exten{tex}] {\LaTeX}が処理を受け付ける原稿．
+    \KY{ソース}，\KY{ソースファイル}とも言う．
+\item[\Exten{bib}] 文献一覧成形プログラム{\BibTeX}が処理できる
+    参考文献ファイル．
+    \K{参考文献データベース}と言う．
+\item[\Exten{bst}] 参考文献の表示形式を決めるもの．
+    \K{参考文献スタイル}と言う．\indindz{スタイル}{参考文献}%
+\item[\Exten{eps}] 
+Adobe社が開発したページ記述言語{\PS}で書かれたファイル．
+\zindind{画像}{ベクトル}%
+主にベクトル画像などに使われる．\zindind{ページ}{記述言語}
+\end{namelist}
+
+原稿をタイプセットした後に見かけるものは以下の通りです．
+これらは全て中途ファイルであり，{\LaTeX}が原稿を完成させるた
+めにに必要なものです．
+\begin{namelist}{xxxx}
+\item[\Exten{log}] {\LaTeX}の組版結果の詳細情報．
+		    \KY{ログファイル}と言う．
+\item[\Exten{aux}] 相互参照などの情報が書かれたファイル．
+		   タイプセットの際に必要となる．
+%		    1度目以降の処理に必要とされる．
+\item[\Exten{dvi}] 原稿を{\LaTeX}でタイプセットした後に作成される
+		    印刷結果に限りなく近いファイル．このファイルを
+		    プレビューしたり，または他の{デバイスドライバ}%
+		    によって別の形式に変換できる．
+\item[\Exten{toc}] \zindind{目次}{用の中途ファイル}
+    \yo{目次}を出力するための目次情報が書き出されたファイル．
+\item[\Exten{lof}] 
+    \yo{図目次}を出力するための図目次情報が書き出されたファイル．
+\item[\Exten{lot}] 
+    \yo{表目次}を出力するための表目次情報が書き出されたファイル．
+\item[\Exten{bbl}] {\BibTeX}によって並べ替えをした後の
+    参考文献リスト．\Env{thebibliography}環境を用いて記述されている．
+\item[\Exten{blg}] {\BibTeX}の実行結果が出力されるログファイル．
+\end{namelist}
+
+その他画像形式に関わる拡張子として主に以下があります．
+\indindz{画像}{フルカラー}%
+\indindz{画像}{無圧縮}%
+\indindz{画像}{可逆圧縮}%
+\indindz{ビットマップ画像}{フルカラー}%
+\indindz{ビットマップ画像}{無圧縮}%
+\indindz{ビットマップ画像}{可逆圧縮}%
+\begin{namelist}{jpeg}
+\item[\Exten{jpg}] 
+  写真などのフルカラーに適したビットマップ画像．
+\item[\Exten{bmp}] 
+  Windows 標準の無圧縮ビットマップ画像．
+\item[\Exten{png}]
+  可逆圧縮で\Prog{Dvipdfm}が標準で対応しているビットマップ画像．
+\item[\Exten{bb}]
+  \LaTeX\ が画像のバウンディングボックス情報を得るために必要とする
+  ファイル．\Prog{ebb}や\Prog{CreateBB}で作成できる．
+\item[\Exten{mp}] 
+  \Prog[MetaPost]{\MP}で描画された\Z{ベクトル画像}．
+\end{namelist}
+
+\section{コマンドの基本}
+{\LaTeX}では便利なコマンドがあらかじめ用意されています．
+それらをどのように用いるか，また必要な機能がないときは
+どうすれば良いのかを説明します．
+
+
+\subsection{プリアンブルでのコマンド}
+\zindind{原稿}{のプリアンブル}%
+原稿のプリアンブルに書くべきコマンドは \C{documentclass} 命令です．
+\begin{Syntax}
+\cmd{documentclass}\opa{オプション,\,$\ldots$}\pa{クラス名}\opa{リリース}
+\end{Syntax}
+この命令は体裁を決定する書式ファイルを決めるという意味合いを持っており，
+この命令を書いた後は原稿の\Z{前書き部分}
+\pp{\Z{プリアンブル}}として解釈されます．
+
+\va{クラス名}には\secref{01pregame:sec:classes}で
+紹介するものが使えます．\va{オプション}にはそれぞれの
+クラスが用意している任意引数を渡すことが出来ます．
+このオプションのことを特に\K{文書クラスオプション}とか%
+\zindind{ドキュメントクラス}{オプション}%
+\zindind{文書クラス}{オプション}%
+\K{ドキュメントクラスオプション}と言います．
+\va{リリース}には自分の使っているクラスファイルが
+いつ配布されたのかを書きます．
+
+\va{リリース}にはクラスの配布された日付を\va{YYYY/MM/DD}
+という書式で記述できます．例えば，2003年12月31日に公開された
+日本語のクラス\Cls{jarticle}ならばおおむね以下のようになります．
+\begin{InText}
+\documentclass[11pt,a4j]{jarticle}[2003/12/31]
+\end{InText}
+もしも，クラスファイルが2003年12月31日以前のもので
+要求されているバージョンよりも古ければ，
+{\LaTeX}はタイプセット時に\KY{警告}\pp{\Z{Warning}}を出します．
+
+他にも\secref{01pregame:sec:stdmacro}で紹介しているような
+パッケージを使う場合はプリアンブル部分に \C{usepackage} を
+使います．
+\begin{Syntax}
+\cmd{usepackage}\opa{オプション,\,$\ldots$}%
+ \pa{パッケージ名}\opa{リリース}
+\end{Syntax}
+これはプリアンブルのみでしか使えません．
+ \cmd{usepackage}命令は \cmd{documentclass}命令と同じように，
+そのパッケージが提供するオプションを指定したり，リリースには
+そのパッケージのバージョンを指定できます．
+例えば，画像ファイルなどを{\LaTeX}で扱いたいと思い，\zindind{デバイス}{ドライバ}%
+{デバイスドライバ}として\prog{\dvipdfmx}を使う場合は
+\begin{InText}
+\usepackage[dvipdfm]{graphicx}[2001/01/01]
+\end{InText}
+のように\Sty{graphicx}パッケージを使うことを\K{プリアンブルで
+宣言します}．
+
+同じパッケージを2度や3度以上読み込もうとしても，
+1度読み込まれているなら再度読み込もうとしません．
+パッケージに渡すオプション\pp{リリースを除く}を特に
+\zindind{パッケージ}{オプション}\K{パッケージオプション}
+と呼びます．
+
+文書クラスオプションやパッケージオプションのいずれにしても，
+たいてい\yo{命令}と\yo{必須引数}のあいだの\va{オプション}\pp{任意引数}
+は\K{複数個渡すことができます}．例えば
+\begin{InText}
+\documentclass[10pt,a4paper,twocolumn]{article}
+\end{InText}
+のように\option{10pt}，\option{a4paper}，\option{twocolumn}と
+いう三つのオプションは\Z{コンマ}\qu{\str,}を区切りとして書けば良いのです．
+
+同時に複数のパッケージを使うことも宣言できます．
+\sty{graphicx}，\sty{amsmath}，\sty{makeidx}などを
+\begin{InText}
+\usepackage{graphicx,amsmath,makeidx}
+\end{InText}
+のように宣言できますがパッケージオプショ
+ンをそれぞれのパッケージに対して渡すこと
+はできません．
+
+基本的なソースファイルは次のようになります．
+\begin{InText}
+\documentclass[10pt,a4paper,oneside]{jarticle} 
+\usepackage[dvipdfm]{graphicx}
+\usepackage[dvipdfm,usenames]{color}
+\begin{document}
+ここに本文を書きます. 
+\end{document}
+\end{InText}
+後述のデバイスドライバの指定に関しては，上記のような
+記述ではなく，ドキュメントクラスオプションに使用する
+デバイスドライバを追加するのが安全です．
+\begin{InText}
+\documentclass[dvipdfm,10pt,a4j]{jarticle} 
+\usepackage{graphicx}
+\usepackage[usenames]{color}
+\end{InText}
+
+
+% TODO 
+\section{執筆における基本}\label{lakulaku}
+\zindind{原稿}{作成の支援}%
+
+\TeX はテキストエディッタによって原稿を執筆するという方針であるため，何ら
+かの執筆環境を必要とします．それらの執筆環境の中には作業の簡略化を目的と
+したものも数多くあります．
+%
+\TeX における伝統的な (\Z{obsolete}) \Z{執筆環境}には次のようなものが
+挙げられます．
+\begin{description}
+ \item[\unixos] 
+ \TeX とその周辺のプログラムを活用しようと思えば，\unixos
+ を使うと快適な執筆環境を得る事が出来ます．\Prog{Vine Linux}は特に \TeX 周辺
+ の日本語環境が整っていると思われます．
+ \item[\Prog{Emacs}] 
+ \LaTeX の原稿となるソースファイルを編集する時に使えるテキストエディッタ．
+ \item[\Prog{YaTeX}] 
+ 上記Emacs上で動作する\Hito{広瀬雄二}による \LaTeX 執筆支援システムで，
+ 完成度が高いものです．
+ \item[\Prog{Tgif}] 
+ \zindind{画像}{編集}%
+ \unixos で広く使われているベクター画像編集プログラムです．
+  \item[\Prog{Gnuplot}] 
+ \unixos で広く使われているグラフを描画したり，データをプロットするため
+ のプログラムです．
+ \item[\Prog{Make}]
+  \zindind{原稿}{の再コンパイル}%
+  原稿の再コンパイルを支援するためのプログラムです．\Fl{Makefile}とい
+  う特別なファイルを用意する事で，再コンパイルが楽になります．
+\end{description}
+
+環境に依存してはいるものの，以下に挙げるように \LaTeX での煩雑な作業を軽
+減できる有益な執筆環境が数多く存在します．
+\begin{description}
+\zindind{Windows}{の執筆支援環境}%
+ \item[\Prog{WinShell} (Windows)]
+ \Hito{Ingo H. de Boer}らによる統合執筆支援環境です%
+ \footnote{\url{http://cise.edu.mie-u.ac.jp/~okumura/texwiki/?WinShell}}．
+ コマンドラインから
+ の煩雑な操作なしにタイプセット等が出来るようになります．
+ \item[{\Prog[EasyTeX]{Easy\TeX}} (Windows)] \Hito{中川仁}による統合執
+ 筆支援環境です%
+ \footnote{\url{http://cise.edu.mie-u.ac.jp/~okumura/texwiki/?EasyTeX}}．
+\zindind{Mac OS X}{の執筆支援環境}%
+ \item[{\Prog[TeXShop]{\TeX Shop}} (Mac~OS~X)] 
+  Mac~OS~X で使用できる\Hito{Richard Koch}らによる統合執筆支援環境です%
+  \footnote{\url{http://cise.edu.mie-u.ac.jp/~okumura/texwiki/?TeXShop}}．
+  PDF でのプレビューが可能でディスプレイにおける表示がきれいです．
+\end{description}
+
+%TODO WinShell, TeXShop, Emacs, YaTeX, Tgif, Gnuplot
+%\section{原稿の執筆支援}
+%{\LaTeX}の原稿を入力するときにそれを支援する
+%環境がいくつかあります．
+%
+%\subsection{入力支援統合環境\zdash YaTeX}
+%\zindind{GNU}{Emacs}%
+%有名なプログラムとしてGNU \Prog{Emacs}上で動作する
+%\Hito{広瀬雄二}の作成された\Prog{YaTeX}が便利です．
+%詳しいことは\prog{YaTeX}の公式ページ
+%\begin{quote}
+%\webyatex
+%\end{quote}
+%から情報を集めてください．
+%インストールは\Prog{Make}でも手動でも可能で簡単
+%だと思います．
+%\Prog{YaTeX}の主な機能を\hito{広瀬}
+%のマニュアルから転載すると
+%\begin{itemize}
+% \item タイプセッタやプレヴューアなどの編集画面からの起動．
+% \item カーソル位置によらない固定リジョンの部分タイプセット．
+% \item \cmd{includeonly}のワンタッチ更新．
+% \item エラー箇所への自動ジャンプ．
+% \item {\LaTeX}コマンドの補完入力．
+% \item 既に入力したテキストを環境やコマンド引数の中に取り込む括り補完．
+% \item セクション区切り入力ときの文書構造アウトライン表示．
+% \item セクションコマンドの一括シフト．
+% \item 補完辞書の学習．
+% \item {\LaTeX}の環境やコマンドに応じたガイド付き引数入力．
+% \item 野鳥にないガイド付き引数入力関数の自動生成．
+% \item {\LaTeX}コマンドの削除/変更．
+% \item ファイル間，\cmd{begin}--\cmd{end}間，
+%        \cmd{ref}--\cmd{label}間，
+%        \cmd{cite}\zdash \cmd{bibitem}ジャンプ．
+% \item 一括コメントアウト/アンコメントアウト．
+% \item アクセント記号/数式環境用コマンド/ギリシャ文字の入力支援．
+% \item tabular/array環境のカラム位置ガイド．
+% \item 標準的{\LaTeX}コマンドのオンラインヘルプ．
+% \item ドキュメントのインクルード構造の視覚的表示とバッファ切り替え．
+%\end{itemize}
+%となっております．使いこなせるともう2度と
+%他の環境では{\LaTeX}の原稿を入力する気が
+%おきなくなると思います．
+
+%詳細は\hito{広瀬}の書かれたマニュアルがありますの
+%でそちらを参照してください．
+%
+%同じようにGNU Emacs上で動作する{AUC\TeX}という
+%のもあります．詳細はご自分で調べてみてください．
+
+%GNU Emacsには{\BibTeX}モードという
+%参考文献データベースを編集するための便利な
+%モードも備えています．\Hito{原貴弘}のウェブページ
+%\begin{quote}
+%\url{http://www.eis.t.u-tokyo.ac.jp/~hara/tex/tex.html} 
+%\end{quote}
+%などを参考にしてください．
+
+%\subsection{入力支援統合環境\zdash WinShell}
+%\Hito{Ingo H. de Boer}らが作成した
+%\Prog{WinShell}はWindows上で動作する
+%{\LaTeX}の統合支援環境です．
+%\begin{quote}
+% \url{http://www.winshell.de/}
+%\end{quote}
+%日本語化やその他周辺情報は\Hito{奥村晴彦}の
+%ウェブページを参考にしてください．
+%\begin{quote}
+%\okumura 
+%\end{quote}
+
+%\Hito{鈴見咲君高}によって日本語化されました．
+%\begin{quote}
+% \url{http://suzumizaki.at.infoseek.co.jp/winshell/}
+%\end{quote}
+%ただし，更新が中断されていますので旧バージョン
+%の日本語化パッチのみとなります．\prog{WinShell}は
+%日本語が通るように適切な設定します．その辺は
+%直感でなんとかやってください．最近のWinShellの
+%バージョン2.5を使うとOSによっては文字化けを起こします
+%から，古いものを使ってください．
+
+%\subsection{latexmk}
+%\Prog{Make}はちょっと大げさなのでもう少し簡単に実行できる
+%\Hito{John Collins}による\Prog{latexmk}を紹介しておきます．
+%\Prog{Perl}スクリプトで書かれていますので，導入する
+%前に\prog{Perl}をインストールします．まず
+%\prog{latexmk}を動かすために\fl{latexmk.pl}に変更
+%を加えます．%変更点は以下の通り，
+%ただ単に欧文用のプログラムを和文対応にするくらいです．
+%\begin{eqnarray}
+%\mbox{\str{$latex = 'latex';}}  &\rightarrow&
+%   \mbox{\str{$latex = 'platex';}}  \nonumber\\
+%\mbox{\str{$bibtex = 'bibtex';}} &\rightarrow&  
+%   \mbox{\str{$bibtex = 'jbibtex';}}\nonumber\\
+%\mbox{\str{$makeindex = 'makeindex';}}  &\rightarrow& 
+%   \mbox{\str{$makeindex = 'mendex';}}  \nonumber\\
+%\mbox{\str{$dvips = 'dvips';}}  &\rightarrow& 
+%   \mbox{\str{$dvips = 'dvipsk';}}\nonumber
+%\end{eqnarray}
+%あとはターミナルから
+%\begin{TYPE}
+%\type{latexmk file}
+%\end{TYPE}
+%とすると標準ではDVIファイルが作成されます．
+%\prog{\BibTeX}や\prog{MakeIndex}を使っていても
+%自動的にそれらの処理が行われます．ただし
+%\begin{InText}
+%\bibliography{biblio.bib} 
+%\include{file1.tex}
+%\end{InText}
+%とするよりは拡張子を省略して
+%\begin{InText}
+%\bibliography{biblio} 
+%\include{file1}
+%\end{InText}
+%とすることになります．
+% 
+
+\endinput

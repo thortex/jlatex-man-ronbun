@@ -1,0 +1,27 @@
+\documentclass[a4paper,11pt]{article}
+\pagestyle{empty}
+\usepackage{color}
+\begin{document}
+\color[gray]{.7}
+\Large
+\begin{verbatim*}
+\begin{titlepage}%
+   \parindent=\z@
+   \let\footnotesize\small
+   \let\footnoterule\relax
+   \let\footnote\thanks
+   \null\vskip 2\Cvs
+   {\Huge\gtfamily\sffamily\@title}%
+   \par\vskip\fboxsep
+   \hrule height 1ex
+   \par\vskip\tw@\fboxsep
+   {\Large\@date}%
+   \par\vskip\Cvs\vfill
+   \hb@xt@\fullwidth{%
+      \includegraphics*{images/mytitle}\hss}%
+   \ifx\@contact\@empty\@thanks\vfill\null
+   \else\vfill\begin{large}\@contact\end{large}%
+   \par\vskip 2\Cvs\fi
+\end{titlepage}%
+\end{verbatim*}
+\end{document}

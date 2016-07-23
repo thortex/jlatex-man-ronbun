@@ -1,0 +1,179 @@
+\begin{thebibliography}{10}
+
+\bibitem{anothermanual3}
+江口庄英.
+\newblock {\em Ghostscript Another Manual}.
+\newblock ソフトバンク, 1997
+
+\bibitem{webcomp}
+Michel Goosens and Sebastian Rahtz.
+\newblock {\LaTeX} Webコンパニオン\zdash{\TeX}とHTML/XMLの統合.
+\newblock アスキー, 2001.
+\newblock 鷺谷好輝訳
+
+\bibitem{latexcomp}
+Michel Goossens, Frank Mittelbach, and Alexander Samarin.
+\newblock The \LaTeX\ コンパニオン.
+\newblock アスキー, 1998.
+\newblock 021.49/Go
+
+\bibitem{graphicscomp}
+Michel Goossens, Sebastian Rahtz, and Frank Mittelbach.
+\newblock \LaTeX\ グラフィックスコンパニオン.
+\newblock アスキー, 2000.
+\newblock 鷲谷好輝訳, 007.63/Go
+
+\bibitem{MIL}
+George Gratzer.
+\newblock {\em Math into \LaTeX}.
+\newblock Birkhauser, 2000.
+\newblock 021.49/Gr
+
+\bibitem{NES1999}
+日本エディタースクール編.
+\newblock 校正記号の使い方\zdash タテ組・ヨコ組・欧文組.
+\newblock 日本エディタースクール, 1999
+
+\bibitem{NES2001a}
+日本エディタースクール編.
+\newblock 文字の組方ルールブック $\langle$ヨコ組編$\rangle$.
+\newblock 日本エディタースクール, 2001
+
+\bibitem{xymtex}
+藤田眞作.
+\newblock {\em \XyMTeX: typesetting chemical structural formulas}.
+\newblock 星雲社, 1997.
+\newblock 430.7/Fu
+
+\bibitem{latex2ecommand}
+藤田眞作.
+\newblock \LaTeXe コマンドブック.
+\newblock ソフトバンク, 2003
+
+\bibitem{omdvipdfmx}
+Cho Jin-Hwan.
+\newblock {\em DVIPDFMx, an eXtension of DVIPDFM}, 2003.
+\newblock \sanko\url{http://project.ktug.or.kr/dvipdfmx/}
+
+\bibitem{KK1981}
+木下是雄.
+\newblock 理科系の作文技術.
+\newblock 中公新書624. 中央公論社, 1981.
+\newblock 080//Ch//624
+
+\bibitem{texbook}
+Donald Knuth.
+\newblock 改訂新版 {\TeX} ブック.
+\newblock アスキー, 1992.
+\newblock 斎藤信男監修, 鷺谷好輝訳
+
+\bibitem{latexbook}
+Leslie Lamport.
+\newblock 文書処理システム {\LaTeXe}.
+\newblock ピアソン・エデュケーション, 1999.
+\newblock 阿瀬はる美訳, 021.4//La
+
+\bibitem{omjbibtex}
+松井正一.
+\newblock 日本語\BibTeX: \JBibTeX, 1991.
+\newblock \JBibTeX\ と共に配布される文書
+
+\bibitem{AMS1}
+小林道正, 小林研.
+\newblock \LaTeX で数学を\zdash \LaTeXe\,$+$\,\AmSLaTeX 入門.
+\newblock 朝倉書店, 1997.
+\newblock 410.7//Ko
+
+\bibitem{HN1998}
+中田英雄, 金城悟編.
+\newblock 大学生のための研究論文のまとめ方\zdash
+  データ収集からプレゼンテーションまで.
+\newblock 文化書房博文社, 1998.
+\newblock 002.7//Na
+
+\bibitem{omjlshort}
+Tobias Oetiker.
+\newblock \LaTeXe\ への道\zdash94分\LaTeXe 入門\zdash, 2000.
+\newblock 野村昌孝訳,
+  \sanko\url{http://www.ring.gr.jp/pub/text/CTAN/info/lshort/japanese/}
+
+\bibitem{omlshort}
+Tobias Oetiker.
+\newblock {\em The Not So Short Introduction to \LaTeXe}, 2003.
+\newblock \sanko\url{http://www.ring.gr.jp/pub/text/CTAN/info/lshort/english/}
+
+\bibitem{HO2002}
+小笠原喜康.
+\newblock 大学生のためのレポート・論文術.
+\newblock 講談社, 2002.
+\newblock 080//Ko//1603
+
+\bibitem{HO2004}
+大隈秀夫.
+\newblock 分かりやすい日本語の書き方.
+\newblock 講談社, 2004.
+\newblock 080//Ko//1644
+
+\bibitem{bibunsyo}
+奥村晴彦.
+\newblock [改訂第3版] \LaTeXe\ 美文書作成入門.
+\newblock 技術評論社, 2004.
+\newblock 021.49/Ok
+
+\bibitem{anothermanual2}
+乙部厳己, 江口庄英.
+\newblock {\em \pLaTeXe\ for Windows Another Manual Vol.2 Extended Kit 1997}.
+\newblock ソフトバンク, 1997.
+\newblock 021.49/Ot
+
+\bibitem{anothermanual1}
+乙部厳己, 江口庄英.
+\newblock {\em \pLaTeXe\ for Windows Another Manual Vol.1 Basic Kit 1999}.
+\newblock ソフトバンク, 1998.
+\newblock 021.49/Ot
+
+\bibitem{omjbtxdoc}
+Oren Patashnik.
+\newblock \BibTeX ing: \BibTeX の使い方, 1991.
+\newblock 松井正一訳, \JBibTeX と共に配布される文書
+
+\bibitem{omgraphics}
+Keith Reckdahl.
+\newblock {\em Using Imported Graphics in \LaTeXe}, 1997.
+\newblock
+  \sanko\url{http://www.ring.gr.jp/archives/text/CTAN/info/epslatex.pdf}
+
+\bibitem{AMS2}
+嶋田隆司.
+\newblock \LaTeXe 数式環境\zdash \AmSLaTeX を使いこなす.
+\newblock シイエム・シイ出版部, 2001.
+\newblock 410//Sh
+
+\bibitem{linuxthesis}
+臼田昭司, 伊藤敏, 井上祥史.
+\newblock Linux 論文作成術.
+\newblock オーム社, 1999.
+\newblock 816.5/Us
+
+\bibitem{omdvipdfm}
+Mark~A. Wicks.
+\newblock {\em Dvipdfm User's Manual}, 1999.
+\newblock \sanko\url{http://gaspra.kettering.edu/dvipdfm/}
+
+\bibitem{omgnuplot}
+Thomas Williams and Colin Kelley.
+\newblock {\em Gnuplot, An Interactive Plotting Program}, 2003.
+\newblock \sanko\url{http://www.gnuplot.info/}
+
+\bibitem{ompstricks}
+Timothy~Van Zandt.
+\newblock {\em PSTricks: PostScript macros for Generic \TeX}, 1993.
+\newblock \sanko\url{http://www.tug.org/applications/PSTricks/}
+
+\end{thebibliography}
+
+
+%\begin{mybibliography}{URL 00}
+%\renewcommand\
+% \bibitem{}
+%\end{mybibliography}

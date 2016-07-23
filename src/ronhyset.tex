@@ -1,0 +1,38 @@
+% ronhyset.tex
+\makeatletter
+\def\orig@chapter[#1]#2{%
+  \ifnum \c@secnumdepth >\m@ne
+    \if@mainmatter
+      \refstepcounter{chapter}%
+      \addcontentsline{toc}{chapter}%
+        {\protect\numberline{\@chapapp\thechapter\@chappos}#1}%
+    \else
+      \addcontentsline{toc}{chapter}{#1}%
+    \fi
+  \else
+    \addcontentsline{toc}{chapter}{#1}%
+  \fi
+  \chaptermark{#1}%
+  \addtocontents{lof}{\protect\addvspace{10\p@}}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \@makechapterhead{#2}%
+  \@afterheading
+}
+%
+\def\@chapter{%
+  \def\Hy@next{%
+    \Hy@GlobalStepCount\Hy@linkcounter
+    \xdef\@currentHref{\Hy@chapapp*.\the\Hy@linkcounter}%
+    \Hy@raisedlink{\hyper@anchorstart{\@currentHref}\hyper@anchorend}%
+  }%
+  \ifnum\c@secnumdepth>\m@ne
+    \@ifundefined{if@mainmatter}%
+    \iftrue{\csname if@mainmatter\endcsname}
+      \let\Hy@next\relax
+    \fi
+  \fi
+  \Hy@next
+  \orig@chapter
+}%
+\makeatother
+\endinput

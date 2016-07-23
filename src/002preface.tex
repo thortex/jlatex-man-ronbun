@@ -1,0 +1,130 @@
+%#!platex ron.tex
+\chapter{まえがき}
+
+\section*{これは何のための冊子か}
+
+レポート・論文を執筆するためには，まず何を書くのかを決めます．しかし，書
+くべき内容が決まったとしても，「どのように」書けば良い論文になるのかは不
+明瞭な部分があります．
+
+\latexno{の発音}%
+\zindind{文献}{の探し方}%
+この冊子では「どのように」論文を執筆すべきかを解説し，文献の探し方や書く
+べき内容には言及しません．
+
+\indindz{論文}{科学技術系の}
+\zindind{原稿}{の汎用性}
+この「どのように」に答える一つの方法として \ruby{\LaTeX}{らてっく} と
+呼ばれるプログラムを用いることが考えられます．\LaTeX は科学技術系の論文
+の作成などに広く使われています．さらにマークアップ方式を採用しているので，
+原稿の汎用性が比較的高くなります．
+
+\latexno{の導入}%
+\latexno{の周辺情報}%
+\LaTeX の導入やその周辺の情報に関しては，三重大学の\Hito{奥村晴彦}のウェ
+ブページ
+\begin{quote}
+\okumura
+\end{quote}
+等を参照してください．
+
+本文中の入出力例に対しては，ただ眺めるのではなく，実際に自分で入力し，
+実行結果を吟味してみることをお勧めします．
+
+この冊子に対して追加，削除，変更すべき事項などがあればお知らせ下さい．特
+にこの冊子の分かりづらい箇所，もっとうまく説明すべき箇所などについて連絡
+をお願いします．連絡先は奥付を参照してください．
+
+
+\section*{FUNNISTについて}
+このような冊子の作成をしている組織に名前があります，これを
+\emph{\funnist}と呼んでおります．\Z{公立はこだて未来大学}を英語
+では\emph{Future University-Hakodate}と呼ばれますので省略して
+\emph{FUN}となります．この冊子を作成している組織は未来大学の
+情報システムやネットワークシステム，果ては\Z{コンピュータ}の
+総合的な使い方を示す\Z{手引書} (\emph{\Z{Tutorial}}) を
+作成することを目的としています．
+
+この組織での重要な対象はネットワークと\Z{情報システム}の二つです．
+この二つを英語にすると\emph{Network}と\emph{Information System}です．
+そのような理由もあり，この組織の名称は\emph{\funnist}と
+%Future University-Hakodate Network and Information System Tutorial}に
+する事にしました．\index{FUNNIST@\FUNNIST}
+省略形として\FUNNIST も正式なものとして用いることが出来ます．
+
+\section*{凡例}
+
+本冊子では\Z{書体}を変更することによって同じ語句でも
+違った意味を持つものが多数あります．\qu{\prog{dvipdfm}}
+という語があったとしても\qu{\textsf{dvipdfm}}や\qu{\texttt{dvipdfm}}，
+\qu{\textsl{dvipdfm}}，\qu{\textit{dvipdfm}}はすべて別の意味を
+持っています．\zindind{書体}{の種類}
+これらの書体の種類については\secref{sec:font}を参
+照してください．
+\begin{center}
+\zindind{キーボード}{からの入力}%
+ \begin{tabular}{lll}
+ \TR
+ \<書体>          & \<意味>      & \<例> \\
+ \MR
+ ローマン体    & 通常の文章& \textrm{dvipdfm}\\
+ サンセリフ体  & パッケージやクラス\pp{\secref{sec:class}参照}& \textsf{dvipdfm}\\
+ タイプライタ体& キーボードからの入力など& \texttt{dvipdfm}\\
+ イタリック体  & 変数や強調& \textit{dvipdfm}\\
+ スラント体    & オプション\pp{\secref{sec:classopt}参照}& \textsl{dvipdfm}\\
+ \BR
+ \end{tabular}
+\end{center}
+
+本文中で左側にタイプライタ体，右側にそれに準じた出力例が
+あるものは，入出力の対を表します．
+\par\addvspace{3.0ex plus 0.8ex minus 0.5ex}\vskip-\parskip%
+\hspace*{\IOm}\hspace*{-1ex}%
+\makebox[0pt][l]{%
+  {\begin{minipage}[c]{.47\fullwidth}\small%
+\begin{ttfamily}%
+The length of a pen should be comrotable\\
+to write with: too long and it makes\\
+him tired; too short and it\cmd{ldots}.%
+\end{ttfamily}%
+  \end{minipage}%
+  }\hspace{0.05\fullwidth}%
+  {\begin{minipage}{.47\fullwidth}%
+      \begin{trivlist}\item\small%
+The length of a pen should be comrotable
+to write with: too long and it makes him
+tired; too short and it\ldots.%
+   \end{trivlist}%
+   \end{minipage}}}%
+\par\addvspace{3.0ex plus 0.8ex minus 0.5ex}\vskip-\parskip%
+
+\Z{テキストエディッタ}などを使い，原稿ファイルで
+左側のように入力すると，右側の出力例と同じような
+結果を確認できます．
+
+\bigskip
+
+文中において\type{which perl}という表記は\Z{コマンドプロンプト}や
+\Z{シェル}などの\Z{コンソール}からの入力を示します．
+複数行の入力の場合は次のようにしています．
+\begin{TYPE}
+\type{platex file.tex} 
+\type{jbibtex file.tex} 
+\type{dvipdfmx -S -o out.pdf input.dvi}
+\end{TYPE}
+\index{"$@\verb+$+!コンソールの\zdash}%"
+先頭のドル`\str$'はコンソールに表示されている記号で，
+ユーザは入力しません．
+
+\bigskip
+
+\Z{キーボード}上の特定の\Z{キートップ}を押すことを示すには\key{Alt}の
+ようにします．\key{Ctrl,Alt,Delete}は\key{Ctrl}，\key{Alt}，
+\key{Delete}キーを同時に押すことになります．
+\key{Ctrl,x}\key{Ctrl,s}は\key{Ctrl,x}を押した後に\key{Ctrl,s}を
+押すことを表します．
+
+\bigskip
+
+何らかの文字列や数値に置き換わるものは\va{変数}のように
+表記しています．

@@ -1,0 +1,839 @@
+%#!platex ron.tex
+\chapter{コマンドとマークアップ}
+\begin{abstract}
+マークアップ言語とは何なのか，マークアップで何が実現できるのか，
+それを{\LaTeX}でどのように実現するのかという基本的な部分を紹介します．
+\end{abstract}
+
+\section{マークアップ言語とは？}
+
+数十年前に，文書に対して入れ子型の論理構造を与えることによって
+汎用性を持たせ，人間が直接理解できる文書の記述に関して研究がな
+されたそうです．その中でもウェブページを記述する言語して\Z{HTML}: 
+{Hyper Text Markup Language}というものが提案されました．
+現在は\Z{XHTML}: {Extended Hyper Text Markup Language}へと
+進化し，統一化が図られています．{\LaTeX}もHTMLやXHTMLと同じように
+マークアップ方式を採用しているページ記述言語です．
+
+\section{記号とコマンド}
+{\LaTeX}はコンピュータプログラムですから，人間の意図を知るするた
+めには何か特別な命令を人間から受け付けることになります．そのため
+原稿には\K{コマンド}と呼ばれる特別な\Z{記号}の綴りを使ったり，
+いくつかの記号に\K{特別な意味}を持たせます．
+
+\subsection{記号の分類}\zindind{記号}{の分類}%
+{\LaTeX}ではユーザが出力したい意味を理解するために全ての記号に
+{\LaTeX}なりの意味を割り当てています．人間がキーボードから
+\qu{\str<}という記号を入力しても数学の比較演算子とは知るこ
+とができません．\qu{\str$\str<\str$}としなければ
+\yo{ここからここは数式であり，\qu{\str<}は比較演算子として使う．}
+という意味を理解してくれません．そのため{\LaTeX}に入力を
+与えるユーザーは{\LaTeX}の文法を覚える必要があります．
+詳しく覚える必要はありませんが
+\begin{quote}
+\verb|\ { } $ & # ^ _ ~ %|
+\end{quote}
+という10個の記号には特別な意味があることを覚えてください．
+
+\subsection{コマンド}\label{sec:ml:command}
+テキストを入力していると\qu{\str{<}}というキーボードからの入力が
+\qu{!`}になってしまいます．これは一体どういうことでしょうか．考えて
+みると\qu{\str{<}}という入力は\qu{\str{<}}という記号を出力するという
+命令ではなく別の命令，\qu{!`}を出力するという命令に割り当てられている
+jと考えられます．さらに`\verb|\%|'のようなバックスラッシュ\pp{円}の次に
+記号が来るようなコマンドも存在します．ここで{\LaTeX}のコマンドは
+\yo{バックスラッシュと文字列}という話ではないことが分かります．
+正確には\yo{バックスラッシュと記号の綴り}を\K{コントロール%
+シークエンス}と呼び，特殊記号1文字を\K{コントロールシンボル}
+と呼びます．
+{\LaTeX}におけるコマンドは大きく分けると三つに分類できます．
+\begin{description}
+\zindind{コントロール}{シークエンス}%
+\zindind{コントロール}{シンボル}%
+\zindind{コントロール}{スペース}%
+\zindind{コントロール}{ワード}%
+ \item[{コントロールシークエンス}]
+\index{"\@\verb+\+}\glossary{"\@\verb+\+}
+   バックスラッシュ\qu{\texttt\bs}\pp{\qu{\texttt\yen}}と記号の綴り．%}
+   \K{制御綴り}と訳されることもあります．これを本書では%"}
+   狭義の\K{コマンド}として表現しています．
+ \begin{description}
+   \item[{コントロールワード}] 
+      バックスラッシュと英字の綴り．例えば\qu{\texttt{\bs section}}など．
+   \item[{コントロールシンボル}] 
+      バックスラッシュと英文字以外の綴り．例えば\qu{\texttt{\bs3}}とか
+      \qu{\texttt{\bs\#}}など．
+   \item[{コントロールスペース}] 
+      バックスラッシュとスペース一つの綴り．\qu{\texttt{\bs}\textvisiblespace}のこと．
+ \end{description}
+ \item[特殊記号]
+   特別な意味を持つ記号．\KY{予約文字}と呼ばれることも
+あります．例として\qu{\texttt{\char'173}}, \qu{\texttt{\$}}など．%$
+ \item[英数字など]
+   バックスラッシュの付かない普通の文字列．
+\end{description}
+現段階では大きく分けると
+\begin{itemize}
+ \item バックスラッシュと文字列の綴り．
+ \item 特殊な記号．\indindz{記号}{特殊な}%
+ \item 普通の文字列．
+\end{itemize}
+の三つがあることを理解してください．本冊子では\Z{制御綴り}
+\pp{コントロールシークエンス}のことを\K{コマンド}と呼び
+\K{命令}，\K{宣言}，\K{環境}の三つに分類します．
+\begin{description}
+\item[\Z{命令}] 
+  特定の処理がそのときに実行されるコマンド．
+  他の参考書ではこの命令のことを\K{コマンド}と呼ぶことが
+  多いようです．\K{引数}を取ることがあり，その引数のことを
+  \K{要素}と呼んだり，\K{オプション}と呼んだりします．
+  例として \cmd{maketitle}や \cmd{section}などがあります．
+
+\item[\Z{宣言}] 
+  特定の処理がそれ以降継続して行われるコマンド．
+  処理の適用される範囲を限定する\pp{\Z{グルーピング}}ことも
+  できる．引数をとることは稀．よく宣言のことも\K{命令}や
+  \K{宣言型命令}とか\K{宣言型コマンド}と呼ばれます．
+  例として \cmd{ttfamily}があります．宣言型のコマンドは
+  命令に比べると少ないので，本冊子でも断り書きとして宣言型コマンドと
+  呼ぶことが多いです．
+
+\item[\Z{環境}] 
+  \verb|\begin|\pa{何々} と \verb|\end|\pa{何々} に
+  よって要素を囲むコマンド，または囲まれている領域の
+  こと．引数を取ることがあります．
+  例として\env{document}環境などがあります．
+\end{description}
+
+
+\subsection{コマンドの定義}\zindind{マクロ}{の定義}\zindind{マクロ}{の再定義}%%
+{\LaTeX}の原稿では新しい命令などの定義をすることができます．
+\begin{Syntax}
+\C{newcommand}\pa{命令}\opa{整数}\opa{標準値}\pa{定義}\\
+\C{renewcommand}\pa{命令}\opa{整数}\opa{標準値}\pa{定義}
+\end{Syntax}
+ \C{newcommand}についてですが，この命令によって，
+まだ定義されていない\va{命令}を新規に定義すること
+ができます．
+\begin{InText}
+\newcommand{\example}{これは例です．}
+\end{InText}
+として，本文中で \verb|{\example}| と記述すると
+\begin{OutText}
+これは例です．
+\end{OutText}
+という出力になります．さらに
+\begin{InText}
+\newcommand{\example}[2]{#1は#2です．}
+\end{InText}
+として，本文中で \verb|\example{ボブ}{背が高い}| と記述すると，
+\begin{OutText}
+ボブは背が高いです．
+\end{OutText}
+という出力になります．この \C{example} 命令
+に任意引数があっても良いことを宣言するためには次のようにしますが，
+任意引数も引数の総和に勘定します．
+\begin{InOut}
+\newcommand{\example}[2][未来]{%
+  私は#1#2にいます．}
+\example{大学}   \example{出版}\par
+\example[]{大学} \example[函館]{出版}
+\end{InOut}
+このように任意引数や必須引数の定義なども，
+ \cmd{newcommand}命令を使うことにより実現できます．
+定義の中で引数は\qu{\texttt\#\va{n}}として扱い，1から9までの整数
+が使えます．このような定義は数式の記述などに威力を発揮します．
+\begin{InOut}
+\newcommand{\seq}[2][n]{%
+   \{#2_{0},#2_{1},\ldots,#2_{#1}\}}
+数式の集合もマクロを使って$\seq{a}$や
+$\seq[k]{x}$とできます．
+\end{InOut}
+
+\cmd{newcommand}では任意引数を一つしか設けるこ
+とができませんが，引数は合計9個まで使うことができます．
+ \Cmd{renewcommand}では一度定義した命令を再度定義する
+ことができます．
+
+さらに通常{\LaTeX}でよく見かける環境型のコマンドの
+定義に関しては以下の四つの命令が使えます．
+\begin{Syntax}
+\cmd{newenvironment}\pa{命令}\opa{整数}\opa{標準}%
+ \pa{始め}\pa{終わり}\\
+\cmd{renewenvironment}\pa{命令}\opa{整数}\opa{標準}%
+ \pa{始め}\pa{終わり}
+\end{Syntax}
+\Cmd{newenvironment}では環境の始めの部分と終わりの部分
+を定義して，新たに環境型の命令を作成します．引数に関する
+扱いは \cmd{newcommand}と同じです．
+\Cmd{renewenvironment}については一度定義した環境型の
+コマンドを再度定義する機能があります．
+中央揃えして書体を強調したい環境は次のように
+\env{cemph}のように作成します．
+\begin{InOut}
+\newenvironment{cemph}%
+  {\begin{center}\begin{em}}%
+  {\end{em}\end{center}}
+ここの文章は通常通り出力され，
+\begin{cemph}
+この中の文章は中央揃えで強調表示
+\end{cemph}
+されましたか？
+\end{InOut}
+
+\subsection{文字やコマンドの区切り}\label{sec:moji:kugiri}
+
+私たち人間はある文や節の区切りをどのように判断しているのでしょうか．
+一つは文と文のあいだや単語と単語のあいだに挿入される空白です．
+空白は文字列の区切りを示し，その空白には意味の区切りがあります．
+では節はどうでしょうか．
+%
+一つの例としてメールアドレスの場合を考えてみます．
+メールアドレスはそもそもコンピュータ上で手紙のやり取りを
+するための住所ですからコンピュータが分かりやすい
+表現になっていますが，人間にも分かりやすい表記になっています．
+仮に
+\begin{quote}
+\verb|name@server.co.jp|
+\end{quote}
+というメールアドレスがあったとします．するとこれは
+\begin{quote}
+\qu{\str{name}} \qu{\str{@}} \qu{\str{server}}
+\qu{\str{.}} \qu{\str{co}} \qu{\str{.}} \qu{\str{jp}}
+\end{quote}
+に分けられます．それぞれ
+\begin{description}
+ \item[\str{name}] メールアドレスを使っている人の\yo{名前}．
+ \item[\str{@}]   \qu{\str@}は\qu{at}の意味でもあって，これ以降の
+文字は\yo{\Z{住所}}を表すことを示す．
+ \item[\str{jp}] その人の\yo{\Z{国}}を表す．
+ \item[\str{co}] その人がどんな\yo{\Z{地域}\pp{組織}}に所属しているのかを表す．
+ \item[\str{server}] 地域の中のどこにいるのかをあらわす住所．
+ \item[\str{.}] 住所を区切るために使われている．
+\end{description}
+という意味合いを持っています．住所の区切りが空白ではなくピリオドなのは
+仕方のないことです．コンピュータの世界ではなるべく文字列は
+空白を含んでいないほうが処理が行いやすいのです．
+さて，これはどのようにして区切りを見つけたのでしょうか．
+メールアドレスの例では\qu{\str{@}}や\qu{\str{.}}を文字の区切りとして
+住所を判定しています．{\LaTeX}でも同じようなことをやっています．
+
+このことから{\LaTeX}においての命令の定義には英字のみに
+することが求められるようです．そして英字以外の文字列は，
+そこをコマンドの区切りとして英字以外の文字列を引数として
+受け取るということです．
+
+この文字の分類を利用して{\LaTeX}ではマクロの中において特別な
+処理をしています．マクロは容易に変更してもらっては困るので
+ユーザからそのマクロを簡単に変更されないようにしています．
+その方法の一つとしてマクロの中では\Z{アットマーク}\qu{\str{@}}を英字と同じ分類\index{"@@\verb+"@+}%
+として扱うのです．\qu{\str{@}}を英字と同じ分類にすると，
+そこでコマンドは区切られないので
+\begin{InText}
+\newcommand{\h@ge}[2]{あ，#1だよ，ほら#2}
+\end{InText}
+のような定義ができるわけです．そして
+\begin{InText}
+\newcommand{\hoge}{\h@ge}
+\end{InText}
+という定義がマクロの中では可能なので，ユーザーから \cmd{hoge}命令の
+実態を隠すことができます．
+%これは開発者と使用者の分離を行うために
+%仕方がないのですが，逆に使用者が自分の思い通りに
+%命令をカスタマイズできないとか，様々な不満があるようです．
+
+実際ヘッダーやフッターを自分流にカスタマイズしたいときは
+それらの命令に\qu{\str{@}}が含まれているために変更できない，
+という事態に陥ります．マクロで行っていること，\qu{\str{@}}を
+英字と同じ分類にしてコマンドを定義するためには
+\begin{Syntax}
+\Cmd{makeatletter} \pp{\qu{\str{@}}を英字と同じ分類にする．}\\
+\Cmd{makeatother}  \pp{\qu{\str{@}}を違う分類にする．}
+\end{Syntax}
+という二つの命令を使います．
+この命令の中身を見てみると
+\begin{InText}
+\def\makeatletter{\catcode`\@11\relax}
+\def\makeatother{\catcode`\@12\relax}
+\end{InText}
+\indindz{コード}{カテゴリー}\indindz{コード}{分類}%%
+となっています．
+どうやら\qu{\str{@}}の \C{catcode} というものを11にすると
+英字と同じになり，12にすると違う分類になるようです．このよ
+うな記号の分類を通常\KY{カテゴリーコード}と呼びま
+す\pp{\tabref{tab:catcode1}参照}．
+\begin{table}[htbp]
+\begin{center}
+\index{改行!きようまつもしとしての@行末文字としての\zdash}%}"
+\index{" @\verb*+ +}
+\index{"#@\verb+#+} 
+\index{"$@\verb+$+}\glossary{"$@\verb+$+}
+\index{"&@\verb+&+}\glossary{"&@\verb+&+}
+\index{"\@\verb+\+}\glossary{"\@\verb+\+}
+\index{"^@\verb+^+}\glossary{"^@\verb+^+}
+\index{"_@\verb+_+}\glossary{"_@\verb+_+}
+\index{"{1"}@\protect\bgroup\verb+"{+"}}
+\glossary{"{1"}@\protect\bgroup\verb+"{+"}}
+\index{"{2"}@"{\verb+"}+\protect\egroup}
+\glossary{"{2"}@"{\verb+"}+\protect\egroup}
+\index{"~@\verb+~+}
+\glossary{"~@\verb+~+}
+\index{%@\verb+%+}
+\glossary{%@\verb+%+}
+% {, }, @ | ! " 
+\caption{カテゴリーコードの一覧}\label{tab:catcode1}
+\begin{tabular}{lll} 
+\TR
+\<カテゴリ> & \<意味>        & \<標準での割り当て>  \\ 
+\MR
+0  & \Z{エスケープ文字}    & \verb|\| \pp{\ttfamily\yen}\\
+1  & グループの開始    & \verb|{| \zindind{グループ}{の開始}\\
+2  & グループの終わり  & \verb|}| \zindind{グループ}{の終わり}\\
+3  & 数式モードの制御  & \verb|$|  \\
+4  & 配列の要素の区切り& \verb|&| \zindind{配列}{の要素の区切り} \\%&
+5  & {行末文字}          & \va{改行} \pp{\str{0x0D}} \zindind{行末}{文字}\\
+6  & {パラメータ文字}    & \verb|#|  \zindind{パラメータ}{文字}\\
+7  & \Z{上付き文字}        & \verb|^|  \\
+8  & {下付き文字}        & \verb|_|  \zindind{下付き}{文字} \\
+9  & \Z{無視される文字}    & なし${}^{*1}$\\
+10 & \Z{空白}              & \verb*| | \\
+11 & \Z{英文字}            & \str A$\cdots$\str Zと\str a$\cdots$\str z\\
+12 & そのほかの文字    & \verb| ( ! ? 1 2 @|など\\
+13 & \Z{アクティブ文字}    & \verb|~| \\
+14 & {コメント文字}      & \verb|%| \zindind{コメント}{文字}\\
+15 & \Z{無効文字}          & \va{デリート} \pp{\str{0x7E}}\\
+\hline
+\multicolumn{3}{c}{\<以下三つは日本語{\TeX}のもの>}\\\hline
+16 & 第1・第2水準の漢字      & 亜，丼など\\
+17 & かな，全角アルファベット& あ，ア，ａ，Ａなど\\
+18 & その他の全角記号        & ┼，【など\\
+\BR
+\end{tabular}
+\\ {\small ${}^{*1}$標準では割り当てられていない}%$
+\end{center} 
+\end{table}
+
+そのため何かマクロの中のコマンドに変更を加えたいときは
+\begin{InText}
+\documentclass{jsarticle} 
+\makeatletter
+\newcommand{\h@ge}[2]{あ，#1だよ，ほら#2}
+\newcommand{\hoge}{\h@ge}
+\makeatother
+\begin{document}
+\hoge{函館}{未来}．
+\end{document}
+\end{InText}
+のように\qu{\str{@}}を含む箇所を \cmd{makeatletter}と
+ \cmd{makeatother}で囲んであげます．
+
+\subsection{コマンドの引数}
+引数と取るコマンドに対して文字列を渡した場合の
+挙動は予想しやすいと思います．ではコマンドに対して
+制御綴りを渡した場合はどうなるでしょうか．
+\begin{InOut}
+\newcommand{\twoarg}[2]{#1! #2? }
+\twoarg a bとか\twoarg{はこだて}{未来}
+とか，さらに\twoarg{\LaTeX}{\LaTeXe}
+\end{InOut}
+どうやら引数を取るコマンドに対してさらに制御綴りを
+引数に与えても良いようです．では次の場合はどうでしょうか．
+\begin{InOut}
+\newcommand{\twoarg}[2]{#1! #2? }
+\twoarg\LaTeX\LaTeXe 
+\twoarg\LaTeX2\LaTeX3
+\end{InOut}
+これには\secref{sec:moji:kugiri}でやったことが含
+まれています．\qu{\LaTeX}と\qu{2}のあいだで語が区
+切られて解釈されているので二つ目の引数に\qu{2}
+だけが渡されています．
+
+\section{グルーピング・入れ子構造}
+\indindz{スコープ}{変数の}\zindind{変数}{の有効範囲}%
+{\laTEX}では\Z{変数}の\Z{スコープ}\pp{有効範囲}という
+概念を持っています．
+
+\indindz{波括弧}{スコープのための}%
+まず変数には\yo{限られた範囲だけ有効}な\KY{局所変数}と\yo{全ての範囲で}
+有効な\KY{大域変数}の2通りがあります．{\LaTeX}においてもこれは重要な話で，
+この有効範囲\pp{\K{スコープ}}を決めるのが波括弧です．
+\indindz{括弧}{スコープの}
+
+
+書体変更の宣言でどのように書体が変更されるのかを
+見てみましょう．今回はファミリーを変える \cmd{ttfamily}と
+シェープを変える \cmd{itshape}，そして普通の書体に戻す
+ \cmd{normalfont}という三つの宣言型コマンドを使います．
+\begin{InOut}
+roman {\ttfamily tt {\itshape it} tt 
+\normalfont it} roman
+\end{InOut}
+ここでおやっと気づいていただきたいのは
+ \cmd{ttfamily}という宣言が二つの括弧の中にまで影響している
+という点です．先ほどの変数の代入ではこのようにはなりません
+でした．どうやら書体の宣言は，その宣言をした場所から
+内側の括弧までもが有効範囲になっているようです．これは
+現在の{\LaTeX}の仕様です．宣言ではなく命令としても
+結果は同じになります．
+\begin{InOut}
+roman \texttt{ tt \textit{it} tt 
+\normalfont it} roman
+\end{InOut}
+しかし \cmd{normalfont}命令を使うとタイプライタ体の有効範囲でも
+そこで通常の書体に戻ってしまいます．こう考えると影響を
+与えたくない括弧の内側の領域には \cmd{normalfont}を
+使うと良いことになります．
+\begin{InOut}
+roman {\ttfamily tt {\normalfont
+  \itshape it} tt} roman\par
+roman \texttt{tt {\normalfont
+  \textit{it}}  tt} roman
+\end{InOut}
+
+命令ではなく宣言型のコマンドのいくつかは括弧の内側まで
+影響するので，その属性を受けないようにするための工夫が
+必要になります．
+
+\section{宣言と命令の違い}
+例えば\env{center}環境のコマンドを考えると，
+なぜ環境の内側では全ての行が中央揃えになるのでしょう．
+一つは
+\begin{InText}
+ \begin{center}
+\end{InText}
+によってグループが始まり，
+\begin{InText}
+ \end{center}
+\end{InText}
+によってグループが終わらせている
+ために，どこからどこまでが中央揃えなのかが分かっているの
+でしょう．\yo{\K{これをまさに中央揃えにしてください}}
+と言うよりは\yo{\K{ここからここまでを中央揃えにしてください}}
+というコマンドのほうが都合が良いことに気づくでしょう．
+非常に長い文章の場合は \cmd{centering}命令を使い
+\begin{InText}
+{\centering まさにここが中央揃えにされます．} 
+\end{InText}
+とするよりも\env{center}環境として
+\begin{InText}
+\begin{center}
+ここから終わりまで中央揃えになります．
+\end{center}
+\end{InText}
+としたほうが分かりやすいでしょう．
+そう考えるとコマンドには
+\begin{description}
+\indindz{コマンド}{宣言型の}%
+\indindz{コマンド}{命令型の}%
+\zindind{宣言}{型のコマンド}%
+\zindind{命令}{型のコマンド}%
+ \item[{宣言型コマンド}] 使用してからそれ以降ずっと有効
+	    なコマンド．環境型のコマンドに使われたり，
+	    単独で使われる．
+ \item[{命令型コマンド}] 使用した場所で有効なコマンド．
+	    通常は引数に与えられたものを処理する．
+\end{description}
+の二つがあることになります．
+
+例として命令型の \cmd{textsf}と宣言型の \cmd{sffamily}を
+考えてみましょう．命令型の場合は
+\begin{InText}
+Roman. \textsf{Roman?\par This is sans serif family.} Roman!
+\end{InText}
+のような使い方はできませんが，宣言型ならば新規に
+\env{sffont}環境を定義できます．
+\begin{InOut}
+\newenvironment{sffont}{\sffamily}{}
+Roman.
+\begin{sffont} 
+  Roman?\par This is sans serif family.
+\end{sffont}
+Roman!
+\end{InOut}
+
+宣言型のコマンドはそれ以降ずっと有効なので有効範囲を
+決めてあげます． \cmd{sffamily}などの書体を変更する
+コマンドはグルーピングする必要があります．
+\begin{InOut}
+Roman! {\sffamily sans serif family.}
+Roman!
+\end{InOut}
+今まで使ってきた \cmd{begin}\pa{何々} と \cmd{end}\pa{何々} というコマン
+ドは，このグルーピングの作業をやってくれているのです．補足的なことですが
+\begin{InText}
+\begin{<何々>}  <要素> \end{<何々>}
+\end{InText}
+というのは{\LaTeX}の中で
+\begin{InText}
+{\何々 <始めの処理>  <要素> <終わりの処理>}
+\end{InText}
+に変換されるので \cmd{sffamily}のような宣言も
+\begin{InOut}
+Roman?
+\begin{sffamily} 
+This is sans serif family.
+\end{sffamily} 
+Roman!
+\end{InOut}
+とできます．こうすると特に長い文章が読みやすくなります．
+
+
+\section{相互参照}\label{sec:xr}
+文章の論理構造を明確にしてくれるものの一つに\KY{相互参照}
+があります．相互参照の仕方は参照したいものに\Z{ラベル}を貼り，
+挿入したい場所でラベルを参照するという二つの作業に分けられま
+す．相互参照できる項目は以下の四つ程に限られています．
+\zindind{相互参照}{できるもの}%
+\begin{itemize}
+\item  章節命令 \pp{{\texttt{\bs section}}命令など}
+\item  番号付き数式 \pp{\env{equation}環境など}
+\item  \texttt{float}環境の要素\pp{図や表など}
+\item  \texttt{enumerate}環境内の個々の項目
+\end{itemize}
+要は通し番号のついているものには付けても良いようです．
+ラベルは単純に貼りたいものに \Cmd{label} 命令で
+\begin{Syntax}
+\va{参照したい要素}\Cmd{label}\pa{ラベル名}
+\end{Syntax}
+のようにします．
+参照の仕方にはその番号を参照する \Cmd{ref} とページを参照す
+る \Cmd{pageref}の2通りがあります．
+\begin{Syntax}
+ \cmd{ref}\pa{ラベル} \pp{通し番号}\\
+ \cmd{pageref}\pa{ラベル} \pp{ページ番号}
+\end{Syntax}
+参照の仕方は以下のようになります．通し番号を参照する \C{ref} 命令
+は \C{section} 命令のようなものを参照するとき
+に非常に便利です．
+\begin{InOut}
+%\section{相互参照}\label{sec:xr}
+詳しくは\pageref{sec:xr}~ページの
+\ref{sec:xr}~節で述べているのでそ
+ちらを参照されたい．
+\end{InOut}
+
+\zindind{目次}{の作成}
+相互参照や目次を作成しているときはタイプセットを3回程行
+う必要があります．ラベルの名前が重複しないように工夫する
+ことも必要です．
+
+
+% hoge hoge hoge
+\subsection{相互参照の仕組み}\zindind{相互参照}{の仕組み}%
+節\pp{見出し}や図表には通し番号付けます．これは同じ名前の節 
+\pp{見出し}が同じページに存在しても区別できるという利点があり
+ます．そして節\pp{見出し}を参照するときはその番号を示します．
+このような機能を実現するために{\LaTeX}では\KY{カウンタ}を使いま
+す．ユーザーが特にこのことを意識しなくても半自動的に番号付
+けなどをやってくれます．一応さわり程度にはその仕組みを説明
+します．
+
+相互参照する対象が通し番号ですので，節なら節などの要素に応
+じたカウンタがあらかじめ用意されています．{\LaTeX}では
+\tabref{tab:latexcounters}の通りにあらかじめ定義されている
+カウンタがあります．
+\begin{table}[htbp]
+\begin{center}\indindz{番号}{見出しの通し}\indindz{番号}{図表見出しの通し}%%
+\caption{あらかじめ定義されているカウンタ名}
+\label{tab:latexcounters}
+\begin{tabular}{lll}
+ \TR
+  \<カウンタ名>           & \<割り当て> \\
+ \MR
+ \Kount{part}          & 部見出し \\
+ \Kount{chapter}       & 章見出し \\
+ \Kount{section}       & 節見出し \\
+ \Kount{subsection}    & 小節見出し\\
+ \Kount{subsubsection} & 小小節見出し\\
+ \Kount{paragraph}     & 段落見出し\\
+ \Kount{subparagraph}  & 小段落見出し\\
+ \Kount{page}          & ページ番号\\
+ \Kount{equation}      & 式番号\\
+ \Kount{figure}        & 図見出し\\
+ \Kount{table}         & 表見出し\\
+ \Kount{footnote}      & 脚注番号\\
+ \Kount{mpfootnote}    & \env{minipage}環境中の脚注番号\\
+ \Kount{enumi}         & 一つ目の階層の\env{enumerate}環境の番号\\
+ \Kount{enumii}        & 二つ目の階層の\env{enumerate}環境の番号\\
+ \Kount{enumiii}       & 三つ目の階層の\env{enumerate}環境の番号\\
+ \Kount{enumiv}        & 四つ目の階層の\env{enumerate}環境の番号\\
+ \BR
+\end{tabular}
+\end{center}
+\end{table}
+カウンタは\yo{素の番号}と実際に出力すべき\yo{表示用の番号}
+と\yo{参照用の文字列}の三つの要素を持っています．
+%例えば
+%\begin{InText}
+%\newcounter{section}[chapter]
+%\end{InText}
+%というのは
+%\begin{InText}
+%\newcount\c@section %素の番号用
+%\def\thesection{\thechapter.\c@section}%表示用
+%\def\p@section{\thechapter.\c@section}%参照用
+%\end{InText}
+%などの処理と同じことになります．
+
+% \cmd{newcounter}とは新しいカウンタ
+%を定義するための命令です．
+
+%%\begin{description}
+% \item[\cmd{c@table}] 
+%	    素の番号を保存する\kount{table}用カウンタ．
+% \item[\cmd{thetable}] 
+%	    章の子カウンタである表示用の命令．
+% \item[\cmd{p@table}] 
+%	    参照用の命令．
+%\end{description}
+%の三つが同時に定義されることになります．
+
+\subsection{カウンタ}
+章見出しやページには通し番号が振られています．
+これらは\K{{\LaTeX}カウンタ}によって制御
+されています．カウンタはプログラミング言語で
+言えばint型\pp{整数}の変数です．
+%{\LaTeX}ではこ%
+%\zindind{カウンタ}{レジスタ}%
+%れを\K{カウンタレジスタ}
+カウンタ変数の仕組みや制御の方法を少しは知っておいた
+ほうが後々便利です．この章では変数の基礎を説明します．
+
+例えば\cls{jsbook}クラスで章\pp{\cmd{chpater}}の
+下の階層の節\pp{\cmd{section}}用のカウンタを
+定義するには
+\begin{InText}
+\newcounter{section}[chpater]
+\end{InText}
+とします．このようなカウンタの定義には
+次の命令が使えます．\zindind{カウンタ}{の新設}%
+\zindind{カウンタ}{の設定}%
+\begin{Syntax}
+ \Cmd{newcounter}\pa{カウンタ名}\opa{親カウンタ名}\\
+ \Cmd{setcounter}\pa{カウンタ名}\pa{数値}\\
+ \Cmd{addtocounter}\pa{カウンタ名}\pa{数値}\\
+ \Cmd{stepcounter}\pa{カウンタ名}\\
+ \Cmd{refstepcounter}\pa{カウンタ名}\\
+ \Cmd{value}\pa{カウンタ名}
+\end{Syntax}
+ \cmd{newcounter}でカウンタを新設します．
+ \cmd{setcounter}は数値を代入し，
+ \cmd{addtocounter}は数値を足し，
+ \cmd{stepcounter}はカウンタの値を
+一つだけ増やします．\Cmd{refstepcounter}は
+カウンタを後から参照できるようにラベル用が
+用意されます． \cmd{stepcounter}と \cmd{refstepcounter}
+によって親カウンタが増えるとその子であるカウンタは
+0にリセットされます． \cmd{value}はカウンタから
+親カウンタの値や文字列などを取り除いた純粋な
+カウンタの値が得られるコマンドです．
+
+カウンタの表示形式は変更するものに以下があります．
+\begin{Syntax}
+\Cmd{arabic}\pa{カウンタ名}   \qquad \pp{1, 2, 3,\, \ldots}\\
+\Cmd{roman}\pa{カウンタ名}    \qquad \pp{i, ii, iii,\, \ldots}\\
+\Cmd{Roman}\pa{カウンタ名}    \qquad \pp{I, II, III,\, \ldots}\\
+\Cmd{alph}\pa{カウンタ名}     \qquad \pp{a, b, c,\, \ldots,\, z}\\
+\Cmd{Alph}\pa{カウンタ名}     \qquad \pp{A, B, C,\, \ldots,\, Z}\\
+\Cmd{fnsymbol}\pa{カウンタ名}\qquad \pp{*, \textdagger, \textdaggerdbl,\, \ldots}
+\end{Syntax}
+例えば節\pp{\cmd{section}}の見出し番号を
+ローマ数字に変更するのであれば，節見出し用の
+カウンタ\qu{\kount{section}}を次のように
+再定義します．
+\begin{InText}
+\renewcommand{\thesection}{\Roman{section}}
+\end{InText}
+%
+%\clearpage%
+%
+%
+\section{相互参照の工夫}\zindind{相互参照}{の工夫}%
+例えば色について考察した章の中に同じような節見出し，表，
+図などが存在していたとしましょう．それらのラベルは重複し
+てはいけませんので，何らかの工夫をしておいたほうが得策です．
+良く使われている方法に\tabref{tab:xrtrick1}のように要素に応
+じてラベルに対して接頭語を付けます．
+\begin{table}[htbp]
+\begin{center}
+\caption{要素に応じたラベルの貼り方}\label{tab:xrtrick1}
+\begin{tabular}{lll}
+\TR
+\<要素>    &\<接頭語>& \<対象>\\
+\MR
+章見出し& \str{chap:}& \Cmd{chapter}\\
+節見出し& \str{sec:} & \Cmd{section}\\
+図      & \str{fig:} & \env{figure}環境中の \Cmd{caption}命令\\
+表      & \str{tab:} &  \Cmd{table}環境中の \Cmd{caption}命令\\
+式      & \str{equ:} & 番号付きの数式\pp{\Cmd{equation}命令や\Env{eqnarray}環境}\\
+\BR
+\end{tabular}
+\end{center}
+\end{table}
+簡単な例として節見出しを参照するときは
+\begin{InText}
+\section{加法混色}\label{sec:addmix}
+ほげは，ほげほげ． 
+\section{減法混色}\label{sec:submix}
+\ref{sec:addmix}~節\pp{\pageref{sec:addmix}ページ}では，ほげほげ．
+\end{InText}
+という入力になります．
+
+これは\tabref{tab:xrtrick1}の規則にしたがって何のマクロ
+も作成せずに手動でやるとちょっと大変なことになります．
+\begin{InText}
+\section{加法混色}\label{sec:addmixcolor}
+点$i$における色$c_i$は式~\ref{equ:addmixcolor}によって決まる．
+\begin{equation}
+ c_i  =  r_i + g_i + b_i\label{equ:addmixcolor}
+\end{equation}
+その関係は表~\ref{tab:addmixcolor}となる．
+\begin{table}[htbp]
+ % ここに表が入る．
+ \caption{加法混色の表}\label{tab:addmixcolor}
+\end{table}
+またそれらを図式すると図~\ref{fig:addmixcolor}となる．
+\begin{figure}[htbp]
+ % ここに図が入る．
+ \caption{加法混色の図}\label{fig:addmixcolor}
+\end{figure}
+\section{減法混色}\label{sec:submixcolor}
+\ref{sec:addmixcolor}~節 (\pageref{sec:addmixcolor}~ページ) ではほげ．
+\end{InText}
+\begin{OutText}
+{\Large\headfont 3.1 加法混色}\par\vskip1em
+\hskip1zw 点$i$における色$c_i$は式~3.1によって決まる．\\
+\hfill      $c_i=r_i+g_i+b_i$      \hfill (3.1)\\
+その関係は表~3.1となる．
+\begin{center} {\small 表~3.1 加法混色の表} \end{center}
+またそれらを図式すると図~3.1となる．
+\begin{center} {\small  図~3.1 加法混色の図} \end{center}
+{\large\headfont 3.2 減法混色}\par\vskip1em
+\hskip1zw 3.1~節 (5~ページ) ではほげ．
+\end{OutText}
+
+\tabref{tab:xrtrick1}のような規則に従いマクロを作ります．
+マクロ側で自動的に接頭語を付けてくれれば人間の作業が減りま
+すし，ミスも少なくなります．
+\begin{InText}
+\newcommand*{\chaplab}[1]{\label{chap:#1}}%     章のラベル
+\newcommand*{\chapref}[1]{第~\ref{chap:#1}~章}% 章の参照
+\newcommand*{\seclab}[1]{\label{sec:#1}}%       節のラベル
+\newcommand*{\secref}[1]{\ref{sec:#1}~節}%      節の参照
+\newcommand*{\figlab}[1]{\label{fig:#1}}%       図のラベル
+\newcommand*{\figref}[1]{図~\ref{fig:#1}}%      図の参照
+\newcommand*{\tablab}[1]{\label{tab:#1}}%       表のラベル
+\newcommand*{\tabref}[1]{表~\ref{tab::#1}}%     表の参照
+\newcommand*{\equlab}[1]{\label{equ:#1}}%       式のラベル
+\newcommand*{\equref}[1]{式~\ref{equ::#1}}%     式の参照
+\end{InText}
+このようなマクロを作成しておけば先程の入力は幾分簡略化
+できるでしょう．
+\begin{InText}
+\section{加法混色}\seclab{addmixcolor}
+点$i$における色$c_i$は\eqref{addmixcolor}によって決まる．
+\begin{equation}
+ c_i  =  r_i + g_i + b_i\eqlab{addmixcolor}
+\end{equation}
+その関係は\tabref{addmixcolor}となる．
+\begin{table}[htbp]
+ % ここに表が入る．
+ \caption{加法混色の表}\tablab{addmixcolor}
+\end{table}
+またそれらを図式すると\figref{addmixcolor}となる．
+\begin{figure}[htbp]
+ % ここに図が入る．
+ \caption{加法混色の図}\figlab{addmixcolor}
+\end{figure}
+\section{減法混色}\seclab{submixcolor}
+\secref{addmixcolor}(\pageref{sec:addmixcolor}~ページ)ではほげ．
+\end{InText}
+
+さて，最後の1行を見てみると
+\begin{InText}
+\secref{addmixcolor}(\pageref{sec:addmixcolor}~ページ)ではほげ．
+\end{InText}
+という記述が見受けられます．これは人間が手動で接頭語\str{sec:}を
+付けなければならない例です．
+これもミスを誘い出す一因になるかもしれませんのでページ番号も
+参照するようなマクロを作ります．
+\begin{InText}
+\newcommand*{\fullchapref}[1]{第\ref{chap:#1}章 (\pageref{chap:#1}ページ)}
+\newcommand*{\fullsecref}[1]{\ref{sec:#1}~節 (\pageref{sec:#1}ページ)}
+\newcommand*{\fullfigref}[1]{図~\ref{fig:#1} (\pageref{fig:#1}ページ)}
+\newcommand*{\fulltabref}[1]{表~\ref{tab::#1} (\pageref{tab:#1}ページ)}
+\newcommand*{\fullequref}[1]{式~\ref{equ::#1} (\pageref{equ:#1}ページ)}
+\end{InText}
+以上のようなマクロを作成しておけば入力が先程よりも簡単
+になるでしょう．
+\begin{InText}
+\section{減法混色}\seclab{submixcolor}
+\fullsecref{addmixcolor}ではほげ．
+\end{InText}
+
+{\LaTeX}で相互参照を使う機会は1回以上あると思いますので 
+\pp{この冊子の例を自分で入力するなどで}，この節で紹介した
+ものをマクロパッケージ\fl{myref.sty}としてまとめておく
+と便利かもしれません%
+\footnote{\ronurl に置くことにします．}．
+
+\subsection{参照ラベルの表示\zdash\Y{showkeys}}
+
+\C{label} と \C{pageref} 及び \C{ref} によって相互参照を行ないますが，
+参照するためのキーを原稿執筆段階で忘れてしまうことがあります．
+このようなときは \C{label}, \C{pageref}, \C{ref} の参照されているラベル
+を出力してくれればありがたいものです．これには \Hito{David Carlisle}によ
+る \Y{showkeys} パッケージが使えます．次のようにすると，\C{label} によっ
+て生成された \C{newlabel} を傍注に出力し，\C{ref}, \C{pageref} で参照し
+たラベルはその肩に付くようになります．
+
+\par\noindent\IOmargin
+\setlength\unitlength{\fullwidth}
+\begin{picture}(0,0)
+\put(.5,0){\makebox(0,0)[tl]{\includegraphics[clip,viewport=8 585 165 710]{images/showkeys}}}
+\end{picture}
+\begin{small}
+\begin{verbatim}
+\usepackage{showkeys}
+\section{序論}
+\subsection{背景}\label{sec:back}
+目標は\ref{sec:goal}~節を参照．
+\subsection{目標}\label{sec:goal}
+背景は\ref{sec:back}~節を参照．\par
+改段落．\par
+背景は~\pageref{sec:back}ページ．
+\end{verbatim}
+\end{small}\IOlabel
+
+\subsection{相互参照に関わる{\protect\LaTeX}の警告}
+\zindind{相互参照}{に関わる警告}%
+コマンドプロンプトやシェルで表示される\dos{LaTeX Warning:}
+の後に以下に示すような警告が表示されていると，
+相互参照に関する問題が解消されていないことを示します．
+\index{エラー!Label `key' multiply defined@\texttt{Label `key' multiply defined}}
+\index{Label `key' multiply defined@\texttt{Label `key' multiply defined}}
+\par\dos{Label `key' multiply defined\hfil}
+というのは \cmd{label}命令で同じラベル名を持つラベルを定義している
+ということです．ラベルの重複がありますので，該当する
+ラベルに別の名前を付けます．
+
+\index{エラー!Reference `key' on page n undefined@\texttt{Reference `key' on page n undefined}}
+\index{Reference `key' on page n undefined@\texttt{Reference `key' on page n undefined}}
+\par\dos{Reference `key' on page n undefined\hfil}
+という警告が表示されたのならばラベル名が定義されていない
+ことになります．
+
+\index{エラー!Label(s) may have 
+changed. Return to get cross-ferecenses right.@\texttt{Label(s) may have changed. Return to get cross-ferecenses right.}}
+\index{Label(s) may have changed. Return to get cross-ferecenses right.@\texttt{Label(s) may have changed. Return to get cross-ferecenses right.}}
+\par\dos{Label(s) may have 
+changed. Return to get cross-ferecenses right.\hfil} 
+が表示されたらラベルの値が変更されたということなので，
+もう1度タイプセットをします．この作業は1度で終わらない
+こともあるのでメッセージが表示されなくなるまでタイプセット
+を繰り返すこともあります．
+
+ラベルに関する問題はラベルの参照する名前などのスペルミスなど
+も考えられます．
+
+

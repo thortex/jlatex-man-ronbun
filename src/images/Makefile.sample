@@ -1,0 +1,127 @@
+.SUFFIXES: .tex .dvi .aux .log .toc .lof .lot .pdf .ps .bbl .bib .blg .lol .cls .sty .eps .eepic .plt .out .obj .title
+
+F=	m1201234
+SRC=	title.pl rmlgbm.map
+CLS=	funthesis.cls
+setting=gsset.sty
+abst=	00abst.tex
+
+TEX=	platex
+#DVIPDF=	dvipdfmx -f rmlgbm.map -p a4 -V 4
+DVIPDF=	dvipdfmx -p a4 -V 4
+BIBTEX=	jbibtex
+RM=	rm -f
+AUTOMAKE=make
+MKDIR=	mkdir -p
+
+#your favorite line printer name
+#LPNAME=	atlantic
+LPNAME=	192.168.11.3
+
+# for Mac OS X with EasyPackage/Mac pTeX 
+XDVI=	mxdvi  
+PDFVIEWER=open
+DVIPS=	dvips -t a4
+
+# for Unix/Linux/Solaris/BSD/...
+#XDVI=	xdvi
+#PDFVIEWER=acroread
+
+# for Windows
+#XDVI=	dviout 
+#PDFVIEWER=iexplore
+
+all: $F.pdf README 
+
+pdf:	$F.pdf
+ps:	$F.ps
+dvi:	$F.dvi
+bbl:	$F.bbl
+2up:	$(F)up.ps
+title:	$F.title
+
+view:	$F.dvi
+	$(XDVI) $<
+viewpdf: $F.pdf
+	$(PDFVIEWER) $<
+check:	$F.pdf
+	pdfinfo $<
+	pdffonts $<
+README:	$(setting)
+	cat $< | grep -e "^%%" | sed -e "s/^%%//;" > README
+today:	$F.pdf
+	cp $< $F-`date +%Y-%m-%d-%H-%M`.pdf
+#img:	
+#	cd img && $(AUTOMAKE)
+
+$F.dvi:	$F.tex
+$F.pdf:	$F.dvi
+$F.ps:	$F.dvi
+$(F)up.ps: $F.ps
+$F.bbl: $F.bib
+$F.aux: $F.tex
+$F.title: $(abst)
+
+.dvi.pdf:
+	$(DVIPDF) $*
+$(F)up.ps: $F.ps
+	psnup -2 $< $@
+.dvi.ps:
+	$(DVIPS) -o $@ $*
+.bib.bbl:
+	$(TEX) $*; $(BIBTEX) $*; $(TEX) $*
+.tex.dvi:
+	$(TEX) $<
+	(while egrep "may have changed" $*.log; \
+           do $(TEX) $<; done)
+.tex.aux:
+	$(TEX) $*
+.tex.title:
+	echo "cat $(setting) $F.tex | ./title.pl > $F.title"
+
+fast:
+	$(TEX) $F; $(TEX) $F
+faster:
+	$(TEX) $F;
+
+clean:
+	$(RM) *~ $F.dvi $F.aux $F.lof $F.toc $F.lot $F.log \
+		$F.ps $F.bbl $F.blg $F.lol $F.out
+	$(RM) *.dvi *.aux *.log *.toc *.blg *.bbl *.lof *.lot
+
+tar: $F.tex title README $(SRC) $(CLS) 
+	$(MKDIR) $(F)src/img
+	cp $F.tex $F.title Makefile README $(SRC) $(CLS) $(F)src/
+	cp img/* $(F)src/img/
+	tar czf $(F)src.tgz $(F)src/
+	rm -fr $(F)src
+
+# Gnuplot の場合
+SRC := $(wildcard img/*.plt)
+obj := $(patsubst %.plt,%.eps,$(SRC))
+pdfobj := $(patsubst %.plt,%.pdf,$(SRC))
+# Tgif の場合
+TGIF := $(wildcard img/*.obj)
+tgifobj := $(patsubst %.obj,%.eps,$(TGIF))
+tgifpdfobj := $(patsubst %.obj,%.pdf,$(TGIF))
+
+img: $(pdfobj) $(tgifpdfobj)
+
+.plt.eps:
+	gnuplot $<
+	mv `basename $@` img/
+.obj.eps:
+	tgif -print -eps -color $<
+.eps.pdf:
+	epstopdf $<
+	pdfinfo $@|grep -e 'Page size:'|sed -e 's/x//; s/Page size:/\%\%BoundingBox: 0 0 /; s/pts//;'>$*.bb
+
+$(obj): %.eps: %.plt
+$(pdfobj): %.pdf: %.eps
+
+$(tgifobj): %.eps: %.obj
+$(tgifpdfobj): %.pdf: %.eps
+
+cleanimg:
+	echo "rm -f *.bb *.eps *.pdf"
+

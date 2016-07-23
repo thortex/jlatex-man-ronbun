@@ -1,0 +1,68 @@
+\documentclass[dvipdfm,10pt,a4j,papersize]{jsarticle}
+\usepackage{graphicx}
+\makeatletter
+\newcommand*\R[1]{\@tempcnta=#1\relax
+\@roman\@tempcnta}
+\newcommand*\C[2]{第#1章　#2}
+\makeatother
+\pagestyle{empty}
+\advance\textheight 12zw
+\advance\topmargin -7zw
+\begin{document}
+\enlargethispage{1cm}
+\begin{table}[htbp]
+ \begin{center}
+  \caption{ページ番号対応表}
+ \begin{tabular}{lll}
+ \hline
+ 物理ページ& ページ番号 & \multicolumn{1}{c}{内容}\\
+\hline \multicolumn{3}{c}{前付}\\ \hline
+ 1 &       & 表紙\\
+ 2 &       & 商標\\
+ 3 & \R{1} & 前書き\\
+ 4 & \R{2} & 凡例\\
+ 5 & \R{3} & 謝辞\\
+ 6 & \R{4} & 変更履歴\\
+ 7 & \R{5} & 目次\\
+\hline \multicolumn{3}{c}{本文}\\ \hline
+13  & 1     & \C{1}{論文作成を始める前に}\\
+17  & 5     & \C{2}{\LaTeX の基本}\\
+31  & 19    & \C{3}{文章の書き方}\\
+59  & 47    & \C{4}{参考文献の出力}\\
+71  & 59    & \C{5}{原稿の出力形式}\\
+77  & 65    & \C{6}{コマンドとマークアップ}\\
+91  & 79    & \C{7}{数式の書き方}\\
+115 & 103   & \C{8}{図表の貼り方}\\
+129 & 117   & \C{9}{\LaTeX\ の応用}\\
+139 & 127   & \C{10}{論文のサンプル}\\
+151 & 139   & 付録~A　GNU Free Documentation License\\
+158 &       & 改丁 (牛の図版入り)\\
+\hline \multicolumn{3}{c}{後付}\\  \hline
+159 & 147   & 参考文献\\
+161 & 149   & 索引\\
+176 & 164   & 奥付 \\
+ \hline
+ \end{tabular} 
+ \end{center}
+\end{table}
+%
+\begin{table}[htbp]
+ \begin{center}
+ \caption{組版規定}
+ \begin{tabular}{ll}
+ \hline
+            & 内容 （補足事項）\\ \hline
+ 判型       & JIS~P~0138　B列5 ($182\times257$\,mm)\\
+ 裁ちしろ   & 3\,mm\\
+ 本文スミ   & 20\% 刻み グレースケール\\
+ 総ページ数 & 192 ページ \\
+ 和文書体   & ヒラギノ基本 6 書体 (Mac OS X 付属)\\
+ 欧文書体   & Computer Modern Font (\LaTeXe 標準) \\
+ PDF ver.   & 1.4 \\
+ フォント   & PDF にすべてサブセットで埋め込み済み\\
+ 書体の種類 & Type 1, CID Type 0 (OTF)\\
+ \hline
+ \end{tabular} 
+ \end{center}
+\end{table}
+\end{document}

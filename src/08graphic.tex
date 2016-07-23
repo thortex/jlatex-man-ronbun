@@ -1,0 +1,2179 @@
+%#!platex ron.tex
+\chapter{図表の構成}\label{chap:floats}
+\begin{abstract}
+%\yo{渡辺君，先生はもう今年で63になるけど，先生の
+%ころは論文なんてみんな手書きだったからね，図も
+%自分で雲形定規を使って描いてたよ．それに
+%図にはスクリーントーンも工夫して貼ってたよ，懐か
+%しいなぁ．君たちの世代はそんなことやったことない
+%んだろうねぇ．}\pp{渡辺徹『雲のうえの声』より}
+%
+%数十年前までは論文作成に必要なものといえば糊とは
+%さみとカッターなどのアナログな道具でした．今では
+%ほとんどの論文を電子的に提出できるようになりまし
+%た．{\LaTeX}ではある程度の手順を踏めば非常に高品
+%質に電子的な図表の組版が可能です．
+
+レポート・論文に図や表を取り入れることは読者の理解を助けることになります．
+この章では文書中にどのように図表を構成すれば良いのかを解説します．
+\end{abstract}
+
+\section{図表の基礎}
+
+\subsection{一般的な取り決め}
+
+以下の説明は一般的なレポート・論文作成における図表に関する取り決めです．
+\begin{description}
+\item[図表の位置] 
+ 一般的に，論文中において図表は\K{ページの上端か下端に出力します}．
+ \K{関係文章よりも前出することがなければ}，本文中に配置することも
+ 可能です．ただし，図表の前後に文章が1行だけ取り残されるようなことは避ける
+ ようにします．\K{図表は中央揃えにします}．このとき図表の左右に
+ 文章を流し込むこともありますが，原則として図表と本文を区別するため
+ に，左右に文章は記述してはいけません．
+
+\item[図表と本文の空き] 
+ 本文領域と区別するために，図表と本文は1行程度は空きを設けて
+ 出力します．
+
+\item[図表の注釈] 
+ 図表に注釈を付け加えるとき，\K{注釈のサイズは
+ 本文よりも少し小さくし}，図表の下部に配置します．
+
+\item[図表見出し] 
+ \zindind{図}{の中央揃え}\zindind{表}{の中央揃え}\zindind{図表}{見出し}%
+ 文書中の\K{すべての図表}に必ず見出し（\K{図表見出し}）
+ を付けます．図には\KY{図見出し}を， 表には\KY{表見出し}を
+ 付けます．見出しは図表と同じく\K{中央揃え}にしま
+ す．場合によっては，図表見出しは本文に対して，書体とサイズを変更
+ して出力する必要もあります．表見出しは\K{表の上部}，図見出しは
+ \K{図の下部}に配置します．
+
+\item[通し番号] 
+ 図表見出しには配置した順に\K{一意の通し番号}も表記します．
+ これは「38番目の図」という方法でも，「5章の6番目の表」などで
+ も構いません．通常，論文などの規模では\KY{章立て}する
+ 必要に迫られますので，図表見出しに付加する番号は`図~5.6'のように，
+ \K{章に連動して番号付け}されます．
+
+\item[\Z{表罫線}] 
+ \indindz{表組み}{欧文の}%
+ 欧文の\Z{表組み}の場合，\K{縦罫線は原則的に使いません}．
+ 和文の場合でも，表に使用する罫線は最小にとどめることになります．
+\end{description}
+これらの取り決めを守る事により図表に関する一貫性がうまれる事となります．
+
+
+\subsection{\LaTeX での扱い}
+
+レポートや論文においては基本的に図表に対して通し番号を振るために，図表は
+\Env{table}環境か\Env{figure}環境に入れ子にします．この場合，{\LaTeX}で
+は図表を\KY{浮動体} (\Z{float}) と呼ばれる場所に一度退避させ，最適な位置
+に図表を配置しようと試みます\pp{\tabref{tab:floats}}．浮動体として退避さ
+せた図表は少し制限の多い条件で組版されます．
+\begin{wraptable}[6]{r}{20zw}%
+  \caption{浮動体の種類\label{tab:floats}}
+  \begin{tabular}{lcc} 
+   \TR
+   & \<表>          & \<図>                   \\ 
+   \MR
+   入れる環境 & \Env{table}環境 & \Env{figure}環境 \\ 
+   見出しの位置& 表の上部 & 図の下部 \\
+   \BR
+  \end{tabular}
+\end{wraptable}%
+\indindz{番号}{図表の通し}\indindz{番号}{表の通し}\indindz{番号}{図の通し}%
+表 (\Z{table}) は\Env{tabular}環境で作成し，番号付けしたければ
+\Env{table}環境中に入れ子にします．
+%
+図 (\Z{figure}) は\Env{picture}環境や\indindz{ファイル}{画像}%
+画像ファイルを指定し，番号付
+けしたければ\Env{figure}環境中に入れ子にします．このようにするとそれ
+らの図表は浮動体として扱われます．レポートや論文では図表に通し番号
+を付けるのは必須ですから，全ての表は\env{table}環境の中へ，図は
+\env{figure}環境の中に入れるのが良いでしょう．
+\indindz{画像}{浮動体としての}%
+
+%{\LaTeX}が内部でどのように，これら浮動体を配置しているのかという難し
+%い部分を押さえなければ自分の思い通りの位置に図表を配置することができ
+%ない場合が多いでしょう．余り図の出力位置などを気にしなければそれで
+%良い問題です．
+
+\zindind{ページ}{の最下部}%
+\zindind{ページ}{の最上部}%
+図表を挿入するときに指定するのはその配置場所です．基本的に{\LaTeX}は
+図表をページの最上部か最下部に配置しようとして，それでも無理なときは
+別ページへと出力します．ユーザーはこれら図表（浮動体）の配置場所を指定する
+ことが出来ます．指定できる場所は\tabref{tab:hudoutai}となります．位
+置指定は複数指定することが可能です．
+\begin{table}[htbp]
+\begin{center}
+\zindind{浮動体}{の位置指定}\zindind{図表}{の配置}%
+\caption{浮動体の位置指定}\label{tab:hudoutai}
+\begin{tabular}{cl}
+\TR
+\<記号> & \<浮動体の配置する場所> \\
+\MR
+\str h & まさにその場所に配置しようと試みます\\
+\str t & ページ上部に配置しようと試みます\\
+\str b & ページ下部に配置しようと試みます\\
+\str p & 浮動体を別ページに配置しようと試みます\\
+\str ! & 無理やりその場所に配置します\\
+\BR
+\end{tabular}
+\end{center}
+\end{table}
+これらの位置指定は\env{table}環境や\env{figure}環境の
+\K{任意引数として渡します}．\env{figure}環境で例を示すと
+\begin{InText}
+\begin{figure}[htbp]
+ここに図が入ります．
+\end{figure}
+\end{InText}
+のように使います．
+
+%一つここで注意しなければならないことは，図表の見出しの%
+%\indindz{見出し}{図の}\indindz{見出し}{表の}%%
+%位置です．\KY{図見出し}は図の下部に}，\K{%
+%\Z{表見出し}は表の上部に}見出しをつけます．
+%これについては\KY{図表見出し}を出力する
+% \Cmd{caption}命令の位置を変えるだけです．
+図表用の見出しを出力するには \C{caption}命令を
+\E{figure}/\E{table}環境中で使用します．
+\begin{Syntax}
+\Cmd{caption}\pa{図表見出し}\Cmd{label}\pa{ラベル}
+\end{Syntax}
+前述のように表見出しは表の上部に出力するために，\C{caption}
+命令を先に，図見出しの場合は，図の後に \C{caption}を先に
+記述します．
+
+\env{figure}環境中に表を入れたり，\env{table}環境中に
+図を入れたりすることが出来ます．他にも環境中に文字列
+を挿入することも可能です．
+
+図表を文章中で参照するときは「上の図は何々」や「前述の図は何々」
+と参照してはいけません．必ず\K{付加した通し番号}で「図~3.8は
+何々」として \C{ref}命令で参照します．そのためには \C{label}命令で
+ラベルを付け加えることになります．間違っても\K{手動で図表の番号を
+書かないで下さい}．
+
+
+\section{表}
+{\LaTeX}で表を作るために
+\Env{tabbing}環境，
+\Env{tabular}環境，
+\Env{array}環境%
+%\begin{description}
+% \item[\Env{tabbing}環境] タブを制御することによって
+%  表を作成する．
+% \item[\Env{tabular}環境] 高度な表も作成することが
+%  できる汎用的な表作成環境．
+% \item[\Env{array}環境]
+%  \env{tabular}環境と機能は類似しているが数式の
+%  行列などに使われる．
+%\end{description}
+の三つが用意されております．\env{array}環境は
+\secref{subsec:math:array}にて紹介しています
+のでそちらを参照してください．\env{tabbing}環境
+も簡単に表が作成できる環境なのですが，\env{tabular}
+のほうが記述が理解しやすいと思いますので，ここでは\env{tabular}
+のみを紹介します．\env{tabular}環境は次のように
+記述します．
+\begin{Syntax}
+\verb+\begin{tabular}{列指定子}+\\
+$\begin{array}{cccccc}
+a_{11} &\verb+&+ & \dots &\verb+&+ & a_{1n}  & \verb+\\+\\
+\vdots &\verb+&+ & \ddots&\verb+&+ & \vdots  & \verb+\\+\\
+a_{m1} &\verb+&+ & \dots &\verb+&+ & a_{mn}  & 
+\end{array}$\\
+\verb+\end{tabular}+
+\end{Syntax}
+行列とほぼ同じです．違うのは数式環境には入れなくて
+も良いということです．
+
+\indindz{列指定子}{表中の}%
+\K{列指定子}とはその\env{tabular}環境における%
+\indindz{罫線}{表中の}%
+表の列数や縦方向の罫線などを決めるものです．
+\env{tablar}環境で使用できる主な列指定子は
+\tabref{tab:graphic:tabular}の通りです．
+\begin{table}[htbp]
+\begin{center}
+\caption{\texttt{tabular}環境の主な列指定子}
+\label{tab:graphic:tabular}
+\begin{tabular}{cl}
+\TR
+ \<列指定子> & \<意味>\\
+\MR
+\str l & 行列の縦1列を左揃えにする\\
+\str c & 行列の縦1列を中央揃えにする\\
+\str r & 行列の縦1列を右揃えにする\\
+\verb+|+ & 縦の罫線を引く\\
+\verb+||+ & 縦の2重罫線を引く\\
+\str @\pa{表現} & \va{表現}を1列追加する\\
+\str p\pa{長さ} & ある列の幅を直接指定する\\
+\str *\pa{回数}\pa{列指定子} &回数分だけ\va{列指定子}を繰り返す\\
+\BR
+\end{tabular}
+\end{center}
+\end{table}
+\env{tabular}環境における各要素\pp{成分}は
+アンド\qu{\texttt{\&}}で区切ります．
+\index{"&@\verb+&+!tabular@\texttt{tabular}環境の\zdash}%
+\glossary{"&@\verb+&+!tabular@\texttt{tabular}環境の\zdash}%
+\qu{\texttt{\bs\bs}}を行の終わりとしますので
+例えば1行3列の表は次のようになります．
+\begin{InOut}
+\begin{tabular}{ccc}
+ \LaTeX2.09 & \LaTeXe & \LaTeX\,3\\
+\end{tabular} 
+\end{InOut}
+
+横方向に罫線を引くには \Cmd{hline}，
+要素の中で縦の罫線を引くときには \Cmd{vline}など
+を使います\pp{\tabref{tab:tabular:lines}}．
+横方向の罫線を引くには \Cmd{hline}を，
+行を連結するには \Cmd{multicolumn}を使います．
+\begin{table}[htbp]
+\caption{\texttt{tabular}環境中での罫線の命令}
+\label{tab:tabular:lines}
+\IOmargin\makebox[0pt][l]{
+\begin{tabular}{ll}
+\TR
+ \<命令> & \<意味>\\
+\MR
+\Cmd{hline}& 
+   横に引けるだけの罫線を引く\\
+\cmd{hline}\cmd{hline}&
+  引けるだけの2重の\Z{横罫線}を引く\\
+\Cmd{vline}& 
+   要素の中で引けるだけの縦罫線を引く\\
+\Cmd{cline}\pa{範囲}& 
+   要素の罫線を行の範囲を指定して引く\\
+\Cmd{multicolumn}\pa{数値}\pa{列指定子}%
+   \pa{要素}&
+   行を繋げて列指定子通りに要素を出力する\\
+\BR
+\end{tabular} \IOlabel}
+\end{table}
+\begin{InOut}
+\begin{tabular}{|c|c|c|}
+\hline\hline
+\multicolumn{3}{|c|}{{\LaTeX}} \\\hline
+\LaTeX2.09 & \LaTeXe & \LaTeX\,3 \\
+\cline{2-3}
+\end{tabular} 
+\end{InOut}
+
+%罫線を利用して迷路のようなものも作れます．
+%\begin{InOut}
+%\begin{tabular}{|ccc|c|c|}
+%\hline
+%& \multicolumn{1}{|c}{ } & & 
+%      \multicolumn{1}{c}{} &  \\
+%& \multicolumn{1}{|c|}{} & & & \\
+%\cline{2-2}
+% &  &  &  &   \\\cline{1-2}
+%& \multicolumn{1}{c|}{} &  & & \\
+%\cline{2-2}
+%&  & \multicolumn{1}{c}{} & & 
+%      \multicolumn{1}{c}{}  \\
+%\hline
+%\end{tabular} 
+%\end{InOut}
+%
+\index{論文!\zdash における図表}
+レポートや論文では表には表見出しを付けて
+中央揃えにするのが望ましいと思われますので
+以下のようなフォーマットになります．
+\begin{InText}
+\begin{table}[htpb]
+ \centering
+   \caption{表の出力例}\label{tab:tabular:example}  
+   \begin{tabular}{llcr}
+     \hline
+     出力例 & 1 & 2 & 3 \\ \hline
+     \LaTeX の遷移 & \LaTeX2.09 & \LaTeXe & \LaTeX\,3 \\\hline
+   \end{tabular}
+\end{table}
+\end{InText}
+上記のソースの出力例が\tabref{tab:nankadame}となります．
+\begin{table}[htpb]
+ \begin{center}              
+ \caption{表の出力例}\label{tab:nankadame}  
+  \begin{tabular}{llcr}
+   \hline
+   出力例 & 1 & 2 & 3 \\ \hline
+   \LaTeX の遷移& \LaTeX2.09  & {\LaTeXe}& \LaTeX\,3 \\\hline
+  \end{tabular}
+ \end{center}
+\end{table}
+ただし，毎回このような記述をしていたのでは疲れますので，表用の
+\env{mytab}環境を次のように定義します．
+\begin{InText}
+\newenvironment{mytab}[3][htbp]
+  {\begin{table}[#1]\begin{center}\caption{#2}\label{#3}}
+  {\end{center}\end{table}}
+\end{InText}
+こう定義しておけば
+\begin{InText}
+\begin{mytab}[htbp]{中央揃えで見出しのある表の環境}{tab:hoge}
+\begin{tabular}{lll}
+\LaTeX2.09 & \LaTeXe & \LaTeX\,3\\
+\end{tabular} 
+\end{mytab}
+\end{InText}
+のように使うことができるわけです．
+
+\subsection{表中の脚注}\indindz{脚注}{表中の}
+\env{tabular}環境中での脚注はうまく出力できない
+ことが多いようです．その場合は \Cmd{footnotemark}
+と \Cmd{footnotetext}の二つを使います．\indindz{番号}{脚注の}%
+\begin{Syntax}
+\Cmd{footnotemark}\opa{番号}\\
+\Cmd{footnotetext}\opa{番号}\pa{注釈内容} 
+\end{Syntax}
+ \cmd{footnotemark}で脚注記号を表示し，
+ \cmd{footnotetext}に注釈を書きます．
+\begin{InOut}
+\begin{tabular}{|c|c|c|} \hline 
+  一つ目\footnotemark[1] & 
+  二つ目\footnotemark[2] & 
+  三つ目\footnotemark[3]\\ \hline
+\end{tabular} 
+\footnotetext[1]{表中一つ目の脚注です.}
+\footnotetext[2]{表中二つ目の脚注です.}
+\footnotetext[3]{表中三つ目の脚注です.}
+\\ちょっと表示が変になっています．
+\end{InOut}
+上記の方法ではうまくいかない場合は手動で
+脚注を付けることもできます．
+\begin{InOut}
+\begin{tabular}{|c|c|c|}\hline 
+  一つ目${}^{a}$ & 二つ目${}^{b}$ & 
+  三つ目${}^{c}$ \\ \hline
+\end{tabular} 
+{\footnotesize \\ 
+$^{a}$表中一つ目の脚注です.\\ 
+$^{b}$表中二つ目の脚注です.\\ 
+$^{c}$表中三つ目の脚注です.}
+\end{InOut}
+
+%\subsection{\env{tabular}環境の出力位置}
+%実は\env{tabular}環境は列指定子の前に
+%任意引数を一つとります．これは表の位置と
+%段落の位置を調整するものです．\env{tabular}
+%環境で作成された表の上部と段落の位置を
+%合わせるときは\qu{\str{t}}を，下部ならば
+%\qu{\str{b}}を，中央ならば\qu{\str{c}}を
+%選びます．
+%\begin{InOut}
+%\newcommand{\testtab}[1][c]{~ほげ~
+%  \begin{tabular}[#1]{|c|} \hline 
+%  ほげ\\ ほげ\\ \hline\end{tabular}}
+%\testtab \testtab[t] \testtab[b]
+%\end{InOut}
+
+\section{書籍スタイルの表罫線\zdash\textsf{booktabs}}
+
+日本人のスタイルの慣習として\Z{表組み}で\Z{縦罫線}や\Z{斜線}を使う傾向が
+見られるようです．典型的な (\Z{typical}) 日本人が組んだものは下記のよう
+になります．
+\begin{InOut}
+\begin{tabular}{|l||l|l|}
+ \hline
+ 名称   & 型番  & 個数 \\\hline\hline
+ たわし & TWS01 & 1000 \\\hline
+ 石鹸   & SP01  & 5000 \\\hline
+\end{tabular}
+\end{InOut}
+実際の本作りや欧文での表組みでは上記のような組み方は避けた方が無難です．
+\Z{認知心理学}的にもやさしい次のような組み方をお薦めします．
+\begin{InOut}
+\begin{tabular}{lll}
+ \hline
+ 名称   & 型番  & 個数 \\\hline
+ たわし & TWS01 & 1000 \\
+ 石鹸   & SP01  & 5000 \\\hline
+\end{tabular}
+\end{InOut}
+ただ，もう少し本格的にやろうと思えば，\Hito{Simon Fear}による
+\Y{booktabs} パッケージを使うと良いでしょう．こちらの方が書籍に近いスタ
+イルとなります．
+\begin{Syntax}
+\C{toprule} \pp{表の最上部に引く罫線}\\
+\C{midrule} \pp{表の中間に引く罫線}\\
+\C{bottomrule} \pp{表の最下部に引く罫線}\\
+\C{cmidrule}\pa{罫線を引く範囲}
+\end{Syntax}
+\C{toprule} と \C{midrule}，そして \C{bottomrule} の三つを
+必ず使うようにします．
+\begin{InOut}
+\usepackage{booktabs}
+\begin{tabular}{lll}
+ \toprule
+ 品名 & 番号 & 個数 \\ \midrule
+ たわし & 02A & 3 \\
+ 雑巾   & 55B & 2 \\
+ 傘     & X2B & 5 \\ \bottomrule
+\end{tabular}
+\end{InOut}
+表の中に半端の罫線を引く場合は \C{cmidrule} 命令を使います．
+\C{cmidrule} は \C{multicolumn} などにより列を連結した場合等に
+使うことが出来ると思います．
+\begin{InOut}
+\usepackage{booktabs}
+\begin{tabular}{lll}
+ \toprule
+ \multicolumn{2}{c}{項目} & \\
+ \cmidrule{1-2}
+ 品名 & 型番 & 個数\\ \midrule
+ たわし & 02A & 3 \\
+ 雑巾   & 55B & 2 \\
+ 傘     & X2B & 5 \\ \bottomrule
+\end{tabular}
+\end{InOut}
+
+\section{小数点揃え\zdash\textsf{dcolumn}}
+\E{tabular} 環境などで表を作っていると，\Z{小数点}などで列を\Z{整列}させ
+たいときがあります．この場合，手動で次のようにもできます．
+\begin{InOut}
+ \begin{center}
+  \begin{tabular}{|l|r@{.}l|}
+   $\sqrt{157}$   & 12 & 53 \\
+   $\pi$ & 3 & 141592 \\
+  \end{tabular}
+ \end{center}
+\end{InOut}
+しかし，ここは自動的に小数点でそろえて欲しいものです．
+小数点などをそろえる一つの方法として \Hito{David Carlisle} の \Y{dcolumn}
+を使う方法があります．
+\begin{Syntax}
+\texttt{D}\pa{\TeX での区切り}\pa{DVI での出力形式}\pa{小数部の桁数} \pp{列指定子}\\
+\C{newcolumntype}\pa{区切り記号}\pa{入出力に関する設定} \pp{設定のため}
+\end{Syntax}
+という定義することにより，小数点 `.' に限らず，なんらかの区切りで
+列を整列できます．
+\begin{InOut}
+ \usepackage{dcolumn}
+ \begin{center}
+  \newcolumntype{.}{D{.}{.}{6}}
+  \begin{tabular}{|l|.|}
+   $\sqrt{157}$ & 12.53    \\
+   $\pi$        & 3.141592 \\
+  \end{tabular}
+ \end{center}
+\end{InOut}
+\indindz{列指定子}{小数点を揃える}%
+\E{tabular} 環境などで直接{列指定子} `D' を使うことも出来ます．
+上記の場合はあらかじめ\Z{ピリオド} `.' を列の整列用の指定子として
+登録しています．
+
+
+
+\section{表における行の連結\zdash\textsf{multirow}}
+
+\E{array}/\E{tabular} 環境で表などを作成していると，列の連結を
+行なうことがしばしばあります．
+\begin{InOut}
+\begin{tabular}{lll}
+\multicolumn{2}{c}{中央揃え} & 右側\\
+ 左側 & 中央 & 右側\\
+\end{tabular}
+\end{InOut}
+しかし，行の連結となると結構面倒です．そこで \Hito{Jerry Jeichter}と
+\Hito{Piet Van Oostrum}による \Y{multirow} パッケージを使えば良いでしょ
+う．
+\begin{Syntax}
+\C{multirow}\pa{行数}\pa{幅}\pa{要素}\\
+\C{multirow}\pa{行数}\string*\pa{要素} 
+\end{Syntax}
+星を付けた場合は\va{要素}をLRモードで組んだときの幅で表を配置します．
+まずは行を連結しない場合です．
+\begin{InOut}
+\usepackage{multirow}
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{2}{|c|}{新商品} & 旧商品\\
+\hline
+ なべ & やかん & たわし\\ \hline
+\end{tabular} 
+\end{InOut}
+次は行を\va{要素}分の幅で連結した場合です．
+\begin{InOut}
+\begin{tabular}{|l|l|}
+ \hline
+ \multirow{2}*{新商品}
+   & なべ\\
+   & やかん\\ \hline
+ 旧商品 & たわし\\ \hline
+\end{tabular} 
+\end{InOut}
+最後に全角 1 文字分の幅で行を四つ連結させた例です．ただし，
+最後の行が 3 文字分あるため，幅の指定は効力がありません．
+\begin{InOut}
+\begin{tabular}{|c|l|}
+ \hline
+ \multirow{4}{1zw}{新商品}
+   & なべ \\
+   & やかん \\
+   & コップ\\
+   & 洗剤 \\ \hline
+ 旧商品  & たわし \\ \hline
+\end{tabular}
+\end{InOut}
+
+%
+\subsection{表作成支援ツール}
+{\LaTeX}で0から表を組むのは初心者には
+辛いかもしれません．GUIベースの
+プログラムで表を作成し，それを{\LaTeX}の
+\env{tabular}環境の記述に変換するツールを
+使うと良いでしょう．Microsoftの\Prog{Excel}
+を使っている場合は\Hito{浦壁厚郎}の\Prog{Excel2tabular}
+\begin{quote}
+\webetwot
+\end{quote}
+などがありますので参考にしてください．これらの
+プログラムは{Microsoft}の\Prog{Excel}で作成さ
+れた表を{\LaTeX}のソースに変換します．
+
+MicrosoftのExcelではなく{OpenOffice.org}の
+\Prog{Calc}を使っているならば\Hito{阿部昌平}の
+\Prog[calc2latex]{Calc2\LaTeX}
+\begin{quote}
+ \webctwol
+\end{quote}
+というものもあります．
+これを使えばCalcで作成した表を\env{tabular}環境に
+変換し，表として{\LaTeX}に貼り付けることが出来ます．
+
+最近では直接 \LaTeX から \Prog{Excel} ファイルを読み込める
+\Hito{Hans-Peter Doerr}による \Y{exceltex} パッケージがあります．
+\begin{quote}
+ \webexceltex
+\end{quote}
+\Prog{Perl}スクリプトを仲介する事で指定したセルやシートを読み込む事がで
+きます．
+
+%#!platex ron.tex
+\section{図に関する制約と画像の扱い}\label{sec:figure}
+
+図の挿入に関しては大きく分けて2通りの方法があります．一つはペイントソ
+フトなどで書いた画像をそのまま取り込む方法， もう一つは{\LaTeX}の
+\env{picture}環境で図を直接書く方法です．
+
+\LaTeX には\Env{picture}環境と呼ばれる簡単な\Z{作図}をするための
+描画環境が用意されています．この\Env{picture}環境を拡張した
+\Y{epic}, \Y{eepic}, \Y{pict2e}などが存在し，ある程度の作図が
+できるコマンドが用意されています．\Env{picture}環境とその周辺の詳しい
+事は\wasyo{\COMP}~\cite{latexcomp}や\wasyo{\GCOMP}~\cite{graphicscomp}
+を参照してください．
+
+何らかの外部プログラムで作成した BMP, JPEG, PNG, EPS, PDF 等の画像を
+\LaTeX に張り込むためには，一般的には\sty{graphicx}パッケージを用います．
+
+\LaTeX 自身では画像ファイルを直接的に扱う仕組みは用意されていないため，
+画像ファイルに関する多くの処理をデバイスドライバという外部プログラムに依
+存した形を取るため，自分の使おうとしているデバイスドライバがどのような画
+像処理に対応しているのかを知ってください．最終的に出力したい文書形式が
+PDFならば\prog{\dvipdfmx}，\PS ならば\prog{dvips}を使うことになります．
+近年ではDVI 形式から直接 PDF を生成できる\dvipdfmx を使う事を強く推奨し
+ます．\dvipdfmx を用いる事でBMP, JPEG, PNG, \Z{EPDF}（単一ページのPDF）, 
+EPS 画像の張り込みが可能となり，さらに DVI ファイルから直接 PDF を生成す
+る事ができます．
+
+最近の動向として論文等の提出，印刷には PDF を用いる場合が増えている
+ようです．\dvipdfmx を使えば \LaTeX でそのまま PDF 画像の埋め込み
+等もサポートしているため，今後は何かしらの問題がない限り，\dvipdfmx 
+を使うようにすると何かと便利だと思われます．
+\zindind{画像}{の張り込み}%
+
+近年まで{\LaTeX}ではEPS以外の画像の張り込みは難しいという都市伝説的な定
+説がありましたが，現在は \dvipdfmx の登場により状況は幾分変化しています
+し，これからも変化すると考えられます．
+
+
+
+\section{画像ファイルの張り込み}\label{sec:gazou}
+
+\LaTeX\ ではビットマップ画像や，曲線の描画などの多くの処理をデバイスドラ
+イバと呼ばれる外部のプログラムに依存しています．そのため，\LaTeX\ で画像
+ファイルを扱う場合は，まずデバイスドライバを用途別に選択することになりま
+す．
+
+
+\subsection{デバイスドライバの選択}
+
+各種のデバイスドライバプログラムにおける画像形式に対する対応状況を
+\tabref{tab:ddimage}に示します（\genzai での対応状況）．
+\begin{table}[htbp]
+ \begin{center}
+  \caption{各種デバイスドライバの画像形式対応状況}\label{tab:ddimage}
+  \begin{tabular}{ll}
+  \TR
+  \<デバイスドライバ> & \multicolumn{1}{c}{\<対応画像形式>}\\
+  \MR
+  xdvi      & EPS*  \\
+  dvips     & EPS   \\
+  \dvipdfmx & EPS*, EPDF, PNG, BMP, JPEG\\
+  \dviout    & EPS*, \Prog{Susie} {plug-in} により他の形式に対応可能\\
+  \BR
+  \end{tabular}
+ \end{center}
+\end{table}
+星印がついているものは\GS などの外部プログラムを必要とする形式です．
+
+{\LaTeX}で画像を張り込む時，多くの場合は標準的に\sty{graphicx}パッケージを
+使うことになります．\dvipdfmx を使っている場合はパッケージオプション
+を\Option{dvipdfmx}とします．
+\begin{InText}
+\usepackage[dvipdfmx]{graphicx}
+\end{InText}
+これにより\sty{graphicx}パッケージは\fl{dvipdfmx.def}という設定ファイルを
+読み込みます．もしも \Fl{dvipdfmx.def}というファイルが存在しないようであ
+れば，以下のURLからファイルを取得し`\str{$texmf/tex/latex/graphics/}'等
+のディレクトリにコピーしてください．
+\begin{quote}
+ \url{http://tex.dante.jp/ron/dvipdfmx.def}
+\end{quote}
+
+古い \TeX/\LaTeX （2006年以前）がインストールされているのであれば，
+\option{dvipdfmx}ではなく，\Option{dvipdfm}オプションを指定して，
+\dvipdfmx で PDF をデバイスドライバとします\footnote{何かしらの
+理由がない限り \TeX 環境は定期的に更新する事が望ましいです．}．
+\begin{InText}
+ \usepackage[dvipdfm]{graphicx}
+\end{InText}
+
+Unix系OSならば{\PS}のほうが良いでしょうから\Option{dvips}を\sty{graphicx}
+パッケージのオプションとします．\prog{dvipsk}であろうが\prog{pdvips}だろ
+うが\Option{dvips}オプションを使います．
+
+他には\prog{xdvi}や，Windows であれば \dviout も指定できます．
+Windowsの方で手持ちの画像のほとんどがビットマップで存在するならば\dviout
+をデバイスドライバに選択すれば良いでしょう．\dviout ではプレビューも印刷も
+行えます．
+\dviout の場合は\dviout がインストールされているフォルダの
+\fl{GRAPHIC/LATEX2E/dviout.def}というファイルを
+\fl{\$TEXMF/tex/latex/graphics/}にコピーしてください\footnote{\dviout の
+場合EPS画像を取り込むときは\prog{\GS}にてEPSを\Z{PPM}に変換してから画像
+を表示しますから\prog{\dviout}の\prog{Ghostscript}に関する設定を適切に行っ
+てください．}．
+
+EPS画像が多いならばいずれにしても1度EPSからPDFに変換してから
+\prog{\dvipdfmx}を使うのが良いと思われます．%\unixos ならば手持ちの画像を
+%EPSに変換して\prog{dvips}を使うことになるでしょう．
+
+
+\subsection{具体的な手順}
+
+画像ファイルを\LaTeX の文書に張り込むには，一般的に次のような手順を踏む
+事になります．
+
+\begin{enumerate}
+\zindind{フォント}{のアウトライン化}%
+\zindind{PDF}{画像の張り込み}%
+\item 外部プログラムでPDFやEPS形式でファイルを保存．保存する時の
+      オプションで可能であればフォントはアウトライン化し，カラーに
+      依存しないようなファイルとします．
+\item 文書のプリアンブルで\sty{graphicx}パッケージを使う事を宣言します．
+\item \sty{graphicx}パッケージには\K{デバイスドライバ}を指定します．
+      \PS 形式の文書を出力するならば，\Option{dvips}を指定します．PDFを作成し
+      たいときは\prog{\dvipdfmx}を使うために\Option{dvipdfmx}を指定します．
+\item EPS以外の画像であれば\LaTeX が解釈できる形で\K{バウンディングボッ
+      クス}を指定します．
+\item  図を挿入すべき場所に \C{includegraphics}命令を使ってファイル名を
+      示します．
+\end{enumerate}
+
+デバイスドライバの\dvipdfmx 等は画像ファイルを扱う事が可能ですが，\LaTeX
+は画像ファイルを直接扱う事ができず，画像に関する情報を取得できません．
+そのため，\dvipdfmx において\Z{JPEG}，\Z{PNG}，\Z{PDF}, \Z{BMP}の画
+像ファイルは\KY{バウンディングボックス}という画像の（\Z{原点座標}を含む）
+\zindind{画像}{の原点座標}%
+サイズ情報を与える事で張り込む事が可能です．一般的には画像の横の長さと縦
+の長さのサイズを指定する事となります．バウンディングボックスは
+\Va{filename}{img}という画像ファイルがあれば，\Va{filename}{bb}という
+ファイルを\sty{graphicx}パッケージが参照するようになっています．
+
+\dvipdfm に付属する\Prog{ebb}というプログラムで画像のバウンディングボッ
+クス情報のファイル \Va{filenam}{bb}を作成できます．対応している画像形式
+はJPEG, PNG, PDF です\footnote{ebb以外にも\Prog{identify}コマンドや\Prog{file}コ%
+マンドでサイズ情報は知る事が出来ますし，WindowsやMac~OS~Xであれば%
+\Prog{エクスプローラ}や\Prog{ファインダー}にも表示されます．}．
+
+JPEG，PNG，PDF，EPSを直接PDFに張り込めます．具体的な手順として
+は，ファイルの存在するディレクトリで
+\begin{TYPE}
+\type{ebb filename.jpg}
+\end{TYPE}
+とすれば拡張子が\exten{bb}の\Va{filename}{bb}というファイルが
+作成されます．作成された\Va{filename}{bb}を見てみると
+\begin{InText}
+%%Title: ./filename.jpg
+%%Creator: ebb Version 0.5.2
+%%BoundingBox: 0 0 595 842
+%%CreationDate: Tue Dec 30 13:04:10 2003
+\end{InText}
+のように\va{ファイル名}，\va{作成プログラム}， 
+\va{バウンディングボックス}， \va{作成日時}の
+情報が出力されます．沢山\Va{filename}{bb}の
+ファイルを保存しておくのが好ましくない場合は，
+該当する画像ファイルを読み込んでいる箇所で，
+\begin{InText}
+\includegraphics[bb={0 0 595 842}]{filename.jpg}
+\end{InText}
+とすれば\Va{filename}{bb}がなくても良いことに
+なります．使用する画像のファイル名の
+\Va{ファイル名}{拡張子}は\qu{\fl{filename.png}}のように
+\Va{8文字}{3文字}したほうが互換性の上で安全です．
+
+\begin{Exe}
+仮にファイル名が\fl{image.png}の画像があったとすれば，コンソールから
+\type{ebb image.png}として\fl{image.png}用の\fl{image.bb}が作成される事
+を確認してください．この\texttt{image.bb}は画像ファイルの縦横を正しく扱
+うためのファイルです．\texttt{image.bb} を見れば分かりますが，中身は次
+のようなものになっていると思います．
+\begin{InText}
+%%Title: ./image.png
+%%Creator: ebb Version 0.5.2
+%%BoundingBox: 0 0 595 841
+\end{InText}
+\qu{\str{BoundingBox}}とは原点座標と画像の縦横の長さの値です．次にソース
+ファイルを以下のようにします．
+\begin{InText}
+\documentclass[papersize]{jsarticle}
+\usepackage[dvipdfmx]{graphicx}
+\begin{document}
+\centering \includegraphics[width=4cm]{image.png}
+\end{document}
+\end{InText}
+後はいつも通りにタイプセットしてDVIファイルを生成し\prog{\dvipdfmx}でPDF
+を作成します．これにより \fl{image.png}が張り込まれた PDF が生成されるは
+ずです．
+\end{Exe}
+
+
+\subsection{張り込みにおけるオプション}
+
+外部プログラムで作成して，既に存在するような画像は \C{includegraphics}
+命令で張り込みます．
+\begin{Syntax}
+\C{includegraphics}\opa{設定}\pa{ファイル名}
+\end{Syntax}
+
+\va{設定}に関しては以下に示すようなオプションが使用できます．
+
+\begin{description}
+\zindind{画像}{の高さ}%
+ \item[\str{height=}\va{高さ}]
+    単位付きで画像の高さを指定します．
+ \item[\str{totalheight=}\va{総合的な高さ}]
+    単位付きで画像の総合的な高さを指定します．
+\zindind{画像}{の幅}%
+ \item[\str{width=}\va{幅}]\indindz{幅}{画像の}%
+    単位付きで画像の幅を指定します． 
+ \item[\str{scale=}\va{数値}]
+\zindind{画像}{の拡大}%
+    画像の拡大率を指定します． \indindz{拡大}{図の}
+ \item[\str{angle=}\va{角度}]
+\zindind{画像}{の回転}%
+    \K{反時計回りに}画像を回転する角度を指定します． 
+ \item[\str{origin=}\va{原点}]
+    画像の基準点を決めます． 
+ \item[\str{bb=}\va{領域情報}]
+    \KY{バウンディングボックス}と呼ばれる画像の大きさと原点座標を指定します．
+    画像のどの領域を使うべきかを指定します．\zindind{画像}{のバウンディングボックス}%
+    \qu{\str{bb=0 0 640 480}}とすると原点を
+    \xy{0}{0}として縦横\qu{$640\times480$}
+    の領域を使うようにします．
+ \item[\str{viewport=}\va{領域情報}] 
+\zindind{画像}{の切り抜き}%
+	    画像の利用領域を指定します．切り抜きです．
+%	    \str{viewport={30 30 600 40}}
+ \item[\str{trim=}\va{領域情報}] 
+\zindind{画像}{のトリミング}%
+	    画像の端を切り抜きます．
+%	    \str{trim={3 3 2 2}}
+ \item[\str{noclip}] 
+  画像用に使うべき領域を元の画像がはみ出している
+  場合に画像を切り抜かないようにします．
+ \item[\str{clip}] 
+\zindind{画像}{のクリッピング}%
+  画像が確保された領域よりも大きい場合は
+  切り抜きします．
+ \item[\str{draft}] 
+ 実際に画像を張り込まずに画像が占有す
+ るだろう領域を枠による代替表示になり，ファイル名を表示します．
+ \item[\str{keepaspectratio}] 
+\zindind{画像}{の縦横比}%
+ 拡大縮小したときに縦横比を保存するようにします．
+ \sty{graphicx}パッケージの標準では保存されます．
+\end{description}
+
+\begin{Exe}
+試しにご自分の持っている画像\va{ファイル}を\va{デバイス}で
+取り込めるのかを試してみください（行頭のパーセントは取り除き，
+\fl{images}フォルダに\Fl{gnu-head.pdf}と\fl{gnu-head.bb}があると仮定します）．
+\begin{InOut}
+\usepackage[dvipdfmx]{graphicx}
+\includegraphics[width=3cm]
+  {images/gnu-head}
+\end{InOut} 
+\end{Exe}
+
+\begin{InOut}
+\usepackage[dvipdfmx]{graphicx}
+\includegraphics[width=2cm,%
+  trim=20 20 20 20]
+  {images/gnu-head} 
+\end{InOut}
+
+\begin{InOut}
+\usepackage[dvipdfmx]{graphicx}
+\includegraphics[width=2cm,%
+  clip,viewport=131 304 459 548]
+  {images/gnu-head}  
+\end{InOut}
+
+\begin{InOut}
+\usepackage[dvipdfmx]{graphicx}
+\includegraphics[width=2cm,angle=30,%
+  clip,viewport=131 304 459 548]
+  {images/gnu-head}   
+\end{InOut}
+
+\begin{InOut}
+\usepackage[dvipdfmx]{graphicx}
+\includegraphics[width=2cm,angle=90,%
+  clip,viewport=131 304 459 548]
+  {images/gnu-head}    
+\end{InOut}
+
+\subsection{画像の拡大や回転等の操作}
+
+図などを反時計回りに\kaku{90}回転させることがあるでしょう．
+その場合は \Cmd{rotatebox}命令を使います．
+\begin{Syntax}
+\Cmd{rotatebox}\opa{設定}\pa{角度}{要素}
+\end{Syntax}
+これは \cmd{includegraphics}の任意引数に
+\qu{\str{angle}}を使ったことと同じです．
+ \cmd{rotatebox}は図に限らずあらゆる要素（表も可能）を
+\Z{回転}します．\va{設定}の項目には以下のような
+ものがあります．
+\begin{description}
+\item[\str{origin=}\va{ラベル}] 
+ 要素を回転するための原点を指定します．%%
+ 左\qu{\str l}，右\qu{\str r}，中央\qu{\str c}，
+ 上部\qu{\str t}，下部\qu{\str b}が指定できます．
+\item[\str{x=}\va{長さ}] 
+$x$方向の原点の位置を直接\va{長さ}を指定します．
+\item[\str{y=}\va{長さ}]
+$y$方向の原点の位置を直接\va{長さ}を指定します．
+\end{description}
+
+\indindz{回転}{文字列の}%%%
+\begin{InOut}
+\rotatebox{70}{文字列など}の
+\rotatebox[origin=c]{60}{回転とか}は
+\rotatebox[origin=b]{50}{どう}
+\rotatebox{30}{ですか?}
+\end{InOut}
+%
+要素を\K{拡大縮小}するには \cmd{scalebox}を
+使います．\index{拡大}\index{縮小}\indindz{拡大}{文字列の}
+\begin{Syntax}
+\Cmd{scalebox}\pa{横の拡大率}\opa{縦の拡大率}\pa{要素}
+\end{Syntax}
+\va{拡大率}には長さを指定します．\begin{InOut}
+\scalebox{2.3}{拡大縮小}\par
+\scalebox{3}[1]{拡大縮小}
+\end{InOut}
+
+要素の\K{反転}には \cmd{reflectbox}を使います．
+\begin{Syntax}
+\Cmd{reflectbox}\pa{要素}
+\end{Syntax}
+\begin{InOut}
+\reflectbox{文字列の反転}\par
+\reflectbox{山は山}\par
+\scalebox{-1}[1]{これも反転}
+\end{InOut}
+
+リサイズには \cmd{resizebox}を使います．
+\begin{Syntax}
+\Cmd{resizebox}\pa{幅}\pa{高さ}\pa{要素}
+\end{Syntax}
+要素のリサイズ後の幅を\va{幅}に，高さを\va{高さ}にします．
+どちらか一方の拡大・縮小率に合わせたいときは\qu{\str!}を
+使います．
+\begin{InOut}
+\resizebox{!}{1cm}{リサイズ}\par
+\resizebox{3cm}{!}{リサイズ}
+\end{InOut}
+
+以上の \cmd{rotatebox}， \cmd{scalebox}， \cmd{reflectbox}，
+ \cmd{resizebox}は文字列，表，図，\env{minipage}環境など
+の段落などにも使えます．\indindz{回転}{表の}%%
+\begin{InOut}
+\newcommand{\testtab}{%
+  \begin{tabular}{|c|}
+    \hline \LaTeX\\ \LaTeXe \\\hline
+  \end{tabular}}
+\rotatebox{80}{\testtab}~
+\reflectbox{\testtab}
+\end{InOut}
+
+\ifusehyperref
+\subsection{\texorpdfstring\dvipdfmx{Dvipdfmx} におけるEPS画像の扱い}
+\else
+\subsection{\dvipdfmx におけるEPS画像の扱い}
+\fi
+
+\dvipdfmx の場合は基本的にPDF，JPEG，PNG，BMP，MetaPost 形式の
+画像しかサポートしておりませんので，EPS形式の画像は何らかの形でPDFに変換
+してから取り込むことになります．\LaTeX の原稿中で \C{includegraphics}命
+令を用いてEPS画像を張り込んでいる場合は，\dvipdfmx が DVI から PDF への
+変換の段階で \GS プログラムを毎回実行してEPSをEPDFに変換しています．
+そのため，\dvipdfmx をデバイスドライバとして使用しているときには極力
+EPSではなく，EPDF画像を張り込むようにします．外部プログラムがPDFでの
+保存に対応していないようであれば，あらかじめEPSをEPDFに変換すると
+処理速度の向上につながります．
+
+このEPSファイルは\prog{Ghostscript}の\qu{pdfwrite}というデバイスを使って
+変換することがほとんどです．その時に
+\Prog{epstopdf}か\Prog{ps2pdf}などを使います\footnote{Vine Linux の場
+合は\Prog{ps2jpdf}という日本語フォントを埋め込まない PDF を作成できる
+プログラムもあります．\type{apt-get update; apt-get install ps2jpdf}
+でインストールできます．}．
+\prog{epstopdf}はPDFにEPSの{\BB}を反映してくれます．
+\prog{ps2pdf}系を使う場合はPDFに{\BB}がうまく反映されません（\genzai）．
+以下のようなシェルスクリプト\fl{eps2pdfs}
+\begin{InText}
+#!/bin/bash
+EPS=`ls *.eps`;
+for fig in $EPS; do
+   epstopdf $fig
+   $f=`basename $fig .eps`
+   grep "^%%BoundingBox:" $fig > $f.bb
+done
+\end{InText}
+を作成し\Z{PATH}の通っている場所（\fl{/usr/local/bin/} など）に複製したならば
+\begin{TYPE}
+\type{./eps2pdfs}
+\end{TYPE}
+とすると同ディレクトリのEPSファイルが全てPDFに
+変換されます．\Va{file}{eps}があったとすればこれは
+\Va{file}{pdf}と\Va{file}{bb}が作成されます．
+このようにしてEPSからPDFに変換したファイルは
+{\LaTeX}の原稿で次のように取り込むことができます
+（行頭のパーセントは取り除いてください）．
+\begin{InOut}
+%\documentclass[dvipdfmx]{jarticle} 
+\usepackage{graphicx}
+%\begin{document}
+ \includegraphics[width=3cm]
+    {images/gnu-head}
+%\end{document}
+\end{InOut}
+
+\ifusehyperref
+\subsection{dvipsと\texorpdfstring{\dvipdfmx}{Dvipdfmx} の併用}
+\else
+\subsection{dvipsと\dvipdfmx の併用}
+\fi
+
+dvipskと\dvipdfmx の両方を併用している（
+\Z{Unix系OS}の方で普段は\PS で印刷していて，
+提出用にPDFを作成するなど）場合は\fl{images}ディレクトリ
+を作成し，そこに\Va{image}{eps}，\Va{image}{pdf}，
+\Va{images}{bb}の三つのファイルを置きます．次に
+原稿中で次のように \C{includegraphics} 命令を使うとき
+\K{拡張子を省略します}．
+\begin{InText}
+\includegraphics[width=3cm]{images/gnu-head}
+\end{InText}
+すると\sty{graphicx}パッケージに渡されたパッケージオプションに
+従って，張り込まれる画像の優先順位が変わりますので，
+\Option{dvips}を指定している場合はEPSが，\Option{dvipdfmx}を
+指定している場合はPDFが張り込まれるようになります．
+次のように\sty{graphicx}の読み込みの仕方を変更するだけです．
+\begin{InText}
+%\usepackage[dvips]{graphicx}  % dvipsk   の場合
+\usepackage[dvipdfmx]{graphicx} % Dvipdfmx の場合
+\end{InText}
+
+
+\subsection{レポート・論文における図の張り込み}
+
+レポートや論文などで図には\K{図見出し}を付けて\K{中央揃え}に
+するのが望ましいと思われますので，
+\begin{InText}
+\begin{figure}[htbp]
+ \begin{center}
+   \includegraphics[width=10cm]{images/file.eps}
+   \caption{図見出し}\label{fig:samplefig}
+ \end{center} 
+\end{figure} 
+\end{InText}
+のように使うことになります．ただし，これを毎回
+書くのは面倒なので次のような図用の\env{myfig}命令を
+作成します．
+\begin{InText}
+\newcommand{myfig}[4][width=.8\textwidth]{%
+\begin{figure}[htbp]%
+   \centering\includegraphics[#1]{#2}%
+   \caption{#3}\label{fig:#4}%
+\end{figure}}
+\end{InText}
+このように定義しておけば次のように使えます．
+\begin{InText}
+以上の考察から図~\ref{fig:sample}のような図が得られる．
+\myfig[width=100pt,clip]{images/file.eps}{図の張り込みの例}{sample}
+\end{InText}
+
+浮動体の図はDVIファイルに出力されるときに思いもよらない場所まで旅をしま
+すので，思い通りの場所に図が配置されなくても腹立たしくならずにいてください．
+そもそも図表に対して\yo{上記の図は何々}とか\yo{下記の図は何々}という表現
+は間違いで，全ての図表は\yo{図~3.1は何々}のように番号で参照します．です
+から本来は図表がどのような場所に旅立っても困らないはずです．
+
+%HOGE 1037
+
+\subsection{汎用的な画像の作成と活用}\label{subsec:excel:kowaza}
+
+\LaTeX と\dvipdfmx を用いる事で，JPEG, PNG, BMP, EPS, PDF 等の画像を張り
+込む事が可能でした．しかし，外部プログラムによってはそれらの形式の画像ファ
+イルの\Z{書き出し}（変換）に対応していない場合があります．この場合はある
+特定のプログラムから，\Z{仮想プリンタ}に対して画像の内容を送信し，EPSか
+PDFで保存するのが手短にできる方法となります．
+
+Windows であれば \Prog{PrimoPDF}等のフリーの変換プログラムがあります．
+Mac~OS~XであればOSそのものがPDFでの印刷に対応しています．%\unixos では
+
+現在お使いの環境に\Prog{Adobe Acrobat}がある場合は，Acrobatを活用し
+ていただいて構いません．
+
+%\subsection{様々なプログラムから張り込む方法}
+%
+%例えば\Prog{Excel}や\Prog{PowerPoint}などのグラフや図表を張り
+%む場合大きく分けて次の3通りの方法があります．
+%対象となるグラフや図表，ページは基本的にPS形式の
+%画像に変換することができます．この節の話はWindows
+%に限定します．
+%\begin{enumerate}
+%\item 
+% 該当のページなどをスクリーンショットでビットマップ画像と
+% して保存しその画像を張り込む．
+%\item 
+%  ページなどの大きさを調整してから{\PS}プリンターを通して
+%  プリンターファイルとして保存し，バウンディングボックスを
+%  \Prog{eps2eps}で調整してから張り込む．
+%\item 
+%  ページなどの大きさをA4の紙いっぱいにファイルとして印刷し，
+%  それを\textsf{graphicx}パッケージで回転と拡大・縮小をして張り込む．
+%\end{enumerate}
+%一つ目と二つ目は手間がかかるうえに印刷品質も悪いので
+%ここでは説明しません．三つ目の方法を解説します．
+%
+%手順は以下の四つのようになります．MicrosoftのExcelのグラフを取り込む手順
+%を例にします．
+%\begin{enumerate}
+%\item まず，{Windows}の\win{設定}で\win{プリンタの追加}をします．
+%      追加するプリンタは\yo{ローカルプリンタ}で使用するポートは
+%      \yo{ファイルへ出力}を選択し，ここでは\yo{HP Color Laser Jet PS}
+%      というプリンタソフトウェアを選択します．テストページを印刷する
+%      場合は，出力ファイル名を\qu{\fl{file.eps}}のように拡張子を\exten{eps}にして
+%      保存します．正しく印刷されいるかどうかを確認するには
+%      \prog{\GS}か\prog{GSView}などで見ることができます．
+%\item 次に元となるグラフやページを作成します．このとき
+%      モノクロ印刷を想定してグラフを調整します．印刷したいグラフ
+%      を選択したならば，\win{ページ設定}で印刷の向きは\yo{横}，
+%      用紙サイズは\yo{A4}，\win{余白}タブで上下左右，ヘッダー，
+%      フッターの余白をすべて\yo{0}に設定し，\win{ヘッダー，フッター}
+%      タブで何も出力しないことを選択し，\win{グラフ}タブで，
+%      印刷するグラフのサイズを\yo{用紙サイズ}に合わせます．
+%      印刷品質は\yo{白黒印刷}にするとファイルサイズも小さくなり
+%      処理速度も向上します．印刷プレビューで問題がないことを
+%      確認したならば，{アプリケーション}側での設定は終了です．
+%\item \win{ファイル}から\win{印刷}を選び，プリンタの名前を先程
+%      追加したプリンタに設定します．\qu{OK}ボタンを押し絶対パスで
+%      \zindind{ファイル}{に付ける名前}ファイル名を指定してファイルへ出力すれば，目的のグラフをEPS
+%      で保存することが出来ます．このとき保存するファイル名は半角
+%      英数字とし拡張子は\exten{eps}としてください．
+%      ファイルの保存先を原稿と同じ場所にすると問題も少ないでしょう。
+%\item 出力した\fl{filename.eps}を{\LaTeX}文書中で参照します．
+%      \textsf{graphicx}パッケージを使って
+%      \begin{quote}
+%       \verb+\includegraphics[scale=0.4,angle=-90]{filename}+
+%      \end{quote}
+%      とすれば丁度良いあんばいで取り込めます．A4の紙に
+%      グラフを出力した場合，0.4倍の縮小率で，時計回りに
+%      90度回転させると{\LaTeX}文書の中で丁度良いサイズ
+%      として張り込むことが出来ます．
+%\end{enumerate}
+%以上の2--4の作業をグラフの数だけ繰り返すことにより，
+%{\LaTeX}に対して{Excel}で作成されるグラフとほぼ同じイ%
+%\indindz{フォント}{ビットマップ}\indindz{フォント}{ギザギザの}%%%
+%メージを挿入することが可能です．フォントがビットマップ
+%フォントでギザギザになるときはプリンタの設定で
+%\yo{TrueTypeフォントダウンロードオプション}のような
+%項目があるはずですので，これを\yo{アウトライン}にすると
+%良いでしょう．
+
+
+\subsection{プログラム特有の処理}\label{subsec:picture:program}
+
+特定の外部プログラムからグラフや画像を取り込むときには幾つかコツが必
+要です．\secref{subsec:excel:kowaza}での張り込み方が他のアプリケーション
+でも適用できる場合が多いので，上記の方法を試してみてください．
+
+どのプログラムを使用していても最終的に出力したい画像のサイズを元のプログ
+ラム側で調節してから{\LaTeX}に張り込むようにすると問題も少ないでしょう．
+\sty{graphicx}パッケージの拡大縮小を使うと印刷品質が落ちます．各プロ
+グラムにおける設定方法は以下の通りです．
+
+\begin{description}
+\item[\prog{Illustrator}]
+  可能であれば文字はアウトライン化します．
+  Adobe PDF の互換性では \win{Acrobat 4 (PDF 1.3)}を指定する
+  ようにすると，問題が発生しづらいと思われます．
+  ツールバーの\win{別名で保存}でファイル形式を\qu{Adobe 
+  PDF}として保存します．PDF形式での保存オプションで\yo{サムネー
+  ルを埋め込み}の\K{チェックを外して}，\yo{圧縮}はないように
+  してください．\Prog{Illustrator}の場合は用紙サイズが切り抜かれ
+  ませんので何らかの方法（\Prog{Adobe Acrobat}や \cmd{includegraphics}
+  命令の \option{trim} オプション）で切り抜きを行う必要があります．
+\item[\Prog{Photoshop}]
+  \win{ファイル}，\win{複製を保存}を選び\yo{保存形式}
+  を\qu{Photoshop PDF}にして保存する．ビットマップ画像は圧縮しないほうが印
+  刷品質が良いようです．
+\item[Gnuplot] フリーのプロットソフトで \PS, \Y{PStricks}, \Prog{Tgif},
+  \Prog{Illustrator}, \Y{eepic}, \Prog[MetaFont]{\MF},
+  \Prog[MetaPost]{\MP}等，多くの形式で画像の書き出しをサポートしています．
+  \Prog{Octave}も\Prog{MATLAB}類似でGPLの数値演算ソフトで Gnuplot をもとに
+  開発されていますので手順は Gnuplot の場合とほとんど同じです．\Y{eepic}
+  パッケージで対処するには，例えば Gnuplot 側で次のようにします．
+\begin{InText}
+set output 'plotfile1.tex'\\
+set term eepic rotated dashed\\
+plot x
+\end{InText}
+すると，カレントディレクトリに\fl{plotfile1.tex}が作成されますから，
+\Y{eepic}パッケージ等を用いて，\LaTeX の原稿側で次のように記述します．
+\begin{InText}
+\documentclass[dvipdfmx]{jsarticle}
+\usepackage{graphicx,color,epic,eepic,amssymb}
+\begin{document}
+\input{plotfile1}
+\end{document}
+\end{InText}
+  この場合は \sty{graphicx}, \Y{epic}, \Y{eepic}, \Y{amssymb}パッケージを
+  必要としており，\C{input} 命令でプロットされたグラフ \fl{plotfile1.tex}
+  を読み込むようにしてあります．
+ \item[R] 
+  \Z{GPL}の統計解析ソフトで \PS, PDF, \Prog[PicTeX]{Pic\TeX}, \Prog{Xfig}, 
+  PNG, JPEG 等の書き出しをサポートしています．
+\begin{InText}
+pdf()\\
+plot(rnorm(10))\\
+dev.off()
+\end{InText}  
+  上記のように\Prog{R}から操作すればカンレントディレクトリにPDF形式の
+  グラフ \Fl{Rplots.pdf}が作成されます．
+\item[Tgif] \Hito{William Chia-Wei Cheng}による\Z{QPL}の描画ソフト．EPS
+  や PDF 形式に対応しています．PDFに関しては\GS 等の外部プログラムを必要
+  とします．
+ \item[Mac OS X] Mac OS X の場合は環境自体が PDF に関連した機能を持って
+ いるため，PDF 形式で書き出す事により \LaTeX に画像を
+ 取り込む事ができます．\Prog{Keynotes}, \Prog{Pages}, \Prog{Grapher},
+ \Prog{OmniGraffle}等，いずれの場合もメニューバーの \win{ファイル} の
+ \win{書き出し} で \win{PDF} を選択する事で PDF として保存できま
+ す．\Prog{プレビュー}で PDF の\Z{余白}部分を切り抜く事で余分な空きを
+ 取り除く事ができます．
+\zindind{PDF}{とMac OS X}%
+\item[\Prog{Mathematica}]
+  ツールバーから\win{ファイル}の\win{特殊な形式で保存}を選び
+  \win{TeX(X)}を選びます． そうすると数式やグラフなどが自動的に
+  {\LaTeXe}形式に保存されます．またグラフはEPS形式で{\fl{
+  filename.eps}}という名前で保存されます．{Mathematica}の場合
+  出力されるEPS画像の\Z{バウンディングボックス}が正常に
+  出力されないことがあるので{\LaTeX}で正しく処理できない場合
+  があります．出力された\fl{filename.eps}というファイルを
+  テキストエディタで開けば
+\begin{InText}
+%%BoundingBox: 91.5625 3.1875 321.938 190
+\end{InText}
+  のような記述があります．これは画像を平面上
+  のどこに配置するかを指定するもので，左から
+  2次元平面上の始点の$x_0$と$y_0$，終点の$x$と
+  $y$に対応します．また，通常はこの値は整数値が
+  推奨されます．上記の数値を四捨五入して整数に
+  直して取り込んでください．
+\item[\Prog{MATLAB}]
+  グラフを表示しているMATLABプログラムのウィンドウの
+  ツールバーにある \win{ファイル} から \win{エクスポート} を
+  選び，ファイルの種類を\qu{EPS Level 2}にし，任意の名前
+  をつけて保存します．{Illustrator}形式での出力もサポート
+  されていますので，お持ちの場合はグラフを編集できます．
+\end{description}
+
+全般的には PDF にさせ変換して入れば \Prog{Adobe Acrobat} による編集が
+可能となり，さらに \dvipdfmx を用いれば簡単に画像を張り込む事ができます．
+一度PDFに画像を変換すると，そのPDFファイルの編集は\prog{Adobe Acrobat}の
+ようなPDF編集プログラムが必要となります．そのため，画像の調整に関しては
+元の外部プログラム側で行うようにしてみてください．
+\zindind{PDF}{の編集}%
+
+\section{図の張り込みの際の工夫}
+
+
+\subsection{図を二つ横に並べる}
+2段組の場合はそのようなことはありませんが，1段組の場合は一つの図だけでは
+両脇が開いてしまうのでそこに二つの図を\qu{(a)}と\qu{(b)}として挿入したい
+ときがあります．このようなときは\Env{minipage}環境を使います．以下のよう
+に入力する例もあります．
+\C*{hfill}%
+\begin{InText}
+\begin{figure}[htbp]
+  \begin{minipage}{.47\textwidth}
+      \centering%ここに図(a)を入れる
+      (a) 初期値$c=0.6$
+  \end{minipage} \hfill
+  \begin{minipage}{.47\textwidth}
+      \centering%ここに図(b)を入れる
+      (b) 初期値$c=1.0$
+  \end{minipage}
+  \caption{1段組で横に図を二つ並べる}
+\end{figure}
+\end{InText}
+両方の図の番号を別にしたいときも同様に記述します．
+二つ以上横に並べるとき等には\Hito{Steven Douglas Cochran}による
+\Y{subfigure}パッケージを使うとより簡単に記述できる事になります．
+
+\begin{figure}[htbp]
+  \begin{minipage}{.47\textwidth}
+      \centering
+      \includegraphics[width=2cm]{images/gnu-head}\\
+      (a) 初期値 $c=0.6$
+  \end{minipage}
+\hfill
+  \begin{minipage}{.47\textwidth}
+      \centering
+      \includegraphics[width=2cm]{images/gnu-head}\\
+      (b) 初期値 $c=1.0$
+  \end{minipage}
+  \caption{1段組で横に図を二つ並べる}
+\end{figure}
+
+
+%方向性が若干異なりますが，図の隣に文章を表示するという場合等には
+%\Hito{Donald Arseneau}による\Y{wrapfig}パッケージ等も有用だと思われます．
+
+
+\subsection{画像に文字を追加する\zdash\textsf{labelfig}}
+
+\zindind{画像}{への文字の追加}%
+再編集が難しい画像ファイル，例えば EPS ファイルの上に文字などのラベルを
+追加したい場合があります．これには \Hito{Raymond S\'eroul} と
+\Hito{Laurent Siebenmann} による \Y{labelfig} パッケージが使える
+でしょう．
+\begin{Syntax}
+\C{SetLabels} \\
+\va{画像の上に表示したいラベル}\\
+\C{endSetLabels}\\
+\C{ShowGrid} \pp{必要に応じて}\\
+\C{strut}\C{AffixLabels}\va{配置する画像}
+\end{Syntax}
+\C{SetLabels} から \C{endSetLabels} の中で画像の上に表示したいラベルを
+設定します．ラベルを追加するときに必要に応じて \C{ShowGrid} コマンドで
+座標を表示します．\C{AffixLabels} の引数に配置すべき画像を指定します．
+ラベルは次の書式に従って追加します．
+\begin{Syntax}
+\va{位置指定}\string(\va{0--1}\string*\va{0--1}\string) \va{ラベル} \verb|\\|
+\end{Syntax}
+座標指定は \verb|(0.5*0.3)| のように 0 から 1 の範囲で指定します．
+\va{位置指定}には 垂直方向の揃えでは \C{T}，\C{E}，\C{B}，
+水平方向では \C{L}, \C{R} と無指定\pp{無指定で中央になる}の両方を
+組み合わせて使うことが出来ます．
+
+\C{ShowGrid} によってグリッドを表示するのは原稿執筆段階だけで，
+印刷時には表示しないとなれば \Option{draft} オプションを活用します．
+ただし，\sty{graphicx} パッケージによって読み込んでいる画像に関しては
+\Option{draft} オプションが有効になっているときでも \Option{final} 
+オプションを付けたときのように配置してもらいたいので，例えば
+次のようにします．
+\begin{InText}
+% グリッドを表示させるのは draft の時だけにすれば良いことになる
+%\documentclass[draft,a4j,11pt,papersize]{jsarticle}
+% 印刷時には draft オプションを除けば良いことになる．
+\documentclass[a4j,11pt,papersize]{jsarticle}
+% graphicx パッケージには final を渡して，いつでも図が表示される
+% ようにすると，labelfig の調整が容易になる．
+\usepackage[final]{graphicx}
+\usepackage{labelfig} 
+\end{InText}
+
+例えば次のような入力があれば \figref{fig:labelfig} のような出力に
+なります．\C{GridLineWidth}コマンドで罫線の太さを指定できます．
+\begin{InText}
+\begin{figure}[htbp]
+\begin{center}
+ \GridLineWidth{.2pt}
+ \SetLabels 
+  \T\L(.8*.45) 鼻\\
+  \T\L(.2*.9) 左の角\\
+  \T\L(.7*.9) 右の角\\ 
+  \T\L(.75*.3)  口\\ 
+  \T\L(.65*.1) 髭\\ 
+  \T\L(.3*.6) 左目\\ 
+  \T\L(.7*.6)  右目\\ 
+ \endSetLabels
+ \ifdraft
+   \ShowGrid
+ \fi
+ \strut\AffixLabels{\includegraphics{images/gnu-head}}%
+ \caption{\Y{labelfig} の使い方\label{fig:you}}%
+\end{center} 
+\end{figure} 
+\end{InText}
+
+\begin{figure}[htbp]
+\begin{minipage}{.49\linewidth}
+ \GridLineWidth{.2pt}
+  \SetLabels 
+  \T\L(.8*.45) 鼻\\
+  \T\L(.2*.9) 左の角\\
+  \T\L(.7*.9) 右の角\\ 
+  \T\L(.75*.3)  口\\ 
+  \T\L(.65*.1) 髭\\ 
+  \T\L(.3*.6) 左目\\ 
+  \T\L(.7*.6)  右目\\ 
+  \endSetLabels
+  \ShowGrid
+  \strut\AffixLabels{%
+    \includegraphics[clip,width=\linewidth]{images/gnu-head}}%
+\end{minipage}
+\hfil
+\begin{minipage}{.49\linewidth}
+  \SetLabels 
+  \T\L(.8*.45) 鼻\\
+  \T\L(.2*.9) 左の角\\
+  \T\L(.7*.9) 右の角\\ 
+  \T\L(.75*.3)  口\\ 
+  \T\L(.65*.1) 髭\\ 
+  \T\L(.3*.6) 左目\\ 
+  \T\L(.7*.6)  右目\\ 
+  \endSetLabels
+  \strut\AffixLabels{%
+    \includegraphics[clip,width=\linewidth]{images/gnu-head}}% 
+\end{minipage}
+ \caption{\sty{labelfig} の使い方\label{fig:labelfig}}%
+\end{figure}
+
+\section{その他の描画に関する情報}
+
+
+
+\subsection{化学式・化学構造式}\zindind{化学}{式}\zindind{化学}{構造式}
+化学式や化学構造式を描くための\Hito{藤田眞作}による
+\ruby{\XyMTeX}{きゅむてふ}パッケージを使うと良い
+でしょう．これは{\LaTeX}の\env{picture}環境と
+\sty{epic}を使ってベンゼン環やその他多くの化学式を
+描くことができます．\Prog[XyMTeX]{\XyMTeX}について
+詳しく知りたい方は\Hito{藤田眞作}の書いた
+\yousyo{\XyMTeX}~\cite{xymtex}を参照してください．
+
+%\subsection{チェスや将棋}
+%レポートや論文で楽譜やチェス，将棋などの図を
+%描く人は少数だと思いますが，詳しいことは
+%\wasyo{\GCOMP}~\cite{graphicscomp}の第7章と
+%第8章を参照してください．
+%
+\subsection{グラフの描画}\label{subsec:gnuplot}
+{\LaTeX}にグラフを挿入するには様々な方法が
+あります．Windowsの方でならば{Excel}で作成した
+グラフをPDFで保存し，それを\sty{graphicx}パ
+ッケージで読み込むという方法\pp{\pref{subsec:picture:program}
+\secref{subsec:picture:program}参照}があります．
+巷の表計算ソフトなんて使いたくない方は
+\Hito{Thomas Williams}と\Hito{Colin Kelley}らによる
+\Prog{Gnuplot}を使うと良いでしょう．\prog{gnuplot}
+はバージョン3.7に関しては\Hito{山賀正人}が，バージョ
+ン3.8に関しては\Hito{尾田晃}がプログラムの日本語化を
+されています．また\prog{gnuplot}のマニュアルに
+関しても\Hito{竹野茂治}らによって行われています．
+\begin{quote}
+ \webgplotman
+\end{quote}
+制御系では\Prog{SciLab}というのがあります．
+マニュアルが\Hito{大野修一}らによって日本語化されています．
+\begin{quote}
+ \webscilabman
+\end{quote}
+\Hito{John Eaton}らによる\Prog{Octave}というのもあります
+ので調べてみてください．
+
+\subsection{Xy-pic}
+\Z{ダイアグラム}などを描くには\Hito{Kristoffer Rose}と
+\Hito{Ross Moore}による\Prog[Xy-pic]{\Xy-pic}パッケ
+ージを使うと良いでしょう．\Z{状態遷移図}や\Z{オートマトン}，
+\Z{回路図}などを描くことができ非常に洗練されたシステムに
+なっています．詳細は\wasyo{\GCOMP}~\cite{graphicscomp}
+の第5章を参照してください．
+
+
+
+\endinput
+
+%#!platex ron.tex
+
+%\section{描画の方法}
+%{\LaTeX}で図を取り扱う手段はいくつも存在します．
+%写真のような画像を\sty{graphicx}パッケージ
+%などを使って張り込む方法と，1から描画する方法です．
+%\sty{graphicx}パッケージを用いて既存の画像を張り込む
+%方法は\secref{sec:figure}を参照してください．画像を
+%まだ作成していない段階での描画の方法を紹介します．
+%
+%描画の方法は大きく分けて二つあります．一つは{\LaTeX}
+%自身の能力で描画する方法と \cmd{special}命令を使い
+%他のプログラムへ描画をゆだねる方法です．一般に
+%{\LaTeX}における描画の能力は{\TeX}譲りのシステムの
+%お陰で貧弱なものとなっています．簡単な図を作成する
+%ならば{\LaTeX}に備わっている\env{picture}環境に
+%よる描画を行うのが手軽です．
+
+%\subsection{\env{picture}環境による描画}
+%{\LaTeX}の力を使った描画を行うには特別な環境，
+%描画専用の\Env{picture}環境で作業を使います．
+%\env{picture}環境では基準となる長さを決めてその
+%相対的な距離によって描画を行います．このとき基準
+%となる長さ \cmd{unitlength}を決めます．
+%\begin{Syntax}
+%\verb+\begin{picture}+\xy{x}{y}\xy{$x_0$}{$y_0$}\\
+%描画内容\\
+%\verb+\end{picture}+
+%\end{Syntax}
+%\env{picture}環境の中に描画したい内容を
+%記述します．\env{picture}環境に渡す\qu{\xy{x}{y}}
+%は必須引数ですが\qu{\xy{$x_0$}{$y_0$}}は任意引数です．
+%\qu{\xy{x}{y}}には座標における\env{picture}環境の大きさ
+%を横方向は$x$で縦方向は$y$で指定します．
+%これには単位などを付けずに数値で指定します．
+%\qu{\xy{$x_0$}{$y_0$}}には原点の位置を指定します．
+%
+%何らかの要素を配置するには \cmd{put}か \cmd{multiplot}を
+%使います．$x$と$y$は単位 \cmd{unitlength}に
+%従属します．
+%\begin{Syntax}
+%\Cmd{put}\xy{x}{y}\pa{要素}\\
+%\Cmd{multiplot}\xy{x}{y}\xy{$\Delta{x}$}{$\Delta{y}$}%
+%  \pa{回数}\pa{要素}
+%\end{Syntax}
+% \cmd{put}命令は座標\xy{x}{y}に\va{要素}を置くだけの
+%命令です． \cmd{multiplot}は座標\xy{x}{y}を基点とし，
+%二つ目の座標\xy{$\Delta{x}$}{$\Delta{y}$}を\Z{ベクトル}
+%として\xy{$\Delta x$}{$\Delta y$}の変化量に応じて
+%要素を回数分だけ繰り返して配置します．
+%この他に2次ベジェ曲線を描く \Cmd{qbezier}命令があります．\zindind{曲線}{の描画}
+%\begin{Syntax}
+%\Cmd{qbezier}\xy{$x_1$}{$y_1$}\xy{$x_2$}{$y_2$}\xy{$x_3$}{$y_3$}
+%\end{Syntax}
+%\qu{\xy{$x_1$}{$y_1$}}を始点，\qu{\xy{$x_2$}{$y_2$}}
+%を基準点，\qu{\xy{$x_3$}{$y_3$}}終点として2次ベジェ
+%曲線を描きます．
+%
+%\va{要素}には次のようなコマンドが標準として使えます．
+%\begin{Syntax}
+%\Cmd{line}\xy{x}{y}\pa{長さ}\\
+%\Cmd{vector}\xy{x}{y}\pa{長さ}\\
+%\Cmd{circle*}\pa{直径}\\
+%\Cmd{oval}\xy{幅}{高さ}\opa{位置指定}
+%\end{Syntax}
+% \cmd{line}は\qu{\xy{x}{y}}をベクトルとして
+%\va{長さ}分の線分を描きます． \cmd{vector}は
+% \cmd{line}の終端に\Z{矢印}をつけたものです．
+% \cmd{circle*}は直径を指定して\Z{円}を描きます．\indindz{描画}{円の}%
+%アスタリスク\qu{\texttt*}を付けないと円の内側が塗りつぶされません．
+% \cmd{oval}は幅と高さを指定して楕円を描きます．\indindz{描画}{楕円の}%
+%\begin{InOut}
+%\setlength{\unitlength}{1mm}
+%\begin{picture}(40,30)
+%\put(10,10){\line(1,1){10}}
+%\put(10,0){\vector(1,1){10}}
+%\put(20,20){\circle{5}}
+%\end{picture} 
+%\end{InOut}
+%楕円を描く \cmd{oval}命令の任意引数の\va{位置指定}
+%には楕円のどの部分を出力するかを指定します．
+%それぞれ上部\qu{\str t}，下部\qu{\str b}，
+%左\qu{\str l}，右\qu{\str r}となり，複合的に
+%使用できます．
+%\begin{InOut}
+%\setlength{\unitlength}{1mm}
+%\begin{picture}(50,30)
+%\put(8,12){\oval(10,15)[tl]}
+%\put(8,8){\oval(10,15)[bl]}
+%\put(10,10){\oval(10,15)}
+%\put(12,12){\oval(10,15)[tr]}
+%\put(12,8){\oval(10,15)[br]}
+%\end{picture} 
+%\end{InOut}
+%\env{picture}環境中での線の太さは 
+%\Cmd{thinlines}と \Cmd{thicklines}の二つで調整
+%します． \cmd{thinilnes}のほうが細く \cmd{thicklines}
+%のほうが太くなります．\env{picture}環境中の全て
+%の線分に有効になります．
+%\begin{InOut}
+%\setlength{\unitlength}{1mm}
+%\begin{picture}(50,30)
+%\thicklines
+%\put(10,10){\line(1,1){10}}
+%\put(10,20){\vector(1,1){10}}
+%\thinlines
+%\put(10,0){\vector(1,1){10}}
+%\put(20,20){\circle{5}}
+%\end{picture}  
+%\end{InOut}
+
+%ちなみに\figref{fig:bez1}の図は以下のような
+%入力になります．
+%\begin{InText}
+% \setlength{\unitlength}{1cm}
+% \begin{picture}(6,4)(0,0)
+% \put(0,2){\vector(1,0){6}}
+% \put(6.2,2){\makebox(0,0)[b]{$x$}}
+% \put(3,0){\vector(0,1){4}}
+% \put(3.2,4){\makebox(0,0)[t]{$y$}}
+% \multiput(0,1.9)(1,0){6}{\line(0,1){.2}}%後述
+% \multiput(2.9,0)(0,1){4}{\line(1,0){.2}}%後述
+% \put(2,3){\circle*{.1}}
+% \put(2,3.1){\makebox(0,0)[b]{$P_0$}}
+% \dashline{.1}(2,3)(3,2)%後述
+% \put(3,2){\circle*{.1}}
+% \put(2.8,1.9){\makebox(0,0)[t]{$P_1$}}
+% \put(3.2,1.9){\makebox(0,0)[t]{$O$}}
+% \put(4,3){\circle*{.1}}
+% \put(4,3.1){\makebox(0,0)[b]{$P_2$}}
+% \dashline{.1}(4,3)(3,2)%後述
+% \qbezier(2,3)(3,2)(4,3)
+% \end{picture}
+%\end{InText}
+
+%\subsection{\env{picture}環境の拡張その1\zdash \sty{epic}}
+%{\LaTeX}での標準の\env{picture}環境のコマンドも
+%デバイスに依存しないので汎用性があるのですが，
+%それではあまりにも表現力に乏しいのが現状です．
+%そこでこの\env{picture}環境の拡張が行われて
+%きました．\env{picture}環境の限らず{\LaTeX}での描画
+%は1980年代後半からさまざまな方法が模索され，拡張
+%され続けました．その中でも\Hito{Sunil Podar}による
+%\Sty{epic}は\env{picture}環境の拡張版としては定評が
+%あります．\sty{epic}では{\LaTeX}の\env{picture}環境
+%で使用できるコマンドのほかに以下の命令が拡張されています．
+%\begin{quote}% underfull
+%\begin{tabular}{lllll}
+%\Cmd{multiputlist}&\Cmd{matrixput}&\Cmd{grid}&\Cmd{picsquare}&\Cmd{dottedline}\\
+%\Cmd{dashline}&\Cmd{drawline}&\Cmd{jput}&\Cmd{putfile}& \\
+%\end{tabular}
+%
+%
+%\end{quote}
+%このほかに\Env{dottedjoin}，\Env{dashjoin}，\Env{drawjoin}の
+%三つの環境が定義されています．
+%座標の変化量を\xy{$\Delta{x}$}{$\Delta{y}$}として複数の
+%項目を配置する \cmd{multiputlist}命令があります．
+%\begin{Syntax}
+%\Cmd{multiputlist}\xy{x}{y}\xy{$\Delta{x}$}{$\Delta{y}$}%
+%   \opa{tbrl}\pa{複数の項目}
+%\end{Syntax}
+%座標上に行列のように要素を繰り返して配置する
+% \cmd{matrixput}命令もあります．
+%\begin{Syntax}
+%\Cmd{matrixput}\xy{x}{y}\xy{$\Delta{x_1}$}{$\Delta{y_1}$}%
+%   \pa{$n_1$}\xy{$\Delta{x_2}$}{$\Delta{y_2}$}%
+%   \pa{$n_2$}\pa{要素}
+%\end{Syntax}
+%\begin{InOut}
+%\setlength{\unitlength}{1pt}
+%\begin{picture}(150,110)(0,0)
+%\multiputlist(0,0)(15,10)%
+%  {0,1,2,3,4,5,6,7,8,9,10}
+%\matrixput(0,0)(20,0){7}(0,20){5}%%
+%  {\mbox{未来}}
+%\end{picture} 
+%\end{InOut}
+%座標系を表現するのに格子を描くには \cmd{grid}命令が使えます．
+%\begin{Syntax}
+%\Cmd{grid}\xy{幅}{高さ}\xy{$\Delta{\text{幅}}$}{$\Delta{\text{高さ}}$}%
+%   \opa{$x$座標の初期値,$y$座標の初期値}
+%\end{Syntax}
+%%\begin{InOut}
+%%\begin{picture}(150,100)(0,0)
+%%\put(10,10){\grid(50,50)(10,10)[0,0]}
+%%\end{picture} 
+%%\end{InOut}
+%\indindz{描画}{折れ線の}\indindz{描画}{破線の}\indindz{描画}{点線の}%%
+%他にも点線や破線などを描くコマンドがあります．
+%\begin{Syntax}
+%\Cmd{dottedline}\opa{点の種類}\pa{間隔}%
+%   \xy{$x_1$}{$y_1$}\xy{$x_2$}{$y_2$}$\cdots$\xy{$x_n$}{$y_n$}\\
+%\Cmd{dashline}\pa{破線の長さ}\opa{間隔}%
+%   \xy{$x_1$}{$y_1$}\xy{$x_2$}{$y_2$}$\cdots$\xy{$x_n$}{$y_n$}\\
+%\Cmd{drawline}\xy{$x_1$}{$y_1$}\xy{$x_2$}{$y_2$}$\cdots$\xy{$x_n$}{$y_n$}
+%\end{Syntax}
+% \cmd{dottedline}は点線を， \cmd{dashline}は破線を，
+% \cmd{drawline}は\Z{折れ線}を描くために使います．\Z{点線}や\Z{破線}は
+%折れても構いません．
+%\begin{InOut}
+%\setlength{\unitlength}{1pt}
+%\begin{picture}(150,120)(0,0)
+%\put(0,0){\grid(100,100)(25,25)[0,0]}
+%\dottedline
+%  [$\heartsuit$]{10}(0,0)(100,100)
+%\dashline{3}(0,80)(30,50)(50,45)(100,20)
+%\drawline(0,70)(10,60)(30,40)(100,50)
+%\end{picture} 
+%\end{InOut}
+
+
+%\subsection{\env{picture}環境の拡張その2\zdash \sty{eepic}}
+%\Hito{Sunil Podar}による\Sty{epic}を改良・拡張した
+%\Hito{Conrad Kwok}の作成した\Sty{eepic}があります．これは
+%\sty{epic}の改良・拡張版でありますので使用するときは
+%\begin{InText}
+%\usepackage{epic,eepic} 
+%\end{InText}
+%として\sty{epic}も先に読み込んでおきます．
+%{\LaTeX}の\env{picture}環境で使用できる \cmd{line}，
+% \cmd{circle*}， \cmd{oval}の拡張が行われています．
+%\sty{epic}のコマンドも全て再定義されています．
+%\sty{eepic}はこれらの命令を{\Tpic}スペシャルに置き換え
+%ていますので描画力は高いのですが，デバイスドライバが
+%{\Tpic}スペシャルに対応している必要があります．
+%\prog{dviout}，\prog{dvips}，\prog{\dvipdfmx}などは
+%対応しているようです．デバイスドライバによって{\Tpic} 
+%スペシャルの解釈が若干異なるようですので，出力を確認して
+%デバイスを選択してください．
+%
+%線の太さに関するコマンドが新たに定義されています．
+%\begin{Syntax}
+%\Cmd{allinethickness}\pa{太さ} \\
+%\Cmd{Thicklines}
+%\end{Syntax}
+%\cmd{allinethickness}はこの命令を使った後の
+%\env{picture}環境中にある全ての線の太さを変更します．
+%\Cmd{Thicklines}は\Cmd{thicklines}よりもこのコマンドを
+%宣言した後の線の太さを太くします．
+%\begin{InOut}
+%\begin{picture}(100,100)(0,0)
+%\thinlines \put(0,0){\vector(1,0){70}}
+%\thicklines\put(0,0){\vector(1,1){70}}
+%           \put(0,0){\vector(0,1){70}}
+%\Thicklines\put(0,0){\vector(2,1){70}}
+%\end{picture} 
+%\end{InOut}
+%\sty{eepic}では \cmd{drawline}よりも\Cmd{path}を使い，
+%\Cmd{qbezier}よりも\Cmd{spline}を使うと良いでしょう．
+% \cmd{spline}は始点と終点以外は制御点として
+%\Z{Chaikin曲線}を描きます．\indindz{曲線}{Chaikin}
+%\begin{Syntax}
+%\Cmd{path}\xy{$x_1$}{$y_1$}\xy{$x_2$}{$y_2$}%
+%   $\cdots$\xy{$x_n$}{$y_n$}\\
+%\Cmd{spline}\xy{$x_1$}{$y_1$}\xy{$x_2$}{$y_2$}%
+%   $\cdots$\xy{$x_n$}{$y_n$}
+%\end{Syntax}
+%\begin{InOut}
+%\setlength{\unitlength}{1pt}
+%\begin{picture}(150,100)(0,0)
+%\path(0,60)(25,100)(100,25)(150,50)%
+%     (100,100)(25,0)(55,75)
+%\Thicklines
+%\spline(0,60)(25,100)(100,25)(150,50)%
+%       (100,100)(25,0)(55,75)
+%\end{picture} 
+%\end{InOut}
+%卵形の楕円を描くのに \cmd{ellipse}を，\index{弧}\index{円弧}%
+%弧を描くには \cmd{arc}を使います．
+%アスタリスクを付けると領域を塗りつぶします．
+%\begin{Syntax}
+%\Cmd{ellipse*}\pa{幅}\pa{高さ}\\
+%\Cmd{arc}\pa{長さ}\pa{始点角度}\pa{終点角度}
+%\end{Syntax}
+%\va{始点角度}の値は$[0,\pi/2]$の範囲に，
+%\va{終点角度}の値は$[\text{始点角度},\text{始点角度}+2\pi]$
+%の範囲にします．領域の塗りつぶしには
+% \cmd{filltype}を使います．アスタリスクを付けた場合の%underfull
+%\Cmd{circle*}と\Cmd{ellipse*}の領域の
+%塗りつぶす種類を\qu{\str{black}}，
+%\qu{\str{white}}，\qu{\str{shade}}
+%の三つから選択します．
+%\begin{Syntax}
+%\Cmd{filltype}\pa{種類}
+%\end{Syntax}
+%%   \blacken        \whiten         \shade
+%%   \texture        \filltype{type} type=black|white|shade
+%\begin{InOut}
+%\begin{picture}(150,100)(0,0)
+%\filltype{shade}
+%\put(10,50){\ellipse*{50}{30}}
+%\filltype{black}
+%\put(50,50){\ellipse*{30}{50}}
+%\put(80,50){\ellipse{45}{65}}
+%\end{picture} 
+%\end{InOut}
+
+
+
+%\subsection{\env{picture}環境の拡張その3\zdash \sty{pict2e}}
+%\Hito[Hubert Gaesslein]{Hubert G\"{a}\ss{}lein}と
+%\Hito{Rolf Niepraschk}による\Sty{pict2e}は
+%\Env{picture}環境の拡張として2003年頃に公表
+%されたものです．デバイスドライバの力を借りて
+%\env{picture}環境で使用できるコマンドを再定義
+%していますし，新しいコマンドも定義されています．
+%今のところ
+%\begin{quote}
+% \str{dvips} \str{xdvi} \str{pdftex} \str{vtex} \str{dvipdfm}
+%\end{quote}
+%などのデバイスドライバをサポートしています．
+%\env{picture}環境におけるほとんどのコマンドを
+%拡張してあります． \cmd{circle}で描ける円の大きさにも\indindz{描画}{円の}%
+%制限はありません．ベジェ曲線に関しては \cmd{cbezier}命令
+%が追加されました．
+%\begin{Syntax}
+%\Cmd{qbezier}\xy{x}{y}\xy{x}{y}\xy{x}{y}\\
+%\Cmd{cbezier}\xy{x}{y}\xy{x}{y}\xy{x}{y}\xy{x}{y}
+%\end{Syntax}
+% \cmd{qbezier}は\Z{2次ベジェ曲線}用， \cmd{cbezier}は\Z{3次ベジェ曲線用}
+%の命令です．\indindz{曲線}{2次ベジェ}\indindz{曲線}{3次ベジェ}%
+%\begin{InOut}
+%\setlength{\unitlength}{1pt}
+%\begin{picture}(100,100)(0,0)
+%\qbezier(0,0)(50,100)(100,0)
+%\cbezier(0,0)(25,200)(75,0)(100,100)
+%\end{picture}
+%\end{InOut}
+
+%\section{他のプログラムによる描画}
+%広く使われている描画ツールを紹介します．
+%以下の描画ツールで作成した図などは
+%それぞれ指定された方法でデバイスドライバが
+%適切に解釈できる状態になければなりません．
+
+%\ifusehyperref
+%\subsection{\texorpdfstring{\protect\Tpic}{Tpic}による描画}\else
+%\subsection{{\protect\Tpic}による描画}\fi
+%Unix系OSの描画ツールとして\Hito{Brian Kernighan}が
+%開発した\Prog[PIC]{\PIC}があります．これを
+%\Hito{Tim Morgan}が{\TeX}に移植した\Prog[Tpic]{\Tpic}
+%を使うと簡単な図形ならばすぐに描くことができます．
+%Unix系OSを持っているならば\prog{\PIC}というプロ
+%グラム導入されているでしょう．ただ\prog{\PIC}は
+%日本語化されていないかもしれないので注意してください．
+%{\Tpic}はほとんどの機能を{\TeX}ではなくデバイス
+%ドライバに任せています．これらの命令は \cmd{special}
+%命令の中に記述されています．{\Tpic}の出力する特有な
+%命令を{\Tpic}スペシャルと言います．{\Tpic}スペシャルに
+%対応しているドライバは\prog{dvips}や\prog{dviout}，
+%\prog{\dvipdfmx}などです．多くのドライバが対応
+%していますが，デバイスドライバによる解釈の違いなど
+%もありますので若干注意が必要でしょう．
+%
+%例題程度に紹介しておきます．例えば
+%\figref{fig:tpicsample}のような図を
+%作成したいとしましょう．
+%\begin{figure}[htbp]
+%\input{tpicsample}
+%\IOmargin\makebox[0pt][l]{{\box\graph}\IOlabel}
+%\ifusehyperref
+%\caption{{Tpic}の使用例}
+%\else
+%\caption{{\protect\Tpic}の使用例}
+%\fi
+%\label{fig:tpicsample}
+%\end{figure}
+%{\PIC}の入力ファイル\fl{hoge.pic}に以下の
+%ような記述をします．
+%\begin{InText}
+%.PS
+% box "PIC file" 
+% arrow "pic" above 
+% box "\textsc{Tpic} file"
+% arrow "input" above dashed
+% box "{\LaTeX} file"
+% arrow "{\LaTeX}" above
+% box "DVI"
+% arrow "special" above dashed
+% ellipse "Picture" fill
+%.PE
+%\end{InText}
+%この\fl{hoge.pic}を\prog{pic}で{\TeX}用に出力
+%するために\copt{-t}オプションを付けて
+%\begin{TYPE}
+%\type{pic -t hoge.pic > hoge.tex}
+%\end{TYPE}
+%とすることで\fl{hoge.tex}中の \cmd{graph}に図形
+%が格納されます．これを\fl{file.tex}で使用するためには
+%\begin{InText}
+%\input{hoge} 
+%\begin{center}
+%{\box\graph}
+%\end{center}
+%\end{InText}
+%とするとその場所に中央揃えでグラフを挿入できます．
+%適宜\env{figure}環境に入れるなどします．
+%%参考程度に\fl{hoge.pic}を\Prog{pic}で処理した後に
+%%成形されるファイルを載せておきます．
+%%\lstinputlisting{tpicsample}
+%%ご覧の通り，手動でこのファイルを編集するのは骨の折れる作業です．
+%%中にはこの \cmd{special}を直接編集する方もいらっしゃるようですが，
+%%通常は{\PIC}を編集し最終的な図形を描画します．
+
+%\subsection{メタな描画プログラム}
+%\zindind{フォント}{のデザイン}%
+%\Hito{Donald Knuth}がフォントデザイン用に開発
+%した\Prog[MetaFont]{\MF}があります．これに対し
+%て\Hito{John Hobby}%
+%%\authorpict{bb=0 0 130 169}{hobby}{John Hobby}%
+%が描画に関するアルゴリズムを%
+%追加したり，出力形式をEPSにした\Prog[MetaPost]{\MP}
+%という描画プログラムを開発しました．{\MF}は{\TeX}
+%のフォント形式ファイル\Va{file}{gf}を出力するのに
+%対して{\MP}はEPS形式ファイル\Va{file}{n}を出力
+%するので今では{\MP}が広く使われいます．
+%{\MP}に関する日本語情報は少ないのが現状です．
+%しかし{\MF}から変更・追加された箇所があった
+%としても，\Hito{Donald Knuth}の
+%\emph{\MF book}~\cite{metafontbook}が参考にな
+%ると思います．
+%
+%{\MF}をちょっと触ってみましょう．端末から
+%\begin{TYPE}
+%\type{mf }
+%\end{TYPE}
+%とすると
+%\begin{OutTerm}
+%This is METAFONT, Version 2.7182 (Web2C 7.3.9)
+%**
+%\end{OutTerm}
+%のようにアスタリスク\qu{\str{*}}が二つ表示されて
+%ファイルの入力を促しています．ここでは実験的に，
+%\qq{\cmd{relax}}と入力して改行します．すると
+%アスタリスクが一つなるはずです．
+%\begin{TYPE}
+%\type[*]{*\relax}
+%\end{TYPE}
+%これで準備は万全です．とりあえず点を表示してみましょう．
+%\begin{TYPE}
+%\item[*]{drawdot (0,0); showit;}
+%\end{TYPE}
+%今度は直線を描くために
+%\begin{TYPE}
+%\item[*]{draw (0,0)..(100,0); showit;}
+%\end{TYPE}
+%としてみましょう．曲線などは
+%\begin{TYPE}
+%\item[*]{draw (0,100)..(100,100)..(100,0); showit;}
+%\end{TYPE} 
+%とすると雰囲気がつかめるでしょう．
+%終了するときは
+%\begin{TYPE}
+%\item[*]{end.}
+%\end{TYPE}
+%と入力します．
+%
+%今度は{\MP}を少し体験してみましょう．\qu{\prog{mp}}
+%か\qu{\prog{mpost}}を端末から実行すれば良いはずです．
+%今度は{\MP}のファイル\fl{hoge.mp}を用意します．
+%\begin{InText}
+%beginfig(1)
+%u=100;
+%draw (u,u)--(2u,u)--(2u,2u)..cycle;
+%draw (u,u)..(2u,u)..(2u,2u)..(u,2u)..cycle;
+%endfig;
+%end. 
+%\end{InText}
+%これを見ても何がなんだかわかりませんが，
+%とりあえず保存しておきます．端末から
+%\begin{TYPE}
+%\type{mpost hoge.mp}
+%\end{TYPE}
+%とします．そうするとEPS形式の\fl{hoge.1}が作成
+%されますのでご覧ください．\prog{\GS}などで
+%見ると\figref{fig:mpsample}のような円とその円に
+%内接する直角二等辺三角形が表示されます．
+%\begin{figure}[htbp]
+% \begin{center}
+%  \includegraphics[clip,bb={74 74 225 225}]{images/mpsample}
+%  \caption{{\protect\MP}の出力例}\label{fig:mpsample}
+% \end{center}
+%\end{figure}
+%環境によって日本語化された{\MP}を使うためには
+%\prog{mpost}ではなく\prog{jmpost}を使うことに
+%なるかもしれません．\hito{角藤亮}の{\pTeX}を
+%使っているWindowsの方は\prog{jmpost}のはずです．
+
+
+%\subsection{\textsf{PSTricks}}
+%\Hito{Timothy Zandt}らによる\Sty{PSTricks}は \cmd{special}命
+%令中に{\PS}命令を記述することによって{\PS}の描画機能を
+%{\laTEX}で使えるようにするパッケージです．{\PS}命
+%令を多用することからデバイスドライバとして\Prog{dvips}
+%などを想定していたり{\PS}対応プリンタでの使用が推奨され
+%ます．\sty{PSTricks}の詳しい使い方は日本語訳で70ページ分の
+%\wasyo{\GCOMP}~\cite{graphicscomp}の第4章を参照してください．
+%基本的なマクロを読み込むためには\sty{pstricks}パッケージを読み
+%込みます．特定のパッケージを個別に読み込むこともできます．
+%色を使うためには\sty{grahics}パッケージに含まれる\Sty{color}
+%パッケージではなく\Sty{pst-col}パッケージを読み込みます．全て
+%の機能を使うときは\Sty{pst-all}を読み込ます．標準的に以下のよ
+%うにするとうまく行くと思います．
+%\begin{InText}
+%\usepackage[dvips]{graphicx}
+%\usepackage[dvips,usenames]{pst-col} 
+%\usepackage{pst-all}
+%\end{InText}
+%具体的に3次元射影，画像のEPS変換，グラデーション，
+%木構造，回路図，プロットなどさまざまなことができます．
+%\figref{fig:pstricks}に状態遷移図の例を示します．
+%
+%\begin{figure}[p]
+%\begin{center}
+%  \includegraphics{images/pst}
+%  \caption{PSTricksによる状態遷移図の描画}\label{fig:pstricks}
+%\begin{InText}
+%%\usepackage[dvips]{graphicx}
+%%\usepackage{pst-all,pstcol}
+%\begin{TeXtoEPS}
+%\begin{math}
+% \rput(0,3.5){\rnode{root}\relax}
+% \cnodeput[fillstyle=solid,fillcolor=cyan](1,3){N}{N}
+% \cnodeput[fillstyle=solid,fillcolor=magenta](3,3){M}{M}
+% \cnodeput[fillstyle=solid,fillcolor=yellow](5,3){S}{S}
+% \cnodeput[doubleline=true,fillstyle=solid,fillcolor=red](3,1){Q}{q}
+% \psset{arrows=->,labelsep=3pt}
+% \ncarc{N}{M}   \Aput{b}
+% \ncarc{M}{S}   \Aput{a}
+% \ncarc{S}{M}   \Aput{b}
+% \ncline{N}{Q}  \Bput{y}
+% \ncline{M}{Q}  \Aput{y}
+% \ncline{S}{Q}  \Aput{y}
+% \ncline[doubleline=true]{root}{N}
+% \nccircle{->}{N}{10pt} \Bput{a}
+% \nccircle{->}{M}{10pt} \Bput{b}
+% \nccircle{->}{S}{10pt} \Bput{a}
+% \nccircle[angleA=180]{->}{Q}{10pt} \Bput{\{a,b,y\}}
+%\end{math} 
+%\end{TeXtoEPS}
+%\end{InText}
+%\end{center}
+%\end{figure}
+%%
+%
+%\sty{PSTricks}を\Prog[dvipdfmx]{\dvipdfmx}で
+%使うにはまず面倒な方法として\sty{pstricks}を
+%使って描いた図形を一つ一つEPSファイルに変換する方法です．
+%これは
+%\begin{InText}
+%\documentclass{jsarticle}
+%\usepackage[dvips]{graphicx}
+%\usepackage[dvips,usenames]{pst-col} 
+%\usepackage{pst-all}
+%\pagestyle{empty}
+%\begin{document}
+%\begin{pspicture}(100,100)
+% 描画内容
+%\end{pspicture}
+%\end{document}
+%\end{InText}
+%のようなファイル\fl{fig1.tex}を作成し，
+%これを端末などから
+%\begin{TYPE}
+%\type{platex fig1}
+%\type{dvipsk -Pdl -E -o fig1.eps fig1}
+%\type{epstopdf fig1.eps}
+%\type{egrep "^%%BoundingBox:" fig1.eps > fig1.bb}
+%\end{TYPE}
+%ということを図形の数だけこなし，図形を使用したい
+%{\LaTeX}の原稿にPDFファイル\fl{fig1.pdf}として
+%\sty{graphicx}の \cmd{includegraphics}で張り込みます．
+%\begin{InText}
+%%\usepackage[dvipdfm]{graphicx}
+%\includegrpahics[bb={0 0 100 100}]{fig1.pdf}
+%\end{InText}
+%
+%\Hito{CV Radhakrishnan}と\Hito{CV Rajagopal}らに
+%よる\Sty{pdftricks}を使うと少しは楽になります．
+%これはもともと\prog{pdf\TeX}で\sty{PSTricks}を
+%使うためのものですが，\prog{\pLaTeX}にも流用でき
+%そうです．まずは\sty{pdftricks}に付属の
+%\Prog{pst2pdf}というシェルスクリプトを少し変更
+%します．
+%\begin{InText}
+%for f in $FIGURES ; do
+%  latex $fig
+%  dvips -Ppdf -E -o $fig.eps $fig
+%  epstopdf $fig.eps 
+%done
+%\end{InText}
+%という部分で\qu{\str{latex}}はもちろん\qu{\str{platex}}
+%にしますし．\qu{\str{dvips}}もご自分のシステムに
+%合うように変更してください．\Prog{epstopdf}で
+%変換したPDFのバウンディングボックスは結構まともな
+%なんですが
+%\begin{InText}
+%    egrep "^%%BoundingBox:"      $FILE > $fig.bb 
+%\end{InText}
+%の1行も追加しておくと良いでしょう．
+%%あとは
+%%\begin{TYPE}
+%%\type{platex file}
+%%\type{pst2pdf file}
+%%\type{platex file}
+%%\type{dvipdfmx file}
+%%\end{TYPE}
+%%のような作業をします．
+%%\sty{graphicx}と\sty{color}
+%%パッケージを読み込むときは
+%%\begin{InText}
+%%\usepackage[dvipdfm]{graphicx,color} 
+%%\end{InText}
+%%のように\Option{dvipdfm}を付けます．
+
+\endinput
+
+
+%\subsection{画像の張り込み}\label{macro:graphicx}
+
+%例えば\prog{\GS}がインストールされている場所に\fl{examples/}という
+%ディレクトリがあります．そこに\fl{golfer.eps}というEPS画像があり
+%\indindz{ファイル}{EPS}ます．このEPS画像ファイル\fl{golfer.eps}を{\LaTeX}の
+%文書に張り込むには\fl{golfer.eps}を{\LaTeX}
+%の原稿のあるディレクトリにコピーして
+%\begin{InText}
+%\usepackage[dvips]{graphicx}% dvipdfm
+%\end{InText}
+%をプリアンブルに書きます．そして\env{document}環境の中で
+%\begin{InText}
+%\includegraphics[width=5cm]{golfer.eps}
+%\end{InText}
+%とします．これを\prog{platex}でタイプセットし，
+%整形されたDVIファイル\Va{file}{dvi}をプレビューアで
+%見ることができます．
+%
+%上記の操作が問題なくできるでしょうか．基本的に
+%{\LaTeX}で既存の画像を張り込むときは{\LaTeX}に
+%標準で含まれている\Sty{graphicx}パッケージを使う
+%ことになると思われます．
+
+%既存のJPG，BMP，EPSなどの画像は{\LaTeX}の力では
+%どうしようもありありません．それらの画像に関して
+%はデバイスドライバに一任しています．そのため取り
+%込むことのできる画像はデバイスドライバに依存します．
+
+%画像の張り込みに関しては\Sty{graphicx}パッケージという
+%統合的な方法が提供されています．このパッケージを使うこ
+%とによって任意のデバイスドライバに合わせたコマンドを記
+%述しなくても良いように工夫がされています．
+
+%まずこの\Sty{graphicx}を使うためにプリアンブルに
+%以下の1行を追加します．
+%\begin{InText}
+%\usepackage{graphicx}
+%\end{InText}
+%このとき使用するデバイスドライバが重要で最終的に
+%{\PS}形式か，DVI形式か，それともPDF形式が必要なのか
+%によってオプションを変えます．Windowsで印刷することも考える
+%ならば最終的にPDF形式にすると良いのかもしれません．
+%そうするとデバイスドライバは\prog{\dvipdfmx}を
+%使うことになるでしょうから，\prog{\dvipdfmx}の場合は
+%\begin{InText}
+% \usepackage[dvipdfm]{graphicx}
+%\end{InText}
+%とします．\prog{\dvipdfmx}の場合も\Sty{graphicx}に
+%おいては\Option{dvipdfm}と同じ設定になりますから
+%\option{dvipdfmx}と書いてはいけません．
+
+
+
+%\subsection{様々なプログラムからの画像の張り込み}
+
+%\subsection{EPSからPDFへの変換}
+%デバイスドライバとして\prog{\dvipdfmx}で手持ちの
+%EPS画像を取り込むようにしている場合，\prog{\dvipdfmx}
+%を実行するたびに毎回\Prog[Ghostscript]{\GS}を使ってEPSからPDFに変換
+%する処理が行われます．処理時間の短縮のために，
+%あらかじめPDFに変換しておけば良いでしょう．EPS形式
+%の画像をPDFへ変換する方法はいくつかあるそうですが，
+%簡単で安全な方法を紹介します．まず\prog{\GS}の
+%\qu{pdfwrite}の力を借りる方法です．BoundingBoxの
+%設定されているEPS画像を\Prog{epstopdf}によって
+%PDFに変換します．
+%\begin{TYPE}
+%\type{epstopdf filename.eps}
+%\end{TYPE}
+%とすると\fl{filename.pdf}が作成されます．日本語が
+%使われているEPSがうまく処理できないなどの
+%問題があるかもしれません．その場合はGNUの
+%\Prog[GhostScript]{\GS}のバージョン7.07を使うと良いで
+%しょう．以下のようなシェルスクリプト\fl{epspdf}
+%\begin{InText}
+%#!/bin/bash
+%FILE=$1
+%fig=`basename $FILE .eps`
+%epstopdf $FILE
+%egrep "%%BoundingBox:" $FILE > $fig.bb
+%\end{InText}
+%を作成し\fl{/usr/local/bin/}などに複製して%$
+%\begin{TYPE}
+%\type{epspdf filename.eps}
+%\end{TYPE}
+%とするとPDFファイル\fl{filename.pdf}とバウンデ\indindz{ファイル}{PDF}%
+%ィングボックス情報\fl{filename.bb}が作成されま
+%す．%\prog{echo}は端末に文字を出力する命令，
+%%\prog{test}は文字列を検査する命令，
+%%\prog{egrep}はファイルなどから特定の表現を見つける命令，
+%%\prog{basename}はファイル名から拡張子を取り除いたりする命令．
+%同じディレクトリの中の全てのEPS画像を
+%PDFに変換したいときは
+%\begin{InText}
+%#!/bin/sh
+%for f in `ls *.eps`; do
+%   fig=`basename $f .eps`
+%   epstopdf $f
+%   grep "^%%BoundingBox:" $f > $fig.bb
+%done
+%\end{InText}
+%を\fl{epspdfs}という名前で同じように複製します．
+%このようにして処理したPDFは{\LaTeX}の原稿で
+%\begin{InText}
+%\documentclass{jsarticle} 
+%\usepackage[dvipdfm]{graphicx}
+%\begin{document}
+%\includegraphics{filename}
+%\end{document}
+%\end{InText}
+%のようにして取り込むことができます．
+%
+%\begin{comment}
+%ちなみに\fl{filename.bb}は
+%\begin{InText}
+%%%Title: filename.dvi
+%%%Creator: hoge
+%%%BoundingBox: 142 160 443 665
+%%%CreationDate: Tue Dec 30 16:01:48 2003
+%\end{InText}
+%のような情報が出力されているでしょう．この中の
+%\begin{InText}
+%%%BoundingBox: 142 160 443 665 
+%\end{InText}
+%という1行だけあれば，\prog{\dvipdfmx}等は画像を
+%張り込むことができます．
+%%%以上のようなシェルスクリプトを動作させることができないWindowsユーザーの
+%%%方はフリーのCygwinを導入されるのが良いと思うのですが\verb|^^;|．
+%\end{comment}
+

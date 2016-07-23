@@ -1,0 +1,181 @@
+% 奥村晴彦氏の morisawa.sty を Mac OS X の Hiragino で使えるように
+% しただけのもの [2005/07/08 11:42 Thor]
+%%
+%% This is file `morisawa.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% morisawa.dtx  (with options: `morisawa')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from morisawa.sty.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file morisawa.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+\NeedsTeXFormat{pLaTeX2e}
+\ProvidesPackage{hiragino}[2006/02/20 v1.2 (Thor Watanabe)]
+\newif\if@fake \@fakefalse
+\DeclareOption{fake}{\@faketrue}
+\ProcessOptions\relax
+\DeclareKanjiFamily{JY1}{rml}{}
+\DeclareKanjiFamily{JT1}{rml}{}
+\if@fake
+  \DeclareFontShape{JY1}{rml}{m}{n}{<-> s * [0.961] jis}{}
+  \DeclareFontShape{JY1}{rml}{bx}{n}{<-> s * [0.961] jisg}{}
+  \DeclareFontShape{JT1}{rml}{m}{n}{<-> s * [0.961] tmin10}{}
+  \DeclareFontShape{JT1}{rml}{bx}{n}{<-> s * [0.961] tgoth10}{}
+\else
+  % ヒラギノ明朝 W3
+  \DeclareFontShape{JY1}{rml}{m}{n}{<-> s * [0.961] phiraminw3-h}{}
+  \DeclareFontShape{JT1}{rml}{m}{n}{<-> s * [0.961] phiraminw3-v}{}
+  % 不足のもの
+  \DeclareFontShape{JY1}{rml}{bx}{n}{<-> s * [0.961] phirakakuw3-h}{}
+  \DeclareFontShape{JT1}{rml}{bx}{n}{<-> s * [0.961] phirakakuw3-v}{}
+  % 不足のもの
+  \DeclareFontShape{JY1}{rml}{m}{sl}{<->ssub*rml/m/n}{}
+  \DeclareFontShape{JT1}{rml}{m}{sl}{<->ssub*rml/m/n}{}
+  % 不足のもの
+  \DeclareFontShape{JY1}{rml}{m}{it}{<->ssub*rml/m/n}{}
+  \DeclareFontShape{JT1}{rml}{m}{it}{<->ssub*rml/m/n}{}
+  % 不足のもの
+  \DeclareFontShape{JY1}{rml}{m}{sc}{<->ssub*rml/m/n}{}
+  \DeclareFontShape{JT1}{rml}{m}{sc}{<->ssub*rml/m/n}{}
+  % 不足のもの
+  \DeclareFontShape{JY1}{rml}{bx}{it}{<->ssub*rml/bx/n}{}
+  \DeclareFontShape{JT1}{rml}{bx}{it}{<->ssub*rml/bx/n}{}
+\fi
+\DeclareKanjiFamily{JY1}{fma}{}
+\DeclareKanjiFamily{JT1}{fma}{}
+\if@fake
+  \DeclareFontShape{JY1}{fma}{m}{n}{<-> s * [0.961] jis}{}
+  \DeclareFontShape{JY1}{fma}{bx}{n}{<-> s * [0.961] jisg}{}
+  \DeclareFontShape{JT1}{fma}{m}{n}{<-> s * [0.961] tmin10}{}
+  \DeclareFontShape{JT1}{fma}{bx}{n}{<-> s * [0.961] tgoth10}{}
+\else
+  % ヒラギノ明朝 W3
+  \DeclareFontShape{JY1}{fma}{m}{n}{<-> s * [0.961] phiraminw3-h}{}
+  \DeclareFontShape{JT1}{fma}{m}{n}{<-> s * [0.961] phiraminw3-v}{}
+  % ヒラギノ明朝 W6 
+  \DeclareFontShape{JY1}{fma}{bx}{n}{<-> s * [0.961] phiraminw6-h}{}
+  \DeclareFontShape{JT1}{fma}{bx}{n}{<-> s * [0.961] phiraminw6-v}{}
+\fi
+\DeclareKanjiFamily{JY1}{gbm}{}
+\DeclareKanjiFamily{JT1}{gbm}{}
+\if@fake
+  \DeclareFontShape{JY1}{gbm}{m}{n}{<-> s * [0.961] jisg}{}
+  \DeclareFontShape{JY1}{gbm}{bx}{n}{<-> s * [0.961] jisg}{}
+  \DeclareFontShape{JT1}{gbm}{m}{n}{<-> s * [0.961] tgoth10}{}
+  \DeclareFontShape{JT1}{gbm}{bx}{n}{<-> s * [0.961] tgoth10}{}
+\else
+  % ヒラギノ角ゴ W3
+  \DeclareFontShape{JY1}{gbm}{m}{n}{<-> s * [0.961] phirakakuw3-h}{}
+  \DeclareFontShape{JT1}{gbm}{m}{n}{<-> s * [0.961] phirakakuw3-v}{}
+  % ヒラギノ角ゴ W6
+  \DeclareFontShape{JY1}{gbm}{bx}{n}{<-> s * [0.961] phirakakuw6-h}{}
+  \DeclareFontShape{JT1}{gbm}{bx}{n}{<-> s * [0.961] phirakakuw6-v}{}
+  % 不足のもの
+  \DeclareFontShape{JY1}{gbm}{m}{it}{<->ssub*gbm/m/n}{}
+  \DeclareFontShape{JT1}{gbm}{m}{it}{<->ssub*gbm/m/n}{}
+  % 不足のもの
+  \DeclareFontShape{JY1}{gbm}{bx}{it}{<->ssub*gbm/bx/n}{}
+  \DeclareFontShape{JT1}{gbm}{bx}{it}{<->ssub*gbm/bx/n}{}
+  % 不足のもの
+  \DeclareFontShape{JY1}{gbm}{bx}{sl}{<->ssub*gbm/bx/n}{}
+  \DeclareFontShape{JT1}{gbm}{bx}{sl}{<->ssub*gbm/bx/n}{}
+  % 不足のもの
+  \DeclareFontShape{JY1}{gbm}{sbc}{n}{<->ssub*gbm/m/n}{}
+  \DeclareFontShape{JT1}{gbm}{sbc}{n}{<->ssub*gbm/m/n}{}
+\fi
+\DeclareKanjiFamily{JY1}{jun}{}
+\DeclareKanjiFamily{JT1}{jun}{}
+\if@fake
+  \DeclareFontShape{JY1}{jun}{m}{n}{<-> s * [0.961] jisg}{}
+  \DeclareFontShape{JY1}{jun}{bx}{n}{<->ssub*jun/m/n}{}
+  \DeclareFontShape{JT1}{jun}{m}{n}{<-> s * [0.961] tgoth10}{}
+  \DeclareFontShape{JT1}{jun}{bx}{n}{<->ssub*jun/m/n}{}
+\else
+  % ヒラギノ丸ゴ W4
+  \DeclareFontShape{JY1}{jun}{m}{n}{<-> s * [0.961] phiramaruw4-h}{}
+  \DeclareFontShape{JT1}{jun}{m}{n}{<-> s * [0.961] phiramaruw4-v}{}
+  \DeclareFontShape{JY1}{jun}{bx}{n}{<->ssub*jun/m/n}{}
+  \DeclareFontShape{JT1}{jun}{bx}{n}{<->ssub*jun/m/n}{}
+  % 不足のもの
+  \DeclareFontShape{JY1}{jun}{m}{it}{<->ssub*jun/m/n}{}
+  \DeclareFontShape{JT1}{jun}{m}{it}{<->ssub*jun/m/n}{}
+  % 不足のもの
+  \DeclareFontShape{JY1}{jun}{sbc}{n}{<->ssub*jun/m/n}{}
+  \DeclareFontShape{JT1}{jun}{sbc}{n}{<->ssub*jun/m/n}{}
+\fi
+%
+%\DeclareFontShape{JY1}{mc}{m}{n}{<-> s * [0.961] phiraminw3-h}{}
+%\DeclareFontShape{JY1}{gt}{m}{n}{<-> s * [0.961] phirakakuw3-h}{}
+%\DeclareFontShape{JT1}{mc}{m}{n}{<-> s * [0.961] phiraminw3-v}{}
+%\DeclareFontShape{JT1}{gt}{m}{n}{<-> s * [0.961] phirakakuw3-v}{}
+%
+%\DeclareFontShape{JY1}{mc}{m}{it}{<->ssub*mc/m/n}{}
+%\DeclareFontShape{JY1}{mc}{m}{sl}{<->ssub*mc/m/n}{}
+%\DeclareFontShape{JY1}{mc}{m}{sc}{<->ssub*mc/m/n}{}
+%\DeclareFontShape{JY1}{gt}{m}{it}{<->ssub*gt/m/n}{}
+%\DeclareFontShape{JY1}{gt}{m}{sl}{<->ssub*gt/m/n}{}
+%\DeclareFontShape{JY1}{mc}{bx}{it}{<->ssub*gt/m/n}{}
+%\DeclareFontShape{JY1}{mc}{bx}{sl}{<->ssub*gt/m/n}{}
+%\DeclareFontShape{JT1}{mc}{m}{it}{<->ssub*mc/m/n}{}
+%\DeclareFontShape{JT1}{mc}{m}{sl}{<->ssub*mc/m/n}{}
+%\DeclareFontShape{JT1}{mc}{m}{sc}{<->ssub*mc/m/n}{}
+%\DeclareFontShape{JT1}{gt}{m}{it}{<->ssub*gt/m/n}{}
+%\DeclareFontShape{JT1}{gt}{m}{sl}{<->ssub*gt/m/n}{}
+%\DeclareFontShape{JT1}{mc}{bx}{it}{<->ssub*gt/m/n}{}
+%\DeclareFontShape{JT1}{mc}{bx}{sl}{<->ssub*gt/m/n}{}
+%\DeclareFontShape{T1}{cmtt}{sbc}{n}{<->ssub*cmtt/m/n}{}
+%
+\renewcommand{\mcdefault}{rml}
+\renewcommand{\gtdefault}{gbm}
+\DeclareRobustCommand\sffamily{%
+  \not@math@alphabet\sffamily\mathsf
+  \romanfamily\sfdefault
+  \kanjifamily\gtdefault
+  \selectfont}
+
+\newcommand{\mmdefault}{fma}
+\DeclareRobustCommand\mmfamily{%
+  \not@math@alphabet\mmfamily\textmm
+  \kanjifamily\mmdefault
+  \selectfont}
+%
+\newcommand{\mgdefault}{jun}
+\DeclareRobustCommand\mgfamily{%
+  \not@math@alphabet\mgfamily\textmg
+  \kanjifamily\mgdefault
+  \selectfont}
+%
+\DeclareRobustCommand\ttfamily{%
+  \not@math@alphabet\ttfamily\mathtt
+  \romanfamily\ttdefault
+  \kanjifamily\mgdefault
+  \selectfont}
+%
+\def\textmg#1{\relax\ifmmode\hbox\fi{\mgfamily #1}}
+\def\textmm#1{\relax\ifmmode\hbox\fi{\mmfamily #1}}
+\normalfont\normalsize
+%
+\setbox0\hbox{\char\euc"A1A1}%
+\setlength\Cht{\ht0}
+\setlength\Cdp{\dp0}
+\setlength\Cwd{\wd0}
+\setlength\Cvs{\baselineskip}
+\setlength\Chs{\wd0}
+\setlength\parindent{1\Cwd}
+%
+\endinput
+%%
+%% End of file `morisawa.sty'.

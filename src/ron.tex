@@ -1,0 +1,69 @@
+%#!platex
+%\listfiles
+%\documentclass[dvipdfmx,b5j,papersize,draft]{jsbook}[2004/12/29]%
+\documentclass[dvipdfmx,b5j,papersize]{jsbook}[2004/12/29]%
+\newif\ifusehyperref%
+\newif\ifusehtml%
+\newif\iftume%
+\usehyperreftrue%
+\usehyperreffalse
+\usepackage{ronmodi}[2004/09/13]%
+\usepackage{hiragino}[2006/02/20]%
+%\ifdraft\includeonly{08graphic}\fi% 大正琴で弾くみんなのうた
+%\includeonly{13future}
+\begin{document}%
+
+\author {\FUNNIST}%
+\title  {\LaTeX による論文作成の手引き}%
+\date   {2006年度版}%
+%
+\contact{公立はこだて未来大学\\%
+  システム情報科学部\\%
+  \FUNNIST 編集委員会}%
+
+\makeatletter%
+%\global \let \usepackage = \@gobble%
+\gdef \usepackage{\@ifnextchar[%
+   {\@usepackage}{\@usepackage[\@empty]}}%]
+\gdef \@usepackage[#1]#2{\@ifnextchar[%
+   {\@@usepackage}{\@@usepackage[\@empty]}}%]
+\gdef \@@usepackage[#1]{}%
+\makeatother%
+\ifdraft\else\maketitle\fi%
+\frontmatter%
+\include{002preface}% OK
+\include{003thanx}% OK
+\ifdraft\else%
+  \tableofcontents%
+  \par\vskip2\cvs%
+  \listoffigures%
+  \listoftables%
+\fi%
+\mainmatter%
+\ifusehyperref\input{ronhyset}\fi%
+\include{01pregame}% OK
+\include{02pre}% OK
+\include{03text}% OK
+\include{04biblio}% OK
+\include{05output}% OK
+\include{06ml}% OK
+\include{07math}% OK
+\include{08graphic}%  OK
+\include{10apply}% OK
+\begin{appendix}% OK
+%\include{12gnuplot}% OK
+\include{13future}% OK
+\include{14sample}% OK
+\include{fdl}% OK
+\end{appendix}%
+\backmatter%
+\nocite{*}%
+\bibliographystyle{splain}%
+\ifdraft\else%
+\input{ron.bbl}%\bibliography{ron}
+\printindex%
+\input{okuduke}%
+\fi%
+\end{document}%
+
+
